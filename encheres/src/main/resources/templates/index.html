@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layoutEncheres(
+                    navBar=~{},
+                    titrePage=~{::h2},
+                    contenuPage=~{:: main},
+                    linkcss=~{})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ENI-Enchères</title>
+</head>
+
+<body>
+    <h2>Liste des enchères</h2>
+    <!-- Section de contenu de la page -->
+        <main class="center-main">
+            <form action="" method="get"></form>
+            <h3>Filtres :</h3>
+            <input type="text" name="inputSearch" id="inputSearch" placeholder="Le nom de l'article contient">
+            <label for="categories">Catégories</label>
+            <select name="categories" id="categories">
+                <option value="1">Informatique</option>
+                <option value="2">Ameublement</option>
+                <option value="3">Vêtement</option>
+                <option value="4">Sport&Loisirs</option>
+            </select>
+            <button type="submit">Rechercher</button>
+        </main>
+</body>
+</html>
