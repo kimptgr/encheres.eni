@@ -28,7 +28,7 @@ import fr.eni.encheres.bo.Utilisateur;
 @Repository
 public class UtilisateurDAOImpl implements UtilisateurDAO {
 	// Jointure Utilisateurs+Encheres+Articles_Vendus
-	private final String INSERT = "INSERT INTO FILM(pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) "
+	private final String INSERT = "INSERT INTO Utilisateurs(pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) "
 			+ " VALUES (:pseudo,:nom,:prenom,:email,:telephone,:rue,:code_postal,:ville,:mot_de_passe,:credit,:administrateur)";
 	private final String FIND_ALL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
 			+ "FROM UTILISATEURS;";
@@ -51,8 +51,9 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		namedParameters.addValue("telephone", utilisateur.getTelephone());
 		namedParameters.addValue("rue", utilisateur.getRue());
 		namedParameters.addValue("code_postal", utilisateur.getCodePostal());
+		namedParameters.addValue("ville", utilisateur.getVille());
 		namedParameters.addValue("mot_de_passe", utilisateur.getMotDePasse());
-		namedParameters.addValue("credit", utilisateur.getPseudo());
+		namedParameters.addValue("credit", utilisateur.getCredit());
 		namedParameters.addValue("administrateur", utilisateur.getAdministrateur());
 		
 		jdbcTemplate.update(INSERT, namedParameters, keyHolder);

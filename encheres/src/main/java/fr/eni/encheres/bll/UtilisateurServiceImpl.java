@@ -17,6 +17,10 @@ import fr.eni.encheres.repository.UtilisateurDAO;
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService{
 
+	/**
+	 * 
+	 */
+	private static final int CREDIT = 200;
 	private UtilisateurDAO utilisateurDAO;
 	
 	
@@ -32,6 +36,8 @@ public class UtilisateurServiceImpl implements UtilisateurService{
 
 	@Override
 	public void addUser(Utilisateur utilisateur) {
+		utilisateur.setCredit(CREDIT);
+		utilisateur.setAdministrateur(false);
 		utilisateurDAO.create(utilisateur);
 		
 	}
