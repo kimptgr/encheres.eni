@@ -90,7 +90,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 				e.setDateEnchere(timestamp.toLocalDateTime());
 			}
 			e.setMontant_enchere(rs.getInt("montant_enchere"));
-			u.setEnchere(e);
+			//u.setEnchere(e);
 
 
 			return u;
