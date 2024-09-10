@@ -5,30 +5,82 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Utilisateur;
 
 @Repository
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
-	private final String READ_ALL_FILM_WITH_JOIN = "select a.*, c.libelle, u.pseudo, u.email  from ARTICLES_VENDUS A  \r\n"
-			+ "join CATEGORIES C on C.no_categorie=a.no_categorie\r\n"
-			+ "join UTILISATEURS U on u.no_utilisateur=a.no_utilisateur";
+	private final String READ_ALL_FILM = "select no_article, nom_article, description, date_debut_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie  from ARTICLES_VENDUS";
+		
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	@Override
 	public void create(ArticleVendu articleVendu) {
 		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public List<ArticleVendu> readAll() {
-		return jdbcTemplate.query(READ_ALL_FILM_WITH_JOIN, new ArticleVenduMapper());
+		return jdbcTemplate.query(READ_ALL_FILM, new ArticleVenduMapper());
 	}
 
 	class ArticleVenduMapper implements RowMapper<ArticleVendu> {
@@ -46,9 +98,17 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			
 		    article.setMiseAPrix(rs.getInt("prix_initial"));
 			article.setPrixVente(rs.getInt("prix_vente"));
-			article.getCategorie().setLibelle(rs.getString("libelle"));
-			article.getAcheteur().setPseudo(rs.getString("pseudo"));
-			article.getAcheteur().setEmail(rs.getString("email"));
+			
+			
+			// Association avec catégorie
+			Categorie categorie = new Categorie();
+			categorie.setNoCategorie(rs.getInt("no_categorie"));
+			article.setCategorie(categorie);
+			
+			// Association avec utilisateur
+			Utilisateur utilisateur = new Utilisateur();
+			utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+			article.setVendeur(utilisateur);
 
 			return article;
 		}

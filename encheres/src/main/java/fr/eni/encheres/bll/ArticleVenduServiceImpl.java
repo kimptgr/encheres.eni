@@ -23,8 +23,55 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 
 	@Override
 	public List<ArticleVendu> findAllArticles() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ArticleVendu> articles = articleVenduDAO.readAll();
+		return articles;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
