@@ -9,23 +9,24 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.repository.UtilisateurDAO;
 
 /**
- * Classe en charge de 
+ * Classe en charge de
+ * 
  * @projet : encheres - V1.0
  * @author : kim, ophélie, alex
  * @since: 10 sept. 2024 - 10:44:59
  */
 @Service
-public class UtilisateurServiceImpl implements UtilisateurService{
+public class UtilisateurServiceImpl implements UtilisateurService {
 
 	/**
 	 * 
 	 */
 	private static final int CREDIT = 200;
 	private UtilisateurDAO utilisateurDAO;
-	
-	
+
 	/**
 	 * Constructeur.
+	 * 
 	 * @param utilisateurDAO
 	 */
 	public UtilisateurServiceImpl(UtilisateurDAO utilisateurDAO) {
@@ -33,13 +34,12 @@ public class UtilisateurServiceImpl implements UtilisateurService{
 		this.utilisateurDAO = utilisateurDAO;
 	}
 
-
 	@Override
 	public void addUser(Utilisateur utilisateur) {
 		utilisateur.setCredit(CREDIT);
 		utilisateur.setAdministrateur(false);
 		utilisateurDAO.create(utilisateur);
-		
+
 	}
 
 }

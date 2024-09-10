@@ -14,38 +14,47 @@ import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
- * Classe en charge de 
+ * Classe en charge de
+ * 
  * @projet : encheres - V1.0
  * @author : aferry2024
  * @since: 10 sept. 2024 - 11:00:33
  */
 @Controller
-@RequestMapping ()
+@RequestMapping()
 public class UtilisateurController {
 
 	private UtilisateurService utilisateurService;
 
 	/**
 	 * Constructeur.
+	 * 
 	 * @param utilisateurService
 	 */
 	public UtilisateurController(UtilisateurService utilisateurService) {
 		super();
 		this.utilisateurService = utilisateurService;
 	}
+
+	@GetMapping("/connection")
+	public String connectionUtilisateur() {
+
+		return "redirect:/";
+
+	}
+
 	@GetMapping("/create")
 	public String addUtilisateur() {
 
 		return "view-eni-encheres-create";
 	}
-	
-	
+
 	@PostMapping("/create")
 	public String addUtilisateur(@ModelAttribute() Utilisateur utilisateur) {
-		
+
 		System.out.println(utilisateur);
 		utilisateurService.addUser(utilisateur);
 		return "redirect:/";
-		
+
 	}
 }

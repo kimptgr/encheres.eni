@@ -42,7 +42,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	@Override
 	public void create(Utilisateur utilisateur) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		
+
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("pseudo", utilisateur.getPseudo());
 		namedParameters.addValue("nom", utilisateur.getNom());
@@ -55,13 +55,12 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		namedParameters.addValue("mot_de_passe", utilisateur.getMotDePasse());
 		namedParameters.addValue("credit", utilisateur.getCredit());
 		namedParameters.addValue("administrateur", utilisateur.getAdministrateur());
-		
+
 		jdbcTemplate.update(INSERT, namedParameters, keyHolder);
-		
+
 		if (keyHolder != null && keyHolder.getKey() != null) {
 			utilisateur.setNoUtilisateur(keyHolder.getKey().intValue());
 		}
-		
 
 	}
 
@@ -73,14 +72,16 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public Utilisateur readByPseudo(String pseudo) {
-		// TODO Auto-generated method stub
-		return null;
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("pseudo", pseudo);
+		return jdbcTemplate.queryForObject(FIND_BY_PSEUDO, namedParameters, new UtilisateurRowMapper());
 	}
 
 	@Override
 	public Utilisateur readByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("email", email);
+		return jdbcTemplate.queryForObject(FIND_BY_EMAIL, namedParameters, new UtilisateurRowMapper());
 	}
 
 	@Override
@@ -107,6 +108,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			u.setVille(rs.getString("ville"));
 			u.setMotDePasse(rs.getString("mot_de_passe"));
 			u.setCredit(rs.getInt("credit"));
+			u.setAdministrateur(rs.getBoolean("administrateur"));
 
 			return u;
 		}
