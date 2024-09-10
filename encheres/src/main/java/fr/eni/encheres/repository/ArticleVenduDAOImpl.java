@@ -16,7 +16,7 @@ import fr.eni.encheres.bo.Utilisateur;
 @Repository
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
-	private final String READ_ALL_FILM = "select no_article, nom_article, description, date_debut_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie  from ARTICLES_VENDUS";
+	private final String READ_ALL_ARTICLES = "select no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie  from ARTICLES_VENDUS";
 		
 	
 	@Autowired
@@ -24,6 +24,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	@Override
 	public void create(ArticleVendu articleVendu) {
+		
 		
 	}
 
@@ -80,7 +81,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	@Override
 	public List<ArticleVendu> readAll() {
-		return jdbcTemplate.query(READ_ALL_FILM, new ArticleVenduMapper());
+		return jdbcTemplate.query(READ_ALL_ARTICLES, new ArticleVenduMapper());
 	}
 
 	class ArticleVenduMapper implements RowMapper<ArticleVendu> {
