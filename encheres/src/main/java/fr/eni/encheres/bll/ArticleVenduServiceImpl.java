@@ -23,9 +23,22 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 
 	@Override
 	public List<ArticleVendu> findAllArticles() {
-		List<ArticleVendu> articles = articleVenduDAO.readAll();
-		return articles;
+	    List<ArticleVendu> articles = articleVenduDAO.readAll();
+	    if (articles != null) {
+	        articles.forEach(System.out::println);
+	    } else {
+	        System.out.println("Aucun article trouvé");
+	    }
+	    return articles;
 	}
+		
+	
+
+	@Override
+	public void add(ArticleVendu articleVendu) {
+		articleVenduDAO.create(articleVendu);
+	}
+}
 	
 	
 	
@@ -74,4 +87,4 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	
 	
 
-}
+
