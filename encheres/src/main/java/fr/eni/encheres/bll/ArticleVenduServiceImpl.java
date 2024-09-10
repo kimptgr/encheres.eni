@@ -26,6 +26,12 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 		List<ArticleVendu> articles = articleVenduDAO.readAll();
 		return articles;
 	}
+
+
+	@Override
+	public void add(ArticleVendu articleVendu) {
+		articleVenduDAO.create(articleVendu);
+	}
 	
 	
 	

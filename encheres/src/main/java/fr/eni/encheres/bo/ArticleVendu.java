@@ -31,7 +31,7 @@ public class ArticleVendu {
 	public ArticleVendu() {
 		// TODO Auto-generated constructor stub
 	}
-
+	//"Velo", "Il roule", "2024-09-08", "2024-09-11", 5, user, cat
 	/**
 	 * Constructeur.
 	 * 
@@ -65,6 +65,78 @@ public class ArticleVendu {
 		this.categorie = categorie;
 		this.enchere = enchere;
 		this.acheteur = acheteur;
+		this.vendeur = vendeur;
+	}
+
+	
+	/**
+	 * Constructeur.
+	 * @param nomArticle
+	 * @param description
+	 * @param dateDebutEncheres
+	 * @param dateFinEncheres
+	 * @param miseAPrix
+	 * @param vendeur
+	 * @param categorie
+	 */
+	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			Integer miseAPrix, Utilisateur vendeur, Categorie categorie) {
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.vendeur = vendeur;
+		this.categorie = categorie;
+	}
+	/**
+	 * Constructeur.
+	 * @param nomArticle
+	 * @param description
+	 * @param dateDebutEncheres
+	 * @param dateFinEncheres
+	 * @param miseAPrix
+	 * @param etatVente
+	 * @param retrait
+	 * @param categorie
+	 * @param vendeur
+	 */
+	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			Integer miseAPrix, Integer etatVente, Retrait retrait, Categorie categorie,
+			Utilisateur vendeur) {
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.etatVente = etatVente;
+		this.retrait = retrait;
+		this.categorie = categorie;
+		this.vendeur = vendeur;
+	}
+
+	/**
+	 * Constructeur.
+	 * @param nomArticle
+	 * @param description
+	 * @param dateDebutEncheres
+	 * @param dateFinEncheres
+	 * @param miseAPrix
+	 * @param prixVente
+	 * @param etatVente
+	 * @param categorie
+	 * @param vendeur
+	 */
+	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+			Integer miseAPrix, Integer prixVente, Integer etatVente, Categorie categorie, Utilisateur vendeur) {
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.prixVente = prixVente;
+		this.etatVente = etatVente;
+		this.categorie = categorie;
 		this.vendeur = vendeur;
 	}
 
