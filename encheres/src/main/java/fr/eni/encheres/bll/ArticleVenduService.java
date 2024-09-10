@@ -8,7 +8,7 @@ public interface ArticleVenduService {
 	
 	List<ArticleVendu> findAllArticles();
 	
-	
+	void add(ArticleVendu articleVendu);
 	
 	
 	

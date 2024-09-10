@@ -8,10 +8,10 @@ import java.util.List;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
- * Classe en charge de
+ * Interface en charge de
  * 
  * @projet : encheres - V1.0
- * @author : aferry2024
+ * @author : kim, ophélie, alex
  * @since: 9 sept. 2024 - 13:33:59
  */
 public interface UtilisateurDAO {

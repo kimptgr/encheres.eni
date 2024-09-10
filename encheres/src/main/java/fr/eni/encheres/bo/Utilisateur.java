@@ -22,7 +22,7 @@ public class Utilisateur {
 	private String ville;
 	private String motDePasse;
 	private Integer credit;
-	private Byte administrateur;
+	private Boolean administrateur;
 
 	private List<ArticleVendu> articleVendus;
 	private List<Enchere> enchere;
@@ -53,7 +53,7 @@ public class Utilisateur {
 	 * @param enchere
 	 */
 	public Utilisateur(Integer noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, String motDePasse, Integer credit, Byte administrateur,
+			String rue, String codePostal, String ville, String motDePasse, Integer credit, Boolean administrateur,
 			List<ArticleVendu> articleVendus, List<Enchere> enchere) {
 		super();
 		this.noUtilisateur = noUtilisateur;
@@ -275,7 +275,7 @@ public class Utilisateur {
 	 * 
 	 * @return the administrateur
 	 */
-	public Byte getAdministrateur() {
+	public Boolean getAdministrateur() {
 		return administrateur;
 	}
 
@@ -284,7 +284,7 @@ public class Utilisateur {
 	 * 
 	 * @param administrateur the administrateur to set
 	 */
-	public void setAdministrateur(Byte administrateur) {
+	public void setAdministrateur(Boolean administrateur) {
 		this.administrateur = administrateur;
 	}
 

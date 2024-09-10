@@ -26,6 +26,20 @@ public Retrait() {
 }
 
 /**
+ * Constructeur.
+ * @param rue
+ * @param codePostal
+ * @param ville
+ * @param articleVendu
+ */
+public Retrait(String rue, String codePostal, String ville, ArticleVendu articleVendu) {
+	this.rue = rue;
+	this.codePostal = codePostal;
+	this.ville = ville;
+	this.articleVendu = articleVendu;
+}
+
+/**
  * Getter for rue.
  * @return the rue
  */

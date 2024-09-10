@@ -32,9 +32,13 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	    return articles;
 	}
 		
-		
-		
+	
+
+	@Override
+	public void add(ArticleVendu articleVendu) {
+		articleVenduDAO.create(articleVendu);
 	}
+}
 	
 	
 	
