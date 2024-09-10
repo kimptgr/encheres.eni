@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/layout :: layoutEncheres(
+                    navBar=~{},
+                    titrePage=~{::h2},
+                    contenuPage=~{:: main},
+                    linkcss=~{})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ENI-Enchères</title>
+  </head>
+  <header>
+    <nav data-th-replace="~{fragments/fragments-navbar::frag-navbar}"></nav>
+  </header>
+  <body>
+    <h2>Nouvelle vente</h2>
+    <!-- Section de contenu de la page -->
+    <main class="center-main">
+      <form method="post"></form>
+      <h3>Filtres :</h3>
+      <label for="article">Article :</label>
+      <input
+        id="article"
+        type="text"
+        name="nomArticle"
+        data-th-field="${nomArticle}"
+      />
+
+      <label for="description">Description :</label>
+      <input
+        id="description"
+        type="text"
+        name="description"
+        data-th-field="${description}"
+      />
+
+      <label for="categorie">Categorie :</label>
+      <select id="categorie" name="categorie" data-th-field="${categorie}">
+        <option value="1">Informatique</option>
+        <option value="2">Ameublement</option>
+        <option value="3">Vêtement</option>
+        <option value="4">Sport&Loisirs</option>
+      </select>
+
+      <label for="miseAPrix">Mise à prix :</label>
+      <input
+        id="miseAPrix"
+        type="number"
+        name="miseAPrix"
+        data-th-field="${miseAPrix}"
+      />
+
+      <label for="dateDebutEncheres">Début de l'enchère</label>
+      <input type="date" name="dateDebutEncheres" id="dateDebutEncheres" />
+
+      <label for="dateFinEncheres">Fin de l'enchère</label>
+      <input type="date" name="dateFinEncheres" id="dateFinEncheres" />
+      <fieldset>
+        <legend>Retrait</legend>
+        <form data-th-object="${retrait}">
+          <label for="rue">Rue :</label>
+          <input id="rue" type="text" name="rue" data-th-field="${rue}" />
+
+          <label for="codePostal">Code postal :</label>
+          <input
+            id="codePostal"
+            type="text"
+            name="codePostal"
+            data-th-field="${codePostal}"
+          />
+
+          <label for="description">Description :</label>
+          <input
+            id="description"
+            type="text"
+            name="description"
+            data-th-field="${description}"
+          />
+        </form>
+      </fieldset>
+      <button type="submit">Rechercher</button>
+    </main>
+  </body>
+</html>
