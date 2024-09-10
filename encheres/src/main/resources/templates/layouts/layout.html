@@ -8,18 +8,14 @@
     <link rel="stylesheet" data-th-href="@{/css/skeleton.css}">
     <link data-th-replace="${linkcss} ?: ~{}"></link>
 </head>
-
+<header>
+    <h1 id="nav-title">
+        <a href="/">ENI-Enchères</a>
+    </h1>
+    <nav data-th-replace="${navBar} ?: ~{}"></nav>
+</header>
 <body>
     <div data-th-replace="${titrePage} ?: ~{}"></div>
-    <!-- Navbar -->
-    <header>
-        <h1 id="nav-title">
-            <a href="/">ENI-Enchères</a>
-        </h1>
-        <nav data-th-replace="${navBar} ?: ~{}"></nav>
-    </header>
-
-    <!-- Contenu principal -->
     <main class="center-main" data-th-replace="${contenuPage} ?: ~{}">Contenu vide</main>
 </body>
 </html>

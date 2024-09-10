@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     th:replace="~{layouts/layout :: layoutEncheres(
-                    navBar=~{},
+                    navBar=~{::nav},
                     titrePage=~{::h2},
                     contenuPage=~{:: main},
                     linkcss=~{})}">
@@ -9,13 +9,17 @@
 <head>
     <meta charset="UTF-8">
     <title>ENI-Enchères</title>
+    
 </head>
-
+<header>
+    <nav data-th-replace="~{fragments/fragments-navbar::frag-navbar}">
+    </nav>
+</header>
 <body>
     <h2>Liste des enchères</h2>
     <!-- Section de contenu de la page -->
         <main class="center-main">
-            <form action="" method="get"></form>
+            <form method="get"></form>
             <h3>Filtres :</h3>
             <input type="text" name="inputSearch" id="inputSearch" placeholder="Le nom de l'article contient">
             <label for="categories">Catégories</label>
