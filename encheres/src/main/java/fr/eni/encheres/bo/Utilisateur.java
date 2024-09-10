@@ -31,7 +31,6 @@ public class Utilisateur {
 	 * Constructeur par défaut
 	 */
 	public Utilisateur() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

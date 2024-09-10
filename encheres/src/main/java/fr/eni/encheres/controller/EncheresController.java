@@ -42,11 +42,11 @@ public class EncheresController {
 	
 
 	@GetMapping
-	public String afficherFilms(Model model) {
+	public String afficherArticlesVendus(Model model) {
 		System.out.println("\nTous les articles: ");
 		List<ArticleVendu> articlesVendus = articleVenduService.findAllArticles();
 		// Ajout de l'article dans le modèle
-		model.addAttribute("ArtcilesVendus", articlesVendus);
+		model.addAttribute("ArticlesVendus", articlesVendus);
 		return "index";
 	}
 	

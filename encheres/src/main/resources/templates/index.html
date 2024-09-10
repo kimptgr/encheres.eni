@@ -32,17 +32,17 @@
             <button type="submit">Rechercher</button>
             
             
+            <div>
+            	<div data-th-each="articleVendu : ${ArticlesVendus}" >
+            		<p data-th-text="${articleVendu.nomArticle}"></p>
+            		<p data-th-text="${articleVendu.prixVente}"></p>
+            		<p data-th-text="${articleVendu.dateFinEncheres}"></p>
+            		<p data-th-text="${articleVendu.vendeur.pseudo}"></p>
+          
+            	</div>
+            </div>
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+        
         </main>
 </body>
 </html>
