@@ -21,6 +21,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 
 	private final String READ_ALL_ARTICLES = "select no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie  from ARTICLES_VENDUS";
+	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie);";
 
 		
 	
@@ -29,7 +30,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	@Override
 	public void create(ArticleVendu articleVendu) {
-		String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie);";
 	
 		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
