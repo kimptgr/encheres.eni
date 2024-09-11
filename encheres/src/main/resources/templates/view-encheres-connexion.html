@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-
-<form data-th-object=${utilisateur} action="/encheres/connexion" method="post">
-<ul class="connection">
-<li><label for="inputUser">Identifiant:<input type="text" id="inputUser" name="user"/></label></li>
-<li><label for="inputPwd">Mot de passe:<input type="password" id="inputPwd" name="pwd" placeholder="********"/></label></li>
-</ul>
-<ul>
-<li><input type="submit" value="Connexion"/></li>
-</ul>
-<ul class="checkbox">
-<li><label for=""><input type="checkbox" id="" name""/>Se souvenir de moi</label></li>
-<li><a href="">Mot de passe oublié</a></li>
-</ul>
-
-<a href="/encheres/inscription">Créer un compte</a>
-</form>
-
+	<main >
+		
+		<form th:action="@{/login}" method="post">
+		
+		<div class="cards" th:if="${param.error}" data-th-text="#{login.error}"></div>
+		<div th:if="${param.logout}" data-th-text="#{login.logout}"></div>
+			<ul  class="flex-outer">
+			<li>
+				<label for="inputUsername" data-th-text="#{login.username}"></label> 
+				<input id="inputUsername" type="text" name="username" />
+			</li>
+			<li>
+				<label for="inputPwd" data-th-text="#{login.pwd}"></label> 
+				<input id="inputPwd" type="password" name="password" />
+			</li>
+			<li>
+				<button type="submit" data-th-text="#{login.button}" ></button>
+			</li>
+			</ul>
+		</form>
+	</main>
 </body>
 </html>

@@ -11,6 +11,8 @@
 //import org.springframework.security.config.Customizer;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+////import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+////import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.provisioning.JdbcUserDetailsManager;
 //import org.springframework.security.provisioning.UserDetailsManager;
 //import org.springframework.security.web.SecurityFilterChain;
@@ -25,13 +27,19 @@
 //@EnableWebSecurity
 //public class SecurityConfig {
 //	
+////	@Bean
+////	PasswordEncoder passwordEncoder() {
+////		return new BCryptPasswordEncoder();
+////	}
+//	
+//	
 //	@Bean
 //	UserDetailsManager getUsers(DataSource source) {
 //
 //		var manager = new JdbcUserDetailsManager(source);
 //		
-//		manager.setUsersByUsernameQuery("select u.email,u.mot_de_passe,u.pseudo,u.no_utilisateur from Utilisateurs u where email=?;");
-//		manager.setAuthoritiesByUsernameQuery("select u.email, u.pseudo, u.administrateur from Utilisateurs u where email=?;");
+//		manager.setUsersByUsernameQuery("select u.email,u.mot_de_passe,1 from Utilisateurs u where email=?;");
+//		manager.setAuthoritiesByUsernameQuery("select u.email,u.administrateur from Utilisateurs u where email=?;");
 //
 //		return manager;
 //	}
@@ -40,10 +48,10 @@
 //	SecurityFilterChain getFilterChain(HttpSecurity security) throws Exception {
 //		security.authorizeHttpRequests(auth -> {
 //			
-//			auth.requestMatchers(HttpMethod.GET, "/films/detail").hasAnyRole("MEMBRE","ADMIN");
-//			auth.requestMatchers(HttpMethod.GET, "/films/edit").hasAnyRole("ADMIN");
-//			auth.requestMatchers(HttpMethod.GET, "/eni-encheres/create").permitAll();
-//			auth.requestMatchers(HttpMethod.POST, "/eni-encheres/create").permitAll();
+////			auth.requestMatchers(HttpMethod.GET, "/films/detail").hasAnyRole("MEMBRE","ADMIN");
+////			auth.requestMatchers(HttpMethod.GET, "/films/edit").hasAnyRole("ADMIN");
+//			auth.requestMatchers(HttpMethod.GET, "/encheres/inscription").permitAll();
+//			auth.requestMatchers(HttpMethod.POST, "/encheres/inscription").permitAll();
 //			auth.requestMatchers(HttpMethod.GET, "/*").permitAll();
 //			auth.requestMatchers(HttpMethod.GET, "/css/*").permitAll();
 //			auth.requestMatchers(HttpMethod.GET, "/images/*").permitAll();
