@@ -30,6 +30,21 @@ public Retrait() {
  * @param rue
  * @param codePostal
  * @param ville
+ */
+public Retrait(String rue, String codePostal, String ville) {
+	super();
+	this.rue = rue;
+	this.codePostal = codePostal;
+	this.ville = ville;
+}
+
+
+
+/**
+ * Constructeur.
+ * @param rue
+ * @param codePostal
+ * @param ville
  * @param articleVendu
  */
 public Retrait(String rue, String codePostal, String ville, ArticleVendu articleVendu) {

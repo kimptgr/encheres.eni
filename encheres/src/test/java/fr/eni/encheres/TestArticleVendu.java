@@ -4,6 +4,7 @@
 package fr.eni.encheres;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ public class TestArticleVendu {
         user.setVille("Nantes");
         Categorie cat = new Categorie();
         cat.setNoCategorie(3);
-        ArticleVendu velo = new ArticleVendu("Trotinette", "Elle roule", LocalDate.of(2024, 9, 8), LocalDate.of(2024, 11, 8), 5, user, cat);
+        ArticleVendu velo = new ArticleVendu("Trotinette", "Elle roule", LocalDateTime.of(2024, 9, 8, 0, 0), LocalDateTime.of(2024, 11, 8, 0, 0), 5, user, cat);
 
         articleVenduDAO.create(velo);
 

@@ -16,32 +16,31 @@
   </header>
   <body>
     <h2>Nouvelle vente</h2>
-    <!-- Section de contenu de la page -->
     <main class="center-main">
-      <form method="post"></form>
-      <h3>Filtres :</h3>
+      <form method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <label for="article">Article :</label>
       <input
         id="article"
         type="text"
         name="nomArticle"
-        data-th-field="${nomArticle}"
       />
 
       <label for="description">Description :</label>
-      <input
-        id="description"
-        type="text"
+      <textarea 
+        id="description" 
         name="description"
-        data-th-field="${description}"
-      />
+        rows="3"
+        >
+      </textarea>
+
 
       <label for="categorie">Categorie :</label>
-      <select id="categorie" name="categorie" data-th-field="${categorie}">
-        <option value="1">Informatique</option>
-        <option value="2">Ameublement</option>
-        <option value="3">Vêtement</option>
-        <option value="4">Sport&Loisirs</option>
+      <select  id="categorie" name="categorie">
+        <option 
+        data-th-each="category : ${categoriesInSession}" 
+        data-th-text="${category.libelle}" 
+        data-th-value="${category.noCategorie}"></option>
       </select>
 
       <label for="miseAPrix">Mise à prix :</label>
@@ -49,38 +48,43 @@
         id="miseAPrix"
         type="number"
         name="miseAPrix"
-        data-th-field="${miseAPrix}"
       />
 
-      <label for="dateDebutEncheres">Début de l'enchère</label>
-      <input type="date" name="dateDebutEncheres" id="dateDebutEncheres" />
+      <label for="dateDebutEncheres">Début de l'enchère :</label>
+      <input type="datetime-local" name="dateDebutEncheres" id="dateDebutEncheres" />
 
-      <label for="dateFinEncheres">Fin de l'enchère</label>
-      <input type="date" name="dateFinEncheres" id="dateFinEncheres" />
+      <label for="dateFinEncheres">Fin de l'enchère :</label>
+      <input type="datetime-local" name="dateFinEncheres" id="dateFinEncheres" />
       <fieldset>
         <legend>Retrait</legend>
-        <form data-th-object="${retrait}">
+        <div data-th-object="${retrait}">
           <label for="rue">Rue :</label>
-          <input id="rue" type="text" name="rue" data-th-field="${rue}" />
+          <input id="rue" 
+          type="text" 
+          name="rue" 
+          data-th-value="${userInSession.rue != null ? userInSession.rue : ''}"
+          />
 
           <label for="codePostal">Code postal :</label>
           <input
             id="codePostal"
             type="text"
             name="codePostal"
-            data-th-field="${codePostal}"
+            data-th-value="${userInSession.codePostal != null ? userInSession.codePostal : ''}"
           />
 
-          <label for="description">Description :</label>
+          <label for="ville">Ville :</label>
           <input
-            id="description"
+            id="ville"
             type="text"
-            name="description"
-            data-th-field="${description}"
+            name="ville"
+            data-th-value="${userInSession.ville != null ? userInSession.ville : ''}"
           />
-        </form>
+        </div>
       </fieldset>
-      <button type="submit">Rechercher</button>
+      <input type="submit">
+      <input type="reset" value="Reset" />
+    </form>
     </main>
   </body>
 </html>
