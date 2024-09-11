@@ -18,6 +18,7 @@
     <h2>Nouvelle vente</h2>
     <main class="center-main">
       <form method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <label for="article">Article :</label>
       <input
         id="article"
@@ -69,15 +70,15 @@
             id="codePostal"
             type="text"
             name="codePostal"
-            data-th-value="${userInSession.ville != null ? userInSession.ville : ''}"
+            data-th-value="${userInSession.codePostal != null ? userInSession.codePostal : ''}"
           />
 
-          <label for="codePostal">Code Postal :</label>
+          <label for="ville">Ville :</label>
           <input
-            id="codePostal"
+            id="ville"
             type="text"
-            name="codePostal"
-            data-th-value="${userInSession.codePostal != null ? userInSession.codePostal : ''}"
+            name="ville"
+            data-th-value="${userInSession.ville != null ? userInSession.ville : ''}"
           />
         </div>
       </fieldset>

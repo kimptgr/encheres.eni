@@ -1,6 +1,8 @@
 package fr.eni.encheres.bo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.*;
 
 /**
  * Classe en charge de la création de l'ArticleVendu et de ses attributs
@@ -11,15 +13,22 @@ import java.time.LocalDate;
  */
 public class ArticleVendu {
 	private Integer noArticle; // primary key identity
+	@NotBlank
 	private String nomArticle;
+	@NotBlank
 	private String description;
-	private LocalDate dateDebutEncheres;
-	private LocalDate dateFinEncheres;
-	private Integer miseAPrix; // n'apparait pas dans la table ARTICLES_VENDUS
-	private Integer prixVente;
+	@NotBlank
+	private LocalDateTime dateDebutEncheres;
+	@NotBlank
+	private LocalDateTime dateFinEncheres;
+	@NotBlank
+	@Min(0)
+	private Integer miseAPrix;
+	private Integer prixVente = miseAPrix;
 	private Integer etatVente;
-
+	@NotBlank
 	private Retrait retrait;
+	@NotBlank
 	private Categorie categorie;
 	private Enchere enchere;
 	private Utilisateur acheteur;
@@ -29,9 +38,8 @@ public class ArticleVendu {
 	 * Constructeur par défaut
 	 */
 	public ArticleVendu() {
-		// TODO Auto-generated constructor stub
 	}
-	//"Velo", "Il roule", "2024-09-08", "2024-09-11", 5, user, cat
+
 	/**
 	 * Constructeur.
 	 * 
@@ -49,8 +57,8 @@ public class ArticleVendu {
 	 * @param acheteur
 	 * @param vendeur
 	 */
-	public ArticleVendu(Integer noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, Integer miseAPrix, Integer prixVente, Integer etatVente, Retrait retrait,
+	public ArticleVendu(Integer noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
+			LocalDateTime dateFinEncheres, Integer miseAPrix, Integer prixVente, Integer etatVente, Retrait retrait,
 			Categorie categorie, Enchere enchere, Utilisateur acheteur, Utilisateur vendeur) {
 		super();
 		this.noArticle = noArticle;
@@ -79,7 +87,7 @@ public class ArticleVendu {
 	 * @param vendeur
 	 * @param categorie
 	 */
-	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+	public ArticleVendu(String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEncheres,
 			Integer miseAPrix, Utilisateur vendeur, Categorie categorie) {
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -101,7 +109,7 @@ public class ArticleVendu {
 	 * @param categorie
 	 * @param vendeur
 	 */
-	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+	public ArticleVendu(String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEncheres,
 			Integer miseAPrix, Integer etatVente, Retrait retrait, Categorie categorie,
 			Utilisateur vendeur) {
 		this.nomArticle = nomArticle;
@@ -127,7 +135,7 @@ public class ArticleVendu {
 	 * @param categorie
 	 * @param vendeur
 	 */
-	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
+	public ArticleVendu(String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEncheres,
 			Integer miseAPrix, Integer prixVente, Integer etatVente, Categorie categorie, Utilisateur vendeur) {
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -199,7 +207,7 @@ public class ArticleVendu {
 	 * 
 	 * @return the dateDebutEncheres
 	 */
-	public LocalDate getDateDebutEncheres() {
+	public LocalDateTime getDateDebutEncheres() {
 		return dateDebutEncheres;
 	}
 
@@ -208,7 +216,7 @@ public class ArticleVendu {
 	 * 
 	 * @param dateDebutEncheres the dateDebutEncheres to set
 	 */
-	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
+	public void setDateDebutEncheres(LocalDateTime dateDebutEncheres) {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
@@ -217,7 +225,7 @@ public class ArticleVendu {
 	 * 
 	 * @return the dateFinEncheres
 	 */
-	public LocalDate getDateFinEncheres() {
+	public LocalDateTime getDateFinEncheres() {
 		return dateFinEncheres;
 	}
 
@@ -226,7 +234,7 @@ public class ArticleVendu {
 	 * 
 	 * @param dateFinEncheres the dateFinEncheres to set
 	 */
-	public void setDateFinEncheres(LocalDate dateFinEncheres) {
+	public void setDateFinEncheres(LocalDateTime dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 

@@ -24,7 +24,6 @@ public class Enchere {
 	 * Constructeur par défaut
 	 */
 	public Enchere() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
 	
 	@Override
 	public void create(ArticleVendu articleVendu) {
@@ -45,7 +49,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		namedParameters.addValue("no_categorie", articleVendu.getCategorie().getNoCategorie());
 		
 
-		jdbcTemplate.update(INSERT_ARTICLE, namedParameters, keyHolder, new String[]{"no_article"});
+		namedParameterJdbcTemplate.update(INSERT_ARTICLE, namedParameters, keyHolder, new String[]{"no_article"});
 
 		if (keyHolder != null && keyHolder.getKey() != null) {
 			// Mise à jour de l'identifiant du film auto-généré par la base
@@ -60,8 +64,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		namedParametersRetrait.addValue("code_postal", articleVendu.getVendeur().getCodePostal());
 		namedParametersRetrait.addValue("ville", articleVendu.getVendeur().getVille());
 		
-		jdbcTemplate.update(INSERT_RETRAIT, namedParametersRetrait);
-		System.out.println(retrait);
+		namedParameterJdbcTemplate.update(INSERT_RETRAIT, namedParametersRetrait);
 
 	}
 	
@@ -80,11 +83,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			article.setNomArticle(rs.getString("nom_article"));
 			article.setDescription(rs.getString("description"));
 		    
-			java.sql.Date dateDebutEncheresSql = rs.getDate("date_debut_encheres"); 
-		     { article.setDateDebutEncheres(dateDebutEncheresSql.toLocalDate()); }
-		    
-		     java.sql.Date dateFinEncheresSql = rs.getDate("date_fin_encheres");
-		      {article.setDateFinEncheres(dateFinEncheresSql.toLocalDate());}
+//			java.sql.Date dateDebutEncheresSql = rs.getDate("date_debut_encheres"); 
+//		     { article.setDateDebutEncheres(dateDebutEncheresSql.toLocalDate()); }
+//		    
+//		     java.sql.Date dateFinEncheresSql = rs.getDate("date_fin_encheres");
+//		      {article.setDateFinEncheres(dateFinEncheresSql.toLocalDate());}
 			
 		    article.setMiseAPrix(rs.getInt("prix_initial"));
 			article.setPrixVente(rs.getInt("prix_vente"));
