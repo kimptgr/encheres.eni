@@ -3,6 +3,8 @@
  */
 package fr.eni.encheres.bll.contexte;
 
+import org.springframework.stereotype.Service;
+
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.repository.UtilisateurDAO;
 
@@ -12,6 +14,7 @@ import fr.eni.encheres.repository.UtilisateurDAO;
  * @author : aferry2024
  * @since: 10 sept. 2024 - 16:53:09
  */
+@Service
 public class ContexteServiceImpl implements ContexteService {
 
 	private UtilisateurDAO utilisateurDAO;

@@ -47,6 +47,12 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	public List<Categorie> findAllCategories() {
 		
 		return categorieDAO.readAll();
+		}
+
+	
+	@Override
+	public ArticleVendu findById(Integer noArticle) {
+		return articleVenduDAO.readById(noArticle);
 	}
 }
 	

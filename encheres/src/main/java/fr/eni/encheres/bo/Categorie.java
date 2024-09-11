@@ -35,6 +35,13 @@ public class Categorie {
 		this.libelle = libelle;
 		this.articleVendu = articleVendu;
 	}
+	
+	
+	public Categorie(Integer noCategorie, String libelle) {
+		super();
+		this.noCategorie = noCategorie;
+		this.libelle = libelle;
+	}
 	/**
 	 * Getter for noCategorie.
 	 * @return the noCategorie

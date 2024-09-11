@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<form data-th-object=${utilisateur} action="/encheres/connexion" method="post">
+<ul class="connection">
+<li><label for="inputUser">Identifiant:<input type="text" id="inputUser" name="user"/></label></li>
+<li><label for="inputPwd">Mot de passe:<input type="password" id="inputPwd" name="pwd" placeholder="********"/></label></li>
+</ul>
+<ul>
+<li><input type="submit" value="Connexion"/></li>
+</ul>
+<ul class="checkbox">
+<li><label for=""><input type="checkbox" id="" name""/>Se souvenir de moi</label></li>
+<li><a href="">Mot de passe oublié</a></li>
+</ul>
+
+<a href="/encheres/inscription">Créer un compte</a>
+</form>
+
+</body>
+</html>
