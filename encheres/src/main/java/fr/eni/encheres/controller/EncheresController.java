@@ -92,21 +92,25 @@ public class EncheresController {
 	}
 
 	@PostMapping("/vendreUnArticle")
-	public String creerFilm(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu, BindingResult bindingResult,
-			@ModelAttribute("membreEnSession") Utilisateur userInSession) {
-		System.out.println(articleVendu);
+	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,
+			@ModelAttribute("userInSession") Utilisateur userInSession, BindingResult bindingResult) {
 		if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
+			articleVendu.setVendeur(userInSession);
+			articleVendu.setPrixVente(articleVendu.getPrixVente());
 			if (!bindingResult.hasErrors()) {
 				try {
 					articleVenduService.add(articleVendu);
-					return "redirect:/encheres";
+					return "redirect:/";
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
 					};
-				}
+			}
+			else {
+				return "redirect:/vendreUnArticle";}
 		} else {
 			System.out.println("Aucun utilisateur en session");
 		}
 		return "view-create-article";
 	}
+	
 }
