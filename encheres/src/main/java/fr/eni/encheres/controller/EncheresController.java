@@ -11,10 +11,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticleVenduService;
@@ -68,6 +68,23 @@ public class EncheresController {
 		model.addAttribute("ArticlesVendus", articlesVendus);
 		return "index";
 		}	
+	
+	@GetMapping("/detailArticle")
+	public String afficherUnArticle(@RequestParam(name = "noArticle", required = true) Integer noArticle, Model model) {
+		if (noArticle > 0) {
+			ArticleVendu articleVendu = articleVenduService.findById(noArticle);
+			if (articleVendu != null) {
+				model.addAttribute("articleVendu", articleVendu);
+				return "view-detail-article";
+			} else
+				System.out.println("Article inconnu!!");
+		} else {
+			System.out.println("Identifiant inconnu");
+		}
+		return "redirect:/view-detail-article";
+	}
+	
+	
 	
 	@GetMapping("/vendreUnArticle")
 	public String sell() {		

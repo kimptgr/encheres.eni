@@ -77,6 +77,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		@Override
 		public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
 			var article = new ArticleVendu();
+			article.setNoArticle(rs.getInt("no_article"));
 			article.setNomArticle(rs.getString("nom_article"));
 			article.setDescription(rs.getString("description"));
 		    
@@ -101,7 +102,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	@Override
 	public ArticleVendu readById(Integer noArticle) {
-		var sql = READ_ALL_ARTICLES + " where A.noArticle=?";
+		var sql = READ_ALL_ARTICLES + " where A.no_article=?";
 		return jdbcTemplate.queryForObject(sql, new ArticleVenduMapper(), noArticle);
 	}
 

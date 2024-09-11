@@ -66,7 +66,6 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public Utilisateur readById(Integer noUtilisateur) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
