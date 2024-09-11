@@ -4,7 +4,6 @@
 package fr.eni.encheres.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,20 +35,17 @@ public class UtilisateurController {
 		this.utilisateurService = utilisateurService;
 	}
 
-	@GetMapping("/connection")
-	public String connectionUtilisateur() {
+	
 
-		return "redirect:/";
+	
 
-	}
-
-	@GetMapping("/create")
+	@GetMapping("/inscription")
 	public String addUtilisateur() {
 
-		return "view-eni-encheres-create";
+		return "view-encheres-inscription";
 	}
 
-	@PostMapping("/create")
+	@PostMapping("/inscription")
 	public String addUtilisateur(@ModelAttribute() Utilisateur utilisateur) {
 
 		System.out.println(utilisateur);
