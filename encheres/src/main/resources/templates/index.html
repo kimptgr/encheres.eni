@@ -33,13 +33,13 @@
             
             
             <div>
-            	<div data-th-each="articleVendu : ${ArticlesVendus}" >
-            		<p data-th-text="${articleVendu.nomArticle}"></p>
-            		<p data-th-text="${articleVendu.prixVente}"></p>
-            		<p data-th-text="${articleVendu.dateFinEncheres}"></p>
-            		<p data-th-text="${articleVendu.vendeur.pseudo}"></p>
+            	<dl data-th-each="articleVendu : ${ArticlesVendus}" >
+            		<dt data-th-text="${articleVendu.nomArticle}"></dt>
+            		<dd data-th-text="'Prix : ' + ${articleVendu.prixVente}"></dd>
+            		<dd data-th-text="' Fin de l\'enchere :  ' + ${articleVendu.dateFinEncheres}"></dd>
+            		<dd data-th-text="'Vendeur : ' + ${articleVendu.vendeur.pseudo}"></dd>
           
-            	</div>
+            	</dl>
             </div>
             
         

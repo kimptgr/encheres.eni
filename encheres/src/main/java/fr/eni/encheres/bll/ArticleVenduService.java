@@ -10,6 +10,8 @@ public interface ArticleVenduService {
 	
 	void add(ArticleVendu articleVendu);
 	
+	ArticleVendu findById(Integer noArticle);
+	
 	
 	
 	

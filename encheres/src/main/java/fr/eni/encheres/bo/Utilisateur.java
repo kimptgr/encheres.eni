@@ -32,6 +32,16 @@ public class Utilisateur {
 	 */
 	public Utilisateur() {
 	}
+	
+	
+
+	public Utilisateur(Integer noUtilisateur, String pseudo) {
+		super();
+		this.noUtilisateur = noUtilisateur;
+		this.pseudo = pseudo;
+	}
+
+
 
 	/**
 	 * Constructeur.
@@ -99,6 +109,8 @@ public class Utilisateur {
 		this.motDePasse = motDePasse;
 	}
 
+	
+	
 	/**
 	 * Getter for noUtilisateur.
 	 * 

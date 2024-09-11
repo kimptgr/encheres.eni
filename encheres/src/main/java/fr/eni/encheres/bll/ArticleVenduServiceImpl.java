@@ -38,6 +38,12 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	public void add(ArticleVendu articleVendu) {
 		articleVenduDAO.create(articleVendu);
 	}
+
+
+	@Override
+	public ArticleVendu findById(Integer noArticle) {
+		return articleVenduDAO.readById(noArticle);
+	}
 }
 	
 	
