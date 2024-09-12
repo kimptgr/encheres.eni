@@ -8,6 +8,7 @@ import java.security.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.contexte.ContexteService;
@@ -42,20 +43,21 @@ public String connectionUtilisateur(){
 	return "view-encheres-connexion";
 }
 
-@GetMapping("/connecter")
+
+@GetMapping("/session")
 public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur userInSession, Principal principal){
 	String email = principal.getName();
 	Utilisateur charge = contexteService.chargeEmail(email);
 	if(charge != null) {
 		userInSession.setNoUtilisateur(charge.getNoUtilisateur());
-		userInSession.setPseudo(charge.getPseudo());
+		userInSession.setEmail(charge.getEmail());
 		userInSession.setNom(charge.getNom());
 		userInSession.setPrenom(charge.getPrenom());
-		userInSession.setAdministrateur(charge.getAdministrateur());
+		userInSession.setAdministrateur(charge.isAdmin());
 		
 	}else {
 		userInSession.setNoUtilisateur(0);
-		userInSession.setPseudo(null);
+		userInSession.setEmail(null);
 		userInSession.setNom(null);
 		userInSession.setPrenom(null);
 		userInSession.setAdministrateur(false);
