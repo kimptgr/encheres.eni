@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import fr.eni.encheres.bll.ArticleVenduService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
 import jakarta.validation.Valid;
+
 
 /**
  * Classe en charge de 
@@ -84,40 +86,43 @@ public class EncheresController {
 	}
 
 	@GetMapping("/vendreUnArticle")
-	public String sell() {
+	public String sell(Model model) {
+		ArticleVendu newArticle = new ArticleVendu();
+		newArticle.setRetrait(new Retrait());
+		model.addAttribute("articleVendu", newArticle );
 		return "view-create-article";
 	}
 
 	@PostMapping("/vendreUnArticle")
-	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,
-	                           @ModelAttribute("userInSession") Utilisateur userInSession, BindingResult bindingResult) {
+	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult,
+	                           @ModelAttribute("userInSession") Utilisateur userInSession) {
 	    if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
 	        articleVendu.setVendeur(userInSession);
 	        articleVendu.setPrixVente(articleVendu.getPrixVente());
 
-	        if (!bindingResult.hasErrors()) {
-	            try {
-	                articleVenduService.add(articleVendu);
-	                return "redirect:/";
-	            } catch (BusinessException e) {
-	                System.err.println(e.getClefsExternalisations());
+	        if (bindingResult.hasErrors()) {
+	            // Si des erreurs de validation existent, retourne la vue de création d'article
+	            return "view-create-article";
+	        }
 
-	                // Afficher les messages d’erreur - injecter les erreurs dans le BindingResult
-	                e.getClefsExternalisations().forEach(key -> {
-	                    ObjectError error = new ObjectError("globalError", key);
-	                    bindingResult.addError(error);
-	                });
+	        try {
+	            articleVenduService.add(articleVendu);
+	            return "redirect:/"; // Redirection vers la page d'accueil ou une autre page après succès
+	        } catch (BusinessException e) {
+	            // Ajoute les erreurs globales au BindingResult
+	            e.getClefsExternalisations().forEach(key -> {
+	                ObjectError error = new ObjectError("globalError", key);
+	                bindingResult.addError(error);
+	            });
 
-	                return "redirect:/vendreUnArticle"; // Redirection après ajout des erreurs
-	            }
-	        } else {
-	            return "redirect:/vendreUnArticle"; // Redirection en cas d'erreurs de validation
+	            // Retourne la vue de création d'article avec les erreurs
+	            return "view-create-article";
 	        }
 	    } else {
 	        System.out.println("Aucun utilisateur en session");
+	        // Optionnel : Redirection ou affichage d'une erreur spécifique
+	        return "redirect:/error"; // Par exemple, redirection vers une page d'erreur
 	    }
-
-	    return "view-create-article"; // Vue à retourner si l'utilisateur en session est nul
 	}
 	
 }
