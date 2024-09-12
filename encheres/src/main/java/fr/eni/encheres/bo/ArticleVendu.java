@@ -17,18 +17,18 @@ public class ArticleVendu {
 	private String nomArticle;
 	@NotBlank
 	private String description;
-	@NotBlank
+	@NotNull
+	@FutureOrPresent
 	private LocalDateTime dateDebutEncheres;
-	@NotBlank
+	@NotNull
+	@FutureOrPresent
 	private LocalDateTime dateFinEncheres;
-	@NotBlank
-	@Min(0)
+	@Min(value = 0)
 	private Integer miseAPrix;
 	private Integer prixVente = miseAPrix;
 	private Integer etatVente;
-	@NotBlank
 	private Retrait retrait;
-	@NotBlank
+	@NotNull
 	private Categorie categorie;
 	private Enchere enchere;
 	private Utilisateur acheteur;

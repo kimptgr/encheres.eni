@@ -57,15 +57,17 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain getFilterChain(HttpSecurity security) throws Exception {
 		security.authorizeHttpRequests(auth -> {
-			
+			auth.anyRequest().permitAll();
+		 
 //			auth.requestMatchers(HttpMethod.GET, "/films/detail").hasAnyRole("MEMBRE","ADMIN");
 //			auth.requestMatchers(HttpMethod.GET, "/films/edit").hasAnyRole("ADMIN");
-			auth.requestMatchers(HttpMethod.GET, "/inscription").permitAll();
-			auth.requestMatchers(HttpMethod.POST, "/inscription").permitAll();
-			auth.requestMatchers(HttpMethod.GET, "/*").permitAll();
-			auth.requestMatchers(HttpMethod.GET, "/css/*").permitAll();
-			auth.requestMatchers(HttpMethod.GET, "/images/*").permitAll();
-			auth.anyRequest().denyAll();
+//			auth.requestMatchers(HttpMethod.GET, "/inscription").permitAll();
+//			auth.requestMatchers(HttpMethod.POST, "/inscription").permitAll();
+//			auth.requestMatchers(HttpMethod.GET, "/*").permitAll();
+//			auth.requestMatchers(HttpMethod.GET, "/css/*").permitAll();
+//			auth.requestMatchers(HttpMethod.GET, "/images/*").permitAll();
+//			auth.anyRequest().denyAll();
+			
 		});
 
 		security.formLogin(Customizer.withDefaults());
