@@ -19,26 +19,33 @@
     <h2>Liste des enchères</h2>
     <!-- Section de contenu de la page -->
         <main class="center-main">
-            <form method="get"></form>
+
             <h3>Filtres :</h3>
-            <input type="text" name="inputSearch" id="inputSearch" placeholder="Le nom de l'article contient">
-            <label for="categories">Catégories</label>
-            <select name="categories" id="categories">
-                <option value="1">Informatique</option>
-                <option value="2">Ameublement</option>
-                <option value="3">Vêtement</option>
-                <option value="4">Sport&Loisirs</option>
-            </select>
-            <button type="submit">Rechercher</button>
-            
+
+            <form method="GET" >
+	              <label for="categorie">Categorie :</label>
+				      <select  id="Categorie" name="Categorie">
+				        <option 
+				        data-th-each="category : ${categoriesInSession}" 
+				        data-th-text="${category.libelle}" 
+				        data-th-value="${category.noCategorie}"></option>
+				      </select>
+				<button type=submit>
+	            Rechercher
+				</button>
+            </form>
             
             <div>
             	<dl data-th-each="articleVendu : ${ArticlesVendus}" >
-            		<dt data-th-text="${articleVendu.nomArticle}"></dt>
+            	
+            		<dd>
+    					<a 	data-th-text="${articleVendu.nomArticle}" 
+      						data-th-href="@{/detailArticle(noArticle=${articleVendu.noArticle})}">
+   						</a>
+					</dd>
             		<dd data-th-text="'Prix : ' + ${articleVendu.prixVente}"></dd>
             		<dd data-th-text="' Fin de l\'enchere :  ' + ${articleVendu.dateFinEncheres}"></dd>
-            		<dd data-th-text="'Vendeur : ' + ${articleVendu.vendeur.pseudo}"></dd>
-          
+            		<dd data-th-text="'Vendeur : ' + ${articleVendu.vendeur.pseudo}"></dd> 
             	</dl>
             </div>
             

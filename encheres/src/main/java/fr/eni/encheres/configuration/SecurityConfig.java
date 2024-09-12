@@ -26,7 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 /**
  * Classe en charge de
  * 
- * ======= /** Classe en charge de >>>>>>>
+ * /** Classe en charge de
  * 76890adb5ad38784cdf5798f20f52aa0126b1b64
  * 
  * @projet : encheres - V1.0

@@ -83,13 +83,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			article.setNoArticle(rs.getInt("no_article"));
 			article.setNomArticle(rs.getString("nom_article"));
 			article.setDescription(rs.getString("description"));
-		    
-//			java.sql.Date dateDebutEncheresSql = rs.getDate("date_debut_encheres"); 
-//		     { article.setDateDebutEncheres(dateDebutEncheresSql.toLocalDate()); }
-//		    
-//		     java.sql.Date dateFinEncheresSql = rs.getDate("date_fin_encheres");
-//		      {article.setDateFinEncheres(dateFinEncheresSql.toLocalDate());}
 			
+			
+			article.setDateDebutEncheres(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+			article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+		    
 		    article.setMiseAPrix(rs.getInt("prix_initial"));
 			article.setPrixVente(rs.getInt("prix_vente"));
 			
@@ -121,4 +119,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 
 
+	@Override
+	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
+		var sql = READ_ALL_ARTICLES + " WHERE A.no_categorie = ?";
+		return jdbcTemplate.query(sql, new ArticleVenduMapper(), noCategorie);
+		 }
 }

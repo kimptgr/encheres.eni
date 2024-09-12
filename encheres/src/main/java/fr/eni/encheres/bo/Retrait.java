@@ -3,6 +3,8 @@
  */
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
  * Classe en charge de la création de Retrait et de ses attributs
  * 
@@ -11,9 +13,11 @@ package fr.eni.encheres.bo;
  * @since: 9 sept. 2024 - 11:33:55
  */
 public class Retrait {
-	
+	@NotBlank
 	private String rue;
+	@NotBlank
 	private String codePostal;
+	@NotBlank
 	private String ville;
 	
 	private ArticleVendu articleVendu;
@@ -22,7 +26,6 @@ public class Retrait {
  * Constructeur par défaut
  */
 public Retrait() {
-	// TODO Auto-generated constructor stub
 }
 
 /**
