@@ -2,6 +2,7 @@ package fr.eni.encheres.bo;
 
 import java.time.LocalDateTime;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
 /**
@@ -17,18 +18,19 @@ public class ArticleVendu {
 	private String nomArticle;
 	@NotBlank
 	private String description;
-	@NotBlank
+	@NotNull(message = "ne doit pas être vide")
+	@Future
 	private LocalDateTime dateDebutEncheres;
-	@NotBlank
+	@NotNull(message = "ne doit pas être vide")
+	@Future(message = "doit être dans le futur")
 	private LocalDateTime dateFinEncheres;
-	@NotBlank
-	@Min(0)
+	@Min(value = 0)
 	private Integer miseAPrix;
 	private Integer prixVente = miseAPrix;
 	private Integer etatVente;
-	@NotBlank
+	@Valid
 	private Retrait retrait;
-	@NotBlank
+	@NotNull
 	private Categorie categorie;
 	private Enchere enchere;
 	private Utilisateur acheteur;

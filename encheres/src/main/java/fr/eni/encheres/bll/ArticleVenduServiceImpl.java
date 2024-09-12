@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.repository.ArticleVenduDAO;
 import fr.eni.encheres.repository.CategorieDAO;
+import fr.eni.encheres.repository.RetraitDAO;
 
 @Service
 public class ArticleVenduServiceImpl implements ArticleVenduService {
@@ -16,10 +18,12 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	//injection de dépendance
 	private ArticleVenduDAO articleVenduDAO;
 	private CategorieDAO categorieDAO;
+	private RetraitDAO retraitDAO;
 
-	public ArticleVenduServiceImpl(ArticleVenduDAO articleVenduDAO, CategorieDAO categorieDAO) {
+	public ArticleVenduServiceImpl(ArticleVenduDAO articleVenduDAO, CategorieDAO categorieDAO, RetraitDAO retraitDAO) {
 		this.articleVenduDAO = articleVenduDAO;
 		this.categorieDAO = categorieDAO;
+		this.retraitDAO = retraitDAO;
 	}
 ////////////////////////////////////////////////////
 
@@ -60,6 +64,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	public Categorie findCategorieById(Integer noCategorie) {
 		return categorieDAO.readById(noCategorie);
 	}
+
 	
 
 	@Override
@@ -69,6 +74,14 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	}
 	
 	
+
+
+
+	@Override
+	public Retrait findRetraitByNoArticle(Integer noArticle) {
+		return retraitDAO.readByNoArticle(noArticle);
+	}
+
 }
 	
 	

@@ -3,6 +3,7 @@
  */
 package fr.eni.encheres.controller;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,20 +25,19 @@ import fr.eni.encheres.bo.Utilisateur;
 public class UtilisateurController {
 
 	private UtilisateurService utilisateurService;
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * Constructeur.
 	 * 
 	 * @param utilisateurService
+	 * @param passwordEncoder
 	 */
-	public UtilisateurController(UtilisateurService utilisateurService) {
-		super();
+	public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
 		this.utilisateurService = utilisateurService;
+		this.passwordEncoder = passwordEncoder;
+
 	}
-
-	
-
-	
 
 	@GetMapping("/inscription")
 	public String addUtilisateur() {
@@ -46,10 +46,17 @@ public class UtilisateurController {
 	}
 
 	@PostMapping("/inscription")
-	public String addUtilisateur(@ModelAttribute() Utilisateur utilisateur) {
+	public String addUtilisateur(@ModelAttribute Utilisateur utilisateur) {
+		System.err.println(utilisateur.getMotDePasse());
+		String password = utilisateur.getMotDePasse();
+		String encodedPassword = passwordEncoder.encode(password);
 
-		System.out.println(utilisateur);
+		System.err.println(encodedPassword);
+
+		System.err.println(utilisateur);
+		utilisateur.setMotDePasse(encodedPassword);
 		utilisateurService.addUser(utilisateur);
+
 		return "redirect:/";
 
 	}

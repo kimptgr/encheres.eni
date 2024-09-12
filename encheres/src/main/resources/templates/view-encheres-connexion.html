@@ -1,26 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<main >
+		
+		 <div th:if="${param.error}">
+            email ou mot de passe incorrect.
+            Veuillez vérifier votre saisie.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+		<form data-th-action="@{/connexion}" method="post">
 
-<form data-th-object=${utilisateur} action="/encheres/connexion" method="post">
-<ul class="connection">
-<li><label for="inputUser">Identifiant:<input type="text" id="inputUser" name="user"/></label></li>
-<li><label for="inputPwd">Mot de passe:<input type="password" id="inputPwd" name="pwd" placeholder="********"/></label></li>
-</ul>
-<ul>
-<li><input type="submit" value="Connexion"/></li>
-</ul>
-<ul class="checkbox">
-<li><label for=""><input type="checkbox" id="" name""/>Se souvenir de moi</label></li>
-<li><a href="">Mot de passe oublié</a></li>
-</ul>
+			<ul class="connexion">
+				<li><label for="inputUser">Identifiant:<input
+						type="text" id="inputUser" name="email" /></label></li>
+				<li><label for="inputPwd">Mot de passe:<input
+						type="password" id="inputPwd" name="motDePasse"
+						placeholder="********" /></label></li>
+			</ul>
+			<ul>
+				<li><input type="submit" value="Se connecter" /></li>
+			</ul>
+			<ul class="checkbox">
+				<li><label for=""><input type="checkbox" id="" name""/>Se
+						souvenir de moi</label></li>
+				<li><a href="">Mot de passe oublié</a></li>
+			</ul>
 
-<a href="/encheres/inscription">Créer un compte</a>
-</form>
-
+			<a href="/encheres/inscription">Créer un compte</a>
+		</form>
+	</main>
 </body>
 </html>

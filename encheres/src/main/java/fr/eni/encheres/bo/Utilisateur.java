@@ -1,6 +1,7 @@
 package fr.eni.encheres.bo;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe en charge de la création de l'utilisateur et de ses attributs
@@ -109,6 +110,9 @@ public class Utilisateur {
 		this.motDePasse = motDePasse;
 	}
 
+	public boolean isAdmin() {
+		return administrateur;
+	}
 	
 	
 	/**
@@ -370,6 +374,30 @@ public class Utilisateur {
 				+ codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", credit=" + credit
 				+ ", administrateur=" + administrateur + ", articleVendus=" + articleVendus + ", enchere=" + enchere
 				+ "]";
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(administrateur, email);
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Utilisateur other = (Utilisateur) obj;
+		return administrateur == other.administrateur && Objects.equals(email, other.email);
 	}
 
 }
