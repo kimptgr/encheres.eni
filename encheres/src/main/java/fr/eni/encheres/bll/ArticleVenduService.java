@@ -17,6 +17,8 @@ public interface ArticleVenduService {
 	
 	Categorie findCategorieById(Integer noCategorie);
 	
+	List<ArticleVendu> findByCategorie(Integer noCategorie);
+	
 	
 	
 	

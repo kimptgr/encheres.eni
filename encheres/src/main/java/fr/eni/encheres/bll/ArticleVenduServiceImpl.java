@@ -60,6 +60,15 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	public Categorie findCategorieById(Integer noCategorie) {
 		return categorieDAO.readById(noCategorie);
 	}
+	
+
+	@Override
+	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
+	    return articleVenduDAO.findByCategorie(noCategorie);
+	
+	}
+	
+	
 }
 	
 	
