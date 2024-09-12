@@ -8,6 +8,7 @@
 	<h1>Mon Profil</h1>
 	 
 		<form data-th-object=${utilisateur} method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		
 			<ul class="formulaireCreat">
 				<li><label for="pseudo">Pseudo:</label><input type="text" id="pseudo" name="pseudo" /></li>
@@ -34,7 +35,7 @@
 				<li><label for="ville">Ville:</label><input type="text" id="ville" name="ville"/></li>
 
 
-				<li><label for="mdp">Mot de passe</label><input type="password" id="mdp" name="" placeholder="********" /></li>
+				<li><label for="mdp">Mot de passe</label><input type="password" id="mdp" name="password" placeholder="********" /></li>
 
 
 				<li><label for="mdpConfirm">Confirmation:</label><input type="password" id="mdpConfirm" name="motDePasse" placeholder="********" /></li>

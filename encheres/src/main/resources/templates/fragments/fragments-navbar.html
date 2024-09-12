@@ -1,13 +1,13 @@
 <nav xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-navbar">
   <ul>
     <li sec:authorize="!isAuthenticated()">
-        <a href="/encheres/connexion">S'inscrire - Se connecter</a>
+        <a href="/encheres/inscription">S'inscrire - Se connecter</a>
       </li>
       <sec:authorize access="isAuthenticated()">
         <li><a href="/encheres">Enchères</a></li>
         <li><a href="/encheres/vendreUnArticle">Vendre un article</a></li>
         <li><a href="/encheres/profil">Mon profil</a></li>
-        <li><a href="/encheres/deconnexion">Déconnexion</a></li>
+        <li><a href="/encheres/logout">Déconnexion</a></li>
       </sec:authorize>
   </ul>
 </nav>
