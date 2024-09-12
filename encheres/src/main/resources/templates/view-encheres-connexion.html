@@ -8,20 +8,17 @@
 	<main >
 		
 		 <div th:if="${param.error}">
-            email ou mot de passe incorrect.
+            Email ou mot de passe incorrect.
             Veuillez vérifier votre saisie.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
         </div>
 		<form data-th-action="@{/connexion}" method="post">
 
 			<ul class="connexion">
 				<li><label for="inputUser">Identifiant:<input
-						type="text" id="inputUser" name="email" /></label></li>
+						type="text" id="inputUser" name="email" required/></label></li>
 				<li><label for="inputPwd">Mot de passe:<input
 						type="password" id="inputPwd" name="motDePasse"
-						placeholder="********" /></label></li>
+						placeholder="********" required/></label></li>
 			</ul>
 			<ul>
 				<li><input type="submit" value="Se connecter" /></li>
