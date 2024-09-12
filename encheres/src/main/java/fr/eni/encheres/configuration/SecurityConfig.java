@@ -4,7 +4,6 @@
  */
 package fr.eni.encheres.configuration;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -23,9 +23,11 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 /**
  * Classe en charge de
+ * 
+ * ======= /** Classe en charge de >>>>>>>
+ * 76890adb5ad38784cdf5798f20f52aa0126b1b64
  * 
  * @projet : encheres - V1.0
  * @author : aferry2024
@@ -46,49 +48,21 @@ public class SecurityConfig {
 	UserDetailsManager getUsers(DataSource source) {
 
 		var manager = new JdbcUserDetailsManager(source);
-
 		manager.setUsersByUsernameQuery("select u.email,u.mot_de_passe,1 from Utilisateurs u where email=?");
 		manager.setAuthoritiesByUsernameQuery("select u.email,u.administrateur from Utilisateurs u where email=?");
-
 		return manager;
 	}
 
 	@Bean
 	SecurityFilterChain getFilterChain(HttpSecurity security) throws Exception {
-		
-			security
-			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/","/inscription","/css/**").permitAll()
-				.anyRequest().authenticated()
-			)
-			.formLogin((form) -> form
-				.usernameParameter("email")
-				.passwordParameter("motDePasse")
-				.loginPage("/connexion")
-				.defaultSuccessUrl("/")
-				.permitAll()
-			)
-			.logout((logout) -> logout
-					.logoutUrl("/logout")
-					.logoutSuccessUrl("/")
-					.permitAll());
-			
-			return security.build();
-		}
-		
-//			auth.requestMatchers(HttpMethod.GET, "/films/detail").hasAnyRole("MEMBRE","ADMIN");
-//			auth.requestMatchers(HttpMethod.GET, "/films/edit").hasAnyRole("ADMIN");
-//			auth.requestMatchers(HttpMethod.GET, "/inscription").permitAll();
-//			auth.requestMatchers(HttpMethod.POST, "/inscription").permitAll();
-//			auth.requestMatchers(HttpMethod.GET, "/*").permitAll();
-//			auth.requestMatchers(HttpMethod.GET, "/css/*").permitAll();
-//			auth.requestMatchers(HttpMethod.GET, "/images/*").permitAll();
-//			auth.anyRequest().denyAll();
-		//});
-		
-		//security.formLogin(Customizer.withDefaults()login -> login;
-        //security.loginPage("/connexion");
-		
+
+		security.authorizeHttpRequests((requests) -> requests.requestMatchers("/", "/inscription", "/css/**")
+				.permitAll().anyRequest().authenticated())
+				.formLogin((form) -> form.usernameParameter("email").passwordParameter("motDePasse")
+						.loginPage("/connexion").defaultSuccessUrl("/").permitAll())
+				.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());
+
+		return security.build();
 	}
 
-
+}
