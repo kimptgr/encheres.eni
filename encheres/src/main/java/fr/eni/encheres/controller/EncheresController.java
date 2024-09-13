@@ -5,7 +5,9 @@ package fr.eni.encheres.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticleVenduService;
+import fr.eni.encheres.bll.UtilisateurService;
+import fr.eni.encheres.bll.contexte.ContexteService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -39,9 +43,11 @@ public class EncheresController {
 
 	// injection de dépendance
 	private ArticleVenduService articleVenduService;
+	private ContexteService contexteService;
 
-	public EncheresController(ArticleVenduService articleVenduService) {
+	public EncheresController(ArticleVenduService articleVenduService, ContexteService contexteService) {
 		this.articleVenduService = articleVenduService;
+		this.contexteService = contexteService;
 	}
 
 	@ModelAttribute("categoriesInSession")
@@ -52,16 +58,16 @@ public class EncheresController {
 	}
 
 //#######--BLOC A SUPPRIMER QUAND USERINSESSION D'ALEX--#################################################
-	@ModelAttribute("userInSession")
-	public Utilisateur testuis() {
-		System.out.println("Chargement en Session - CATEGORIES");
-		Utilisateur userTest = new Utilisateur();
-		userTest.setNoUtilisateur(1);
-		userTest.setRue("chemin des saules");
-		userTest.setVille("MaVille");
-		userTest.setCodePostal("90000");
-		return userTest;
-	}
+//	@ModelAttribute("userInSession")
+//	public Utilisateur testuis() {
+//		System.out.println("Chargement en Session - CATEGORIES");
+//		Utilisateur userTest = new Utilisateur();
+//		userTest.setNoUtilisateur(1);
+//		userTest.setRue("chemin des saules");
+//		userTest.setVille("MaVille");
+//		userTest.setCodePostal("90000");
+//		return userTest;
+//	}
 //########--FIN BLOC A SUPPRIMER QUAND USERINSESSION D'ALEX--################################################
 
 	@GetMapping
@@ -96,21 +102,26 @@ public class EncheresController {
 
 	@GetMapping("/vendreUnArticle")
 	public String sell(HttpSession session, Model model) {
-		Utilisateur userInSession = (Utilisateur) session.getAttribute("userInSession");
-	    if (userInSession != null) {
-	        System.out.println("Utilisateur en session : " + userInSession);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUsernameInSession = authentication.getName();
+		ArticleVendu articleVendu = new ArticleVendu();
+	    
+		if (!currentUsernameInSession.isBlank()) {
+	    	Retrait defaultRetrait = articleVenduService.findDefaultRetraitByUser(currentUsernameInSession);
+	        articleVendu.setRetrait(defaultRetrait);
 	    } else {
 	        System.out.println("Aucun utilisateur en session.");
 	    }
-		System.err.println(userInSession);
-		model.addAttribute("articleVendu", new ArticleVendu());
+		model.addAttribute("articleVendu", articleVendu);
 		return "view-create-article";
 	}
 
 	@PostMapping("/vendreUnArticle")
-	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult,
-			@AuthenticationPrincipal Utilisateur userInSession) {
-	    if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
+	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUsernameInSession = authentication.getName();
+		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+		if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
 	        articleVendu.setVendeur(userInSession);
 	        articleVendu.setPrixVente(articleVendu.getPrixVente());
 

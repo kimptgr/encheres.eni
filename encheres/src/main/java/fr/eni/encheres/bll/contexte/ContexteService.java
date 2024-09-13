@@ -14,6 +14,4 @@ import fr.eni.encheres.bo.Utilisateur;
 public interface ContexteService {
 	public Utilisateur chargeEmail(String email);
 	public Utilisateur chargePseudo(String pseudo);
-	
-
 }
