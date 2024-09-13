@@ -61,13 +61,23 @@ class EncheresApplicationTests {
 //	        System.out.println(article);
 //	        }
 	   
+//	   @Test
+//	    void TestFindByCategorie() {
+//	        var articleCat = articleVenduDAO.findByCategorie(2);
+//	        articleCat.forEach(System.out::println);
+//	        }
+	   
+//	   @Test
+//	    void TestFindByNom() {
+//	        var articleNOM = articleVenduDAO.findByNom("Ordinateur");
+//	        articleNOM.forEach(System.out::println);
+//	        }
+	   
 	   @Test
-	    void TestFindByCategorie() {
-	        var articleCat = articleVenduDAO.findByCategorie(2);
-	        articleCat.forEach(System.out::println);
+	    void TestFindFilter() {
+	        var articlesFiltres = articleVenduDAO.findFilteredArticles(null, "Vélo");
+	        articlesFiltres.forEach(System.out::println);
 	        }
-	   
-	   
 	   
 
 }
