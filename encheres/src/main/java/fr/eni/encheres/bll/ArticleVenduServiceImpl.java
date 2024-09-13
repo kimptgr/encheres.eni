@@ -67,20 +67,23 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 
 	
 
+//	@Override
+//	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
+//	    return articleVenduDAO.findByCategorie(noCategorie);
+//	
+//	}
+	
 	@Override
-	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
-	    return articleVenduDAO.findByCategorie(noCategorie);
-	
-	}
-	
-	
-
+	public List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm) {
+        return articleVenduDAO.findFilteredArticles(noCategorie, searchTerm);
+    }
 
 
 	@Override
 	public Retrait findRetraitByNoArticle(Integer noArticle) {
 		return retraitDAO.readByNoArticle(noArticle);
 	}
+
 
 }
 	

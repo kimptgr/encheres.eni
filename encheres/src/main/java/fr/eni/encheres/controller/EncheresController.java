@@ -63,17 +63,25 @@ public class EncheresController {
 //########--FIN BLOC A SUPPRIMER QUAND USERINSESSION D'ALEX--################################################
 
 	@GetMapping
-	public String afficherArticlesVendus(@RequestParam(name = "Categorie", required = false) Integer noCategorie,Model model) {
-		List<ArticleVendu> articlesVendus;
-		if (noCategorie != null) {
-			articlesVendus = articleVenduService.findByCategorie(noCategorie);
-		}else {
-			articlesVendus = articleVenduService.findAllArticles();
-		
+	public String afficherArticlesVendus(
+		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
+		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
+		    Model model) {
+
+		    Integer noCategorie = null;
+
+		    // Si la catégorie n'est pas vide, la convertir en Integer
+		    if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
+		        noCategorie = Integer.valueOf(noCategorieParam);
+		    }
+
+		    // Appel au service avec les deux filtres
+		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm);
+
+		    model.addAttribute("ArticlesVendus", articlesVendus);
+		    
+		    return "index";
 		}
-		model.addAttribute("ArticlesVendus", articlesVendus);
-		
-		return "index"; }
 
 		
 	@GetMapping("/detailArticle")

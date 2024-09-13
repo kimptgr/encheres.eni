@@ -17,6 +17,9 @@ public interface ArticleVenduDAO {
 	
 	ArticleVendu deleteById(Integer noArticle);
 
+//	List<ArticleVendu> findByCategorie(Integer noCategorie);
+//	
+//	public List<ArticleVendu> findByNom(String searchTerm);
 	
-	List<ArticleVendu> findByCategorie(Integer noCategorie);
+	public List<ArticleVendu> findFilteredArticles(Integer noCategorie, String searchTerm);
 }

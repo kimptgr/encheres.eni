@@ -23,17 +23,28 @@
             <h3>Filtres :</h3>
 
             <form method="GET" >
-	              <label for="categorie">Categorie :</label>
+             		<!-- Barre de recherche -->
+				    <label for="searchTerm">Rechercher un article :</label>
+				    <input type="text" id="searchTerm" name="searchTerm" placeholder="Nom de l'article">
+            
+            
+            		<!-- Filtre par catégorie -->
+	             	 <label for="categorie">Categorie :</label>
 				      <select  id="Categorie" name="Categorie">
+				      <!-- Option par défaut : Toutes les catégories -->
+      				    <option value="">Toutes les catégories</option>
+				        <!-- Les autres catégories -->
 				        <option 
 				        data-th-each="category : ${categoriesInSession}" 
 				        data-th-text="${category.libelle}" 
-				        data-th-value="${category.noCategorie}"></option>
+				        data-th-value="${category.noCategorie}">
+				        </option>
 				      </select>
-				<button type=submit>
-	            Rechercher
-				</button>
+				
+					<!-- Filtre par catégorie -->
+						<button type=submit>Rechercher</button>
             </form>
+            
             
             <div>
             	<dl data-th-each="articleVendu : ${ArticlesVendus}" >

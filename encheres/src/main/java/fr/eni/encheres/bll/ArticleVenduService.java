@@ -20,7 +20,9 @@ public interface ArticleVenduService {
 
 	Retrait findRetraitByNoArticle(Integer noArticle);
 	
-	List<ArticleVendu> findByCategorie(Integer noCategorie);
+//	List<ArticleVendu> findByCategorie(Integer noCategorie);
+	
+	List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm);
 	
 	
 	
