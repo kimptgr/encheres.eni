@@ -3,6 +3,10 @@ package fr.eni.encheres.bo;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 /**
  * Classe en charge de la création de l'utilisateur et de ses attributs
  * 
@@ -13,16 +17,53 @@ import java.util.Objects;
 public class Utilisateur {
 
 	private Integer noUtilisateur; // primary key identity
+	
+	@NotBlank
+	@Pattern (regexp = "^[a-zA-Z0-9]{3,20}$"
+	, message ="Votre pseudo doit contenir entre 3 et 20 caractères. Lettres et/ou numéros.")
 	private String pseudo;
+	
+	@NotBlank
+	@Pattern (regexp = "^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]{1,}(?: [A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]*)*$"
+	, message="Votre nom doit contenir au minimum une lettre.")
 	private String nom;
+	
+	@NotBlank
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]{2,29}$", message="Votre prénom doit contenir au minimum 2 lettres.")
 	private String prenom;
+	
+	@NotBlank
+	@Email
+	@Pattern (regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message="Votre email est invalide. Veuillez saisir un email valide.")
 	private String email;
+	
+	@NotBlank
+	@Pattern (regexp = "^((\\\\+33|0)[1-9]( \\\\d{2}){4}|\\\\+33[1-9]\\\\d{8}|0[1-9]\\\\d{8}|[1-9]\\\\d{8})$"
+	, message="Numero de téléphone non reconnu.")
 	private String telephone;
+	
+	@NotBlank
+	@Pattern(regexp = "^(\\d+\\s(?:rue|boulevard|avenue|chemin|place|impasse|allée|quai|route|boulevard|cours|voie|esplanade|promenade)\\s[A-ZÀ-Ù][A-ZÀ-Ù'-]*(?:\\s[A-ZÀ-Ù][A-ZÀ-Ù'-]*)*)$"
+	, message="Veuillez saisir votre numéro,type de voie et nom de la voie.")
 	private String rue;
+	
+	@NotBlank
+	@Pattern (regexp = "^[0-9]{5}$"
+	, message="Veuillez saisir un code postal de 5 chiffres(0100,35000,...")
 	private String codePostal;
+	
+	@NotBlank
+	@Pattern (regexp = "^[A-ZÀ-Ù][A-ZÀ-Ù'-]*(?: [A-ZÀ-Ù][A-ZÀ-Ù'-]*)*$"
+	, message="Veuillez saisir en majuscule votre ville (l'AIN; RENNES,...")
 	private String ville;
+	
+	@NotBlank
+	@Pattern (regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$"
+	, message ="Veuillez saisir un mot de passe de 8 caractères minimum (1 lettres majuscule min., 1 lettre minisucule min., 1 chiffres min., 1 caractère spécial min.(@#$%^&+=) et sans espace")
 	private String motDePasse;
+	
 	private Integer credit;
+	
 	private Boolean administrateur;
 
 	private List<ArticleVendu> articleVendus;

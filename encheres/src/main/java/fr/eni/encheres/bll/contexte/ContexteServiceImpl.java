@@ -30,7 +30,7 @@ public class ContexteServiceImpl implements ContexteService {
 	}
 
 	@Override
-	public Utilisateur chargeEmail(String email) {
+	public boolean chargeEmail(String email) {
 		return utilisateurDAO.readByEmail(email);
 	}
 

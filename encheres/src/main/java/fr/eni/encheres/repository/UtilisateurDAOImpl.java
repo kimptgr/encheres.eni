@@ -30,12 +30,11 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	// Jointure Utilisateurs+Encheres+Articles_Vendus
 	private final String INSERT = "INSERT INTO Utilisateurs(pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) "
 			+ " VALUES (:pseudo,:nom,:prenom,:email,:telephone,:rue,:code_postal,:ville,:mot_de_passe,:credit,:administrateur)";
-	private final String FIND_ALL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
+	private final String FIND_ALL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
 			+ "FROM UTILISATEURS;";
-	private final String FIND_BY_PSEUDO = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
+	private final String FIND_BY_PSEUDO = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
 			+ "FROM UTILISATEURS " + "WHERE PSEUDO=?;";
-	private final String FIND_BY_EMAIL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
-			+ "FROM UTILISATEURS WHERE EMAIL=?;";
+	private final String FIND_BY_EMAIL = "select COUNT(*) from UTILISATEURS where email= ?;";
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -77,11 +76,15 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	}
 
 	@Override
-	public Utilisateur readByEmail(String email) {
+	public boolean readByEmail(String email) {
+		var sql=FIND_BY_EMAIL;
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("email", email);
-		return jdbcTemplate.queryForObject(FIND_BY_EMAIL, namedParameters, new UtilisateurRowMapper());
+		Integer count = jdbcTemplate.queryForObject(sql, namedParameters, Integer.class);
+		return count != null && count > 0;
 	}
+	
+	
 
 	@Override
 	public List<Utilisateur> readAll() {
