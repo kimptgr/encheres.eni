@@ -17,6 +17,6 @@ public interface ArticleVenduDAO {
 	
 	ArticleVendu deleteById(Integer noArticle);
 
-	
 	List<ArticleVendu> findByCategorie(Integer noCategorie);
+	
 }

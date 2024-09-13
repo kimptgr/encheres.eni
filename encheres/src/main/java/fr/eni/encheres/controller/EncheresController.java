@@ -98,12 +98,20 @@ public class EncheresController {
 		}
 		return "redirect:/view-detail-article";
 	}
+	
+	@PostMapping("/detailArticle{}")
+	public String makeAnEnchere(@RequestParam(name = "noArticle", required = true) int noArticle, Model model) {
+		Utilisateur userInSession = getUserInSession();
+		if (userInSession != null && userInSession.getNoUtilisateur() >= 1) {
+			
+		}
+		return "view-detail-article";
 
+	}
 
 	@GetMapping("/vendreUnArticle")
 	public String sell(HttpSession session, Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentUsernameInSession = authentication.getName();
+		String currentUsernameInSession = getUserInSession().getEmail();
 		ArticleVendu articleVendu = new ArticleVendu();
 	    
 		if (!currentUsernameInSession.isBlank()) {
@@ -118,9 +126,7 @@ public class EncheresController {
 
 	@PostMapping("/vendreUnArticle")
 	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentUsernameInSession = authentication.getName();
-		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+		Utilisateur userInSession = getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
 	        articleVendu.setVendeur(userInSession);
 	        articleVendu.setPrixVente(articleVendu.getPrixVente());
@@ -150,5 +156,10 @@ public class EncheresController {
 	    }
 	}
 	
-	
+	private Utilisateur getUserInSession() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUsernameInSession = authentication.getName();
+		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+		return userInSession;
+	}
 }

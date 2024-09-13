@@ -77,9 +77,6 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	    return articleVenduDAO.findByCategorie(noCategorie);
 	
 	}
-	
-	
-
 
 
 	@Override

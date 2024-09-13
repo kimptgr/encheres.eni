@@ -57,6 +57,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		}
 		
 		Retrait retrait = new Retrait(articleVendu.getVendeur().getRue(), articleVendu.getVendeur().getCodePostal(),articleVendu.getVendeur().getVille(), articleVendu );
+		
 		String INSERT_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (:no_article, :rue, :code_postal, :ville)";
 		MapSqlParameterSource namedParametersRetrait = new MapSqlParameterSource();
 		namedParametersRetrait.addValue("no_article", articleVendu.getNoArticle());

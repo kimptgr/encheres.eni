@@ -16,5 +16,5 @@ import fr.eni.encheres.bo.Categorie;
 public interface CategorieDAO {
 	List<Categorie> readAll();
 
-	Categorie readById(long id);
+	Categorie readById(Integer id);
 }
