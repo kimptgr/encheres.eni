@@ -55,10 +55,16 @@ class EncheresApplicationTests {
 //	        article.forEach(System.out::println);
 //	        }
 	   
+//	   @Test
+//	    void testReadUnArticle() {
+//	        var article = articleVenduDAO.readById(18);
+//	        System.out.println(article);
+//	        }
+	   
 	   @Test
-	    void testReadUnArticle() {
-	        var article = articleVenduDAO.readById(18);
-	        System.out.println(article);
+	    void TestFindByCategorie() {
+	        var articleCat = articleVenduDAO.findByCategorie(2);
+	        articleCat.forEach(System.out::println);
 	        }
 	   
 	   

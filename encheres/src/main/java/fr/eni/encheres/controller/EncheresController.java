@@ -65,13 +65,19 @@ public class EncheresController {
 //########--FIN BLOC A SUPPRIMER QUAND USERINSESSION D'ALEX--################################################
 
 	@GetMapping
-	public String afficherArticlesVendus(Model model) {
-		List<ArticleVendu> articlesVendus = articleVenduService.findAllArticles();
-		// Ajout de l'article dans le modèle
+	public String afficherArticlesVendus(@RequestParam(name = "Categorie", required = false) Integer noCategorie,Model model) {
+		List<ArticleVendu> articlesVendus;
+		if (noCategorie != null) {
+			articlesVendus = articleVenduService.findByCategorie(noCategorie);
+		}else {
+			articlesVendus = articleVenduService.findAllArticles();
+		
+		}
 		model.addAttribute("ArticlesVendus", articlesVendus);
-		return "index";
-	}
+		
+		return "index"; }
 
+		
 	@GetMapping("/detailArticle")
 	public String afficherUnArticle(@RequestParam(name = "noArticle", required = true) Integer noArticle, Model model) {
 		if (noArticle > 0) {
@@ -86,6 +92,7 @@ public class EncheresController {
 		}
 		return "redirect:/view-detail-article";
 	}
+
 
 	@GetMapping("/vendreUnArticle")
 	public String sell(HttpSession session, Model model) {
@@ -131,5 +138,6 @@ public class EncheresController {
 	        return "redirect:/error"; // Par exemple, redirection vers une page d'erreur
 	    }
 	}
+	
 	
 }
