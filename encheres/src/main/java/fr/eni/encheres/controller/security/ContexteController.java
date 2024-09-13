@@ -53,7 +53,10 @@ public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur u
 		userInSession.setEmail(charge.getEmail());
 		userInSession.setNom(charge.getNom());
 		userInSession.setPrenom(charge.getPrenom());
-		userInSession.setAdministrateur(charge.isAdmin());
+		userInSession.setRue(charge.getRue());
+		userInSession.setVille(charge.getVille());
+		userInSession.setCodePostal(charge.getCodePostal());
+		System.err.println("--- Chargement de l'utilisateur en Session ---");
 		
 	}else {
 		userInSession.setNoUtilisateur(0);
@@ -65,6 +68,11 @@ public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur u
 	System.out.println(userInSession);
 	return "redirect/:";
 	
-	
+}
+
+@ModelAttribute("userInSession")
+public Utilisateur userInSession() {
+	System.out.println("Add Attribut Session");
+	return new Utilisateur();
 }
 }

@@ -5,6 +5,7 @@ package fr.eni.encheres.controller;
 
 import java.util.List;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -86,16 +88,21 @@ public class EncheresController {
 	}
 
 	@GetMapping("/vendreUnArticle")
-	public String sell(Model model) {
-		ArticleVendu newArticle = new ArticleVendu();
-		newArticle.setRetrait(new Retrait());
-		model.addAttribute("articleVendu", newArticle );
+	public String sell(HttpSession session, Model model) {
+		Utilisateur userInSession = (Utilisateur) session.getAttribute("userInSession");
+	    if (userInSession != null) {
+	        System.out.println("Utilisateur en session : " + userInSession);
+	    } else {
+	        System.out.println("Aucun utilisateur en session.");
+	    }
+		System.err.println(userInSession);
+		model.addAttribute("articleVendu", new ArticleVendu());
 		return "view-create-article";
 	}
 
 	@PostMapping("/vendreUnArticle")
 	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult,
-	                           @ModelAttribute("userInSession") Utilisateur userInSession) {
+			@AuthenticationPrincipal Utilisateur userInSession) {
 	    if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
 	        articleVendu.setVendeur(userInSession);
 	        articleVendu.setPrixVente(articleVendu.getPrixVente());

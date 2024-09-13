@@ -70,7 +70,7 @@
           <input id="rue" 
           type="text" 
           name="rue"
-          data-th-value="${userInSession.rue != null ? userInSession.rue : ''}"
+          data-th-value="${userInSession != null} ? ${userInSession.rue} : ''"
           data-th-field="*{retrait.rue}"
           />
           <span data-th-if="${#fields.hasErrors('retrait.rue')}" data-th-errors="*{retrait.rue}"></span>
@@ -81,9 +81,9 @@
             type="text"
             name="codePostal"
             data-th-field="*{retrait.codePostal}"
-            data-th-value="${userInSession.codePostal != null ? userInSession.codePostal : ''}"
+            data-th-value="${userInSession != null} ? ${userInSession.codePostal} : ''"
           />
-          <span data-th-if="${#fields.hasErrors('retrait.rue')}" data-th-errors="*{retrait.rue}"></span>
+          <span data-th-if="${#fields.hasErrors('retrait.codePostal')}" data-th-errors="*{retrait.codePostal}"></span>
 
           <label for="ville">Ville :</label>
           <input
@@ -91,9 +91,9 @@
             type="text"
             name="ville"
             data-th-field="*{retrait.ville}"
-            data-th-value="${userInSession.ville != null ? userInSession.ville : ''}"
+            data-th-value="${userInSession != null} ? ${userInSession.ville} : ''"
           /> 
-          <span data-th-if="${#fields.hasErrors('retrait.rue')}" data-th-errors="*{retrait.rue}"></span>
+          <span data-th-if="${#fields.hasErrors('retrait.ville')}" data-th-errors="*{retrait.ville}"></span>
     </div>
       </fieldset>
       <input type="submit">
