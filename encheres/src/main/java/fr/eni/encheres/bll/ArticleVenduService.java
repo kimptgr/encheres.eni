@@ -19,8 +19,13 @@ public interface ArticleVenduService {
 	Categorie findCategorieById(Integer noCategorie);
 
 	Retrait findRetraitByNoArticle(Integer noArticle);
+
+	Retrait findDefaultRetraitByUser(String username);
+
+//	List<ArticleVendu> findByCategorie(Integer noCategorie);
 	
-	List<ArticleVendu> findByCategorie(Integer noCategorie);
+	List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm);
+
 	
 	
 	

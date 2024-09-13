@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.repository.ArticleVenduDAO;
 import fr.eni.encheres.repository.CategorieDAO;
 import fr.eni.encheres.repository.RetraitDAO;
+import fr.eni.encheres.repository.UtilisateurDAO;
 
 @Service
 public class ArticleVenduServiceImpl implements ArticleVenduService {
@@ -19,11 +21,13 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	private ArticleVenduDAO articleVenduDAO;
 	private CategorieDAO categorieDAO;
 	private RetraitDAO retraitDAO;
+	private UtilisateurDAO utilisateurDAO;
 
-	public ArticleVenduServiceImpl(ArticleVenduDAO articleVenduDAO, CategorieDAO categorieDAO, RetraitDAO retraitDAO) {
+	public ArticleVenduServiceImpl(ArticleVenduDAO articleVenduDAO, CategorieDAO categorieDAO, RetraitDAO retraitDAO, UtilisateurDAO utilisateurDAO) {
 		this.articleVenduDAO = articleVenduDAO;
 		this.categorieDAO = categorieDAO;
 		this.retraitDAO = retraitDAO;
+		this.utilisateurDAO = utilisateurDAO;
 	}
 ////////////////////////////////////////////////////
 
@@ -43,6 +47,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 
 	@Override
 	public void add(ArticleVendu articleVendu) {
+		articleVendu.setPrixVente(articleVendu.getMiseAPrix());
 		articleVenduDAO.create(articleVendu);
 	}
 
@@ -67,19 +72,28 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 
 	
 
+//	@Override
+//	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
+//	    return articleVenduDAO.findByCategorie(noCategorie);
+//	
+//	}
+	
 	@Override
-	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
-	    return articleVenduDAO.findByCategorie(noCategorie);
-	
-	}
-	
-	
-
+	public List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm) {
+        return articleVenduDAO.findFilteredArticles(noCategorie, searchTerm);
+    }
 
 
 	@Override
 	public Retrait findRetraitByNoArticle(Integer noArticle) {
 		return retraitDAO.readByNoArticle(noArticle);
+	}
+	
+	@Override
+	public Retrait findDefaultRetraitByUser(String username) {
+		Utilisateur userInSession = utilisateurDAO.readByEmail(username);
+		Retrait defaultRetrait = new Retrait(userInSession.getRue(), userInSession.getCodePostal() , userInSession.getVille());
+		return defaultRetrait;
 	}
 
 }

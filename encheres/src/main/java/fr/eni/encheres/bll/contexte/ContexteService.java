@@ -12,8 +12,6 @@ import fr.eni.encheres.bo.Utilisateur;
  * @since: 10 sept. 2024 - 16:51:13
  */
 public interface ContexteService {
-	public boolean chargeEmail(String email);
+	public Utilisateur chargeEmail(String email);
 	public Utilisateur chargePseudo(String pseudo);
-	
-
 }

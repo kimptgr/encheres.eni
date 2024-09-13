@@ -34,7 +34,12 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			+ "FROM UTILISATEURS;";
 	private final String FIND_BY_PSEUDO = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
 			+ "FROM UTILISATEURS " + "WHERE PSEUDO=?;";
-	private final String FIND_BY_EMAIL = "select COUNT(*) from UTILISATEURS where email= ?;";
+
+	private final String VERIF_BY_EMAIL = "select COUNT(*) from UTILISATEURS where email= ?;";
+
+	private final String FIND_BY_EMAIL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
+			+ " FROM UTILISATEURS WHERE EMAIL= :email ;";
+
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -74,10 +79,16 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		namedParameters.addValue("pseudo", pseudo);
 		return jdbcTemplate.queryForObject(FIND_BY_PSEUDO, namedParameters, new UtilisateurRowMapper());
 	}
-
+	
 	@Override
-	public boolean readByEmail(String email) {
-		var sql=FIND_BY_EMAIL;
+	public Utilisateur readByEmail(String email) {
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("email", email);
+		return jdbcTemplate.queryForObject(FIND_BY_EMAIL, namedParameters, new UtilisateurRowMapper());
+	}
+	@Override
+	public boolean verifByEmail(String email) {
+		var sql=VERIF_BY_EMAIL;
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("email", email);
 		Integer count = jdbcTemplate.queryForObject(sql, namedParameters, Integer.class);

@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class Enchere {
 	private LocalDateTime dateEnchere;
-	private Integer montant_enchere;
+	private Integer montantEnchere;
 
-	private List<ArticleVendu> articleVendus;
+	private ArticleVendu articleVendu;
 	private Utilisateur utilisateur;
 
 	/**
@@ -38,8 +38,8 @@ public class Enchere {
 			Utilisateur utilisateur) {
 		super();
 		this.dateEnchere = dateEnchere;
-		this.montant_enchere = montant_enchere;
-		this.articleVendus = articleVendus;
+		this.montantEnchere = montant_enchere;
+		this.articleVendu = articleVendu;
 		this.utilisateur = utilisateur;
 	}
 
@@ -66,17 +66,17 @@ public class Enchere {
 	 * 
 	 * @return the montant_enchere
 	 */
-	public Integer getMontant_enchere() {
-		return montant_enchere;
+	public Integer getMontantEnchere() {
+		return montantEnchere;
 	}
 
 	/**
-	 * Setter pour the montant_enchere.
+	 * Setter pour the montantEnchere.
 	 * 
-	 * @param montant_enchere the montant_enchere to set
+	 * @param montant_enchere the montantEnchere to set
 	 */
-	public void setMontant_enchere(Integer montant_enchere) {
-		this.montant_enchere = montant_enchere;
+	public void setMontantEnchere(Integer montantEnchere) {
+		this.montantEnchere = montantEnchere;
 	}
 
 	/**
@@ -84,8 +84,8 @@ public class Enchere {
 	 * 
 	 * @return the articleVendus
 	 */
-	public List<ArticleVendu> getArticleVendus() {
-		return articleVendus;
+	public ArticleVendu getArticleVendu() {
+		return articleVendu;
 	}
 
 	/**
@@ -93,8 +93,8 @@ public class Enchere {
 	 * 
 	 * @param articleVendus the articleVendus to set
 	 */
-	public void setArticleVendus(List<ArticleVendu> articleVendus) {
-		this.articleVendus = articleVendus;
+	public void setArticleVendus(ArticleVendu articleVendu) {
+		this.articleVendu = articleVendu;
 	}
 
 	/**
@@ -117,8 +117,8 @@ public class Enchere {
 
 	@Override
 	public String toString() {
-		return "Enchere [dateEnchere=" + dateEnchere + ", montant_enchere=" + montant_enchere + ", articleVendus="
-				+ articleVendus + ", utilisateur=" + utilisateur + "]";
+		return "Enchere [dateEnchere=" + dateEnchere + ", montant_enchere=" + montantEnchere + ", articleVendus="
+				+ articleVendu + ", utilisateur=" + utilisateur + "]";
 	}
 
 }

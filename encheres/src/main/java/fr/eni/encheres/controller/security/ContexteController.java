@@ -44,42 +44,36 @@ public String connectionUtilisateur(){
 }
 
 
-//@GetMapping("/session")
-//public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur userInSession, Principal principal){
-//	String email = principal.getName();
-//	Utilisateur charge = contexteService.chargeEmail(email);
-//	if(charge != null) {
-//		userInSession.setNoUtilisateur(charge.getNoUtilisateur());
-//		userInSession.setPseudo(charge.getPseudo());
-//		userInSession.setNom(charge.getNom());
-//		userInSession.setPrenom(charge.getPrenom());
-//		userInSession.setEmail(charge.getEmail());
-//		userInSession.setTelephone(charge.getTelephone());
-//		userInSession.setRue(charge.getRue());
-//		userInSession.setCodePostal(charge.getCodePostal());
-//		userInSession.setVille(charge.getVille());
-//		userInSession.setMotDePasse(charge.getMotDePasse());
-//		userInSession.setCredit(charge.getCredit());
-//		userInSession.setAdministrateur(charge.isAdmin());
-//		
-//	}else {
-//		userInSession.setNoUtilisateur(0);
-//		
-//		userInSession.setNom(null);
-//		userInSession.setPseudo(null);
-//		userInSession.setPrenom(null);
-//		userInSession.setEmail(null);
-//		userInSession.setTelephone(null);
-//		userInSession.setRue(null);
-//		userInSession.setCodePostal(null);
-//		userInSession.setVille(null);
-//		userInSession.setMotDePasse(null);
-//		userInSession.setCredit(null);
-//		userInSession.setAdministrateur(false);
-//	}
-//	System.out.println(userInSession);
-//	return "redirect/:";
-//	
-//	
-//}
+@GetMapping("/session")
+public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur userInSession, Principal principal){
+	String email = principal.getName();
+	Utilisateur charge = contexteService.chargeEmail(email);
+	if(charge != null) {
+		userInSession.setNoUtilisateur(charge.getNoUtilisateur());
+		userInSession.setEmail(charge.getEmail());
+		userInSession.setNom(charge.getNom());
+		userInSession.setPrenom(charge.getPrenom());
+		userInSession.setRue(charge.getRue());
+		userInSession.setVille(charge.getVille());
+		userInSession.setCodePostal(charge.getCodePostal());
+		System.err.println("--- Chargement de l'utilisateur en Session ---");
+		
+	}else {
+		userInSession.setNoUtilisateur(0);
+		userInSession.setEmail(null);
+		userInSession.setNom(null);
+		userInSession.setPrenom(null);
+		userInSession.setAdministrateur(false);
+	}
+	System.out.println(userInSession);
+	return "redirect/:";
+	
+}
+
+@ModelAttribute("userInSession")
+public Utilisateur userInSession() {
+	System.out.println("Add Attribut Session");
+	return new Utilisateur();
+}
+
 }

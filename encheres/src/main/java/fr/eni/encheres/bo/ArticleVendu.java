@@ -26,7 +26,7 @@ public class ArticleVendu {
 	private LocalDateTime dateFinEncheres;
 	@Min(value = 0)
 	private Integer miseAPrix;
-	private Integer prixVente = miseAPrix;
+	private Integer prixVente;
 	private Integer etatVente;
 	@Valid
 	private Retrait retrait;

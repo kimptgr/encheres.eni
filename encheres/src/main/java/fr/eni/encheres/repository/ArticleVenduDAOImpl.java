@@ -2,6 +2,7 @@ package fr.eni.encheres.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		}
 		
 		Retrait retrait = new Retrait(articleVendu.getVendeur().getRue(), articleVendu.getVendeur().getCodePostal(),articleVendu.getVendeur().getVille(), articleVendu );
+		
 		String INSERT_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (:no_article, :rue, :code_postal, :ville)";
 		MapSqlParameterSource namedParametersRetrait = new MapSqlParameterSource();
 		namedParametersRetrait.addValue("no_article", articleVendu.getNoArticle());
@@ -68,7 +70,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 	}
 	
-
+	//requette pour recherche tous les articles
 	@Override
 	public List<ArticleVendu> readAll() {
 		return jdbcTemplate.query(READ_ALL_ARTICLES, new ArticleVenduMapper());
@@ -100,13 +102,83 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		}
 	}
 	
-	
+	//requette pour rechercher les articles par num article
 	@Override
 	public ArticleVendu readById(Integer noArticle) {
 		var sql = READ_ALL_ARTICLES + " where A.no_article=?";
 		return jdbcTemplate.queryForObject(sql, new ArticleVenduMapper(), noArticle);
 	}
 
+	
+
+
+
+//	//requette pour rechercher les articles par catégorie
+//	@Override
+//	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
+//		var sql = READ_ALL_ARTICLES + " WHERE A.no_categorie = ?";
+//		return jdbcTemplate.query(sql, new ArticleVenduMapper(), noCategorie);
+//		 }
+//	
+//
+//	//requette pour rechercher les articles par nom de l'article (barre de recherche)
+//	@Override
+//	public List<ArticleVendu> findByNom(String searchTerm) {
+//		var sql = READ_ALL_ARTICLES + " WHERE A.nom_article LIKE ?";
+//		String queryParam = "%" + searchTerm + "%";
+//		return jdbcTemplate.query(sql, new ArticleVenduMapper(), queryParam);
+//	}
+	
+	
+	//requette dynamique qui gère à la fois le filtre avec catégorie et recherche dans la barre
+	@Override
+	public List<ArticleVendu> findFilteredArticles(Integer noCategorie, String searchTerm) {
+	    // Base de la requête
+	    String sql = READ_ALL_ARTICLES + " WHERE 1=1";  // "1=1" permet d'ajouter des conditions facilement
+	    
+	    List<Object> params = new ArrayList<>();
+	    
+	    // Filtrer par catégorie si présente
+	    if (noCategorie != null) {
+	        sql += " AND a.no_categorie = ?";
+	        params.add(noCategorie);
+	    }
+	    
+	    // Filtrer par nom si présent
+	    if (searchTerm != null && !searchTerm.isEmpty()) {
+	        sql += " AND a.nom_article LIKE ?";
+	        params.add("%" + searchTerm + "%");  // Utilisation des jokers pour la recherche partielle
+	    }
+
+	    // Exécuter la requête avec les paramètres ajoutés
+	    return jdbcTemplate.query(sql, new ArticleVenduMapper(), params.toArray());
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public ArticleVendu updateById(Integer noArticle) {
 		return null;
@@ -116,12 +188,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	public ArticleVendu deleteById(Integer noArticle) {
 		return null;
 	}
-
-
-
-	@Override
-	public List<ArticleVendu> findByCategorie(Integer noCategorie) {
-		var sql = READ_ALL_ARTICLES + " WHERE A.no_categorie = ?";
-		return jdbcTemplate.query(sql, new ArticleVenduMapper(), noCategorie);
-		 }
+	
+	
+	
+	
+	
 }

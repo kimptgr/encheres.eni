@@ -26,6 +26,7 @@
         type="text"
         name="nomArticle"
         data-th-field="*{nomArticle}"
+        required
       />
    <span data-th-if="${#fields.hasErrors('nomArticle')}" data-th-errors="*{nomArticle}"></span>
 
@@ -35,6 +36,7 @@
         name="description"
         rows="3"
         data-th-field="*{description}"
+        required
         >
       </textarea>
       <span data-th-if="${#fields.hasErrors('description')}" data-th-errors="*{description}"></span>
@@ -44,7 +46,9 @@
         <option 
         data-th-each="category : ${categoriesInSession}" 
         data-th-text="${category.libelle}" 
-        data-th-value="${category.noCategorie}"></option>
+        data-th-value="${category.noCategorie}"
+        required
+        ></option>
       </select>
 
       <label for="miseAPrix">Mise à prix :</label>
@@ -53,15 +57,17 @@
         type="number"
         name="miseAPrix"
         data-th-field="*{miseAPrix}"
+        required
       />
       <span data-th-if="${#fields.hasErrors('miseAPrix')}" data-th-errors="*{miseAPrix}"></span>
 
       <label for="dateDebutEncheres">Début de l'enchère :</label>
-      <input type="datetime-local" name="dateDebutEncheres" id="dateDebutEncheres" data-th-field="*{dateDebutEncheres}"/>
+      <input type="datetime-local" name="dateDebutEncheres" id="dateDebutEncheres" data-th-field="*{dateDebutEncheres}" required
+      />
       <span data-th-if="${#fields.hasErrors('dateDebutEncheres')}" data-th-errors="*{dateDebutEncheres}"></span>
 
       <label for="dateFinEncheres">Fin de l'enchère :</label>
-      <input type="datetime-local" name="dateFinEncheres" id="dateFinEncheres"  data-th-field="*{dateFinEncheres}"/>
+      <input type="datetime-local" name="dateFinEncheres" id="dateFinEncheres"  data-th-field="*{dateFinEncheres}" required/>
       <span data-th-if="${#fields.hasErrors('dateFinEncheres')}" data-th-errors="*{dateFinEncheres}"></span>
       <fieldset>
         <legend>Retrait</legend>
@@ -70,8 +76,8 @@
           <input id="rue" 
           type="text" 
           name="rue"
-          data-th-value="${userInSession.rue != null ? userInSession.rue : ''}"
           data-th-field="*{retrait.rue}"
+          required
           />
           <span data-th-if="${#fields.hasErrors('retrait.rue')}" data-th-errors="*{retrait.rue}"></span>
 
@@ -81,9 +87,9 @@
             type="text"
             name="codePostal"
             data-th-field="*{retrait.codePostal}"
-            data-th-value="${userInSession.codePostal != null ? userInSession.codePostal : ''}"
+            required
           />
-          <span data-th-if="${#fields.hasErrors('retrait.rue')}" data-th-errors="*{retrait.rue}"></span>
+          <span data-th-if="${#fields.hasErrors('retrait.codePostal')}" data-th-errors="*{retrait.codePostal}"></span>
 
           <label for="ville">Ville :</label>
           <input
@@ -91,9 +97,9 @@
             type="text"
             name="ville"
             data-th-field="*{retrait.ville}"
-            data-th-value="${userInSession.ville != null ? userInSession.ville : ''}"
+            required
           /> 
-          <span data-th-if="${#fields.hasErrors('retrait.rue')}" data-th-errors="*{retrait.rue}"></span>
+          <span data-th-if="${#fields.hasErrors('retrait.ville')}" data-th-errors="*{retrait.ville}"></span>
     </div>
       </fieldset>
       <input type="submit">

@@ -21,9 +21,13 @@ public interface UtilisateurDAO {
 	public Utilisateur readById(Integer noUtilisateur);
 
 	public Utilisateur readByPseudo(String pseudo);
-	public boolean readByEmail(String email);
 
 	public List<Utilisateur> readAll();
+
+	
+	boolean verifByEmail(String email);
+
+	Utilisateur readByEmail(String email);
 
 	
 	

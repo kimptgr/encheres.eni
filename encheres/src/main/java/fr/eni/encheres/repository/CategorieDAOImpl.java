@@ -27,7 +27,7 @@ public class CategorieDAOImpl implements CategorieDAO{
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public Categorie readById(long id) {
+	public Categorie readById(Integer id) {
 		var categorie = jdbcTemplate.queryForObject(READ_CAT_BY_ID, new BeanPropertyRowMapper<>(Categorie.class), id);
 		return categorie;
 	}
