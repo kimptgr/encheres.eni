@@ -34,7 +34,7 @@ public class Enchere {
 	 * @param articleVendus
 	 * @param utilisateur
 	 */
-	public Enchere(LocalDateTime dateEnchere, Integer montant_enchere, List<ArticleVendu> articleVendus,
+	public Enchere(LocalDateTime dateEnchere, Integer montant_enchere, ArticleVendu articleVendu,
 			Utilisateur utilisateur) {
 		super();
 		this.dateEnchere = dateEnchere;

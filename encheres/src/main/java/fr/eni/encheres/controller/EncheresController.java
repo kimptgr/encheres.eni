@@ -3,6 +3,7 @@
  */
 package fr.eni.encheres.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticleVenduService;
+import fr.eni.encheres.bll.EnchereService;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bll.contexte.ContexteService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
@@ -44,10 +47,12 @@ public class EncheresController {
 	// injection de dépendance
 	private ArticleVenduService articleVenduService;
 	private ContexteService contexteService;
+	private EnchereService enchereService;
 
-	public EncheresController(ArticleVenduService articleVenduService, ContexteService contexteService) {
+	public EncheresController(ArticleVenduService articleVenduService, ContexteService contexteService, EnchereService enchereService) {
 		this.articleVenduService = articleVenduService;
 		this.contexteService = contexteService;
+		this.enchereService = enchereService;
 	}
 
 	@ModelAttribute("categoriesInSession")
@@ -107,13 +112,19 @@ public class EncheresController {
 		return "redirect:/view-detail-article";
 	}
 	
-	@PostMapping("/detailArticle{}")
-	public String makeAnEnchere(@RequestParam(name = "noArticle", required = true) int noArticle, Model model) {
+	@PostMapping("/detailArticle")
+	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle, @RequestParam("proposition") Integer proposition) {
 		Utilisateur userInSession = getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() >= 1) {
-			
+			var e = new Enchere();
+			e.setArticleVendus(new ArticleVendu());
+			e.getArticleVendu().setNoArticle(noArticle);
+			e.setDateEnchere(LocalDateTime.now());
+			e.setMontantEnchere(proposition);
+			e.setUtilisateur(userInSession);
+			enchereService.
 		}
-		return "view-detail-article";
+		return "index";
 
 	}
 

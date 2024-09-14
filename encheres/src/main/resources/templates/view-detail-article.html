@@ -4,7 +4,7 @@
   th:replace="~{layouts/layout :: layoutEncheres(
                     navBar=~{},
                     titrePage=~{::h2},
-                    contenuPage=~{:: main},
+                    contenuPage=~{:: .center-main},
                     linkcss=~{})}"
 >
   <head>
@@ -14,9 +14,8 @@
   <header>
     <nav data-th-replace="~{fragments/fragments-navbar::frag-navbar}"></nav>
   </header>
-  <body>
     <h2>Détail vente</h2>
-    <main class="center-main">
+    <div class="center-main">
     	<div>
             	<dl>
             		<dd data-th-text=" 'Article : ' + ${articleVendu.nomArticle}"></dd>
@@ -33,14 +32,13 @@
             
             <sec:authorize access="isAuthenticated()">
               <dd>
-              <form data-th-action="@{/}" method="post">
-                <input hidden type="text" name="noArticle" value="${articleVendu.noArticle}">
+              <form data-th-action="@{/detailArticle?noArticle=}+${articleVendu.noArticle}" method="post">
                 <label for="proposition">Ma proposition :</label>
-                <input type="number" name="proposition" id="proposition" value="${articleVendu.miseAPrix}">
+                <input hidden type="number" name="noArticle" value="${articleVendu.noArticle}">
+                <input type="number" name="proposition" id="proposition">
                 <input type="submit" value="submit" />
               </form>
             </dd>
             </sec:authorize>
-    </main>
-  </body>
+          </div>
 </html>

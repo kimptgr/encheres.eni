@@ -4,7 +4,7 @@
   th:replace="~{layouts/layout :: layoutEncheres(
                     navBar=~{},
                     titrePage=~{::h2},
-                    contenuPage=~{:: main},
+                    contenuPage=~{:: .center-main},
                     linkcss=~{::#css})}"
 >
   <head>
@@ -12,100 +12,228 @@
     <title>ENI-Enchères</title>
     <link id="css" rel="stylesheet" href="/encheres/css/create-article.css">
   </head>
-  <header>
-    <nav data-th-replace="~{fragments/fragments-navbar::frag-navbar}"></nav>
-  </header>
   <body>
-    <h2>Nouvelle vente</h2>
-    <main class="center-main">
+    <header>
+        <h1 id="nav-title">
+            <a href="/encheres">ENI-Enchères</a>
+        </h1>
+    </header>
+    <main>
+        <h2>Nouvelle vente</h2>
+        <div class="center-main">
+            <form data-th-action="@{/vendreUnArticle}" method="post" data-th-object="${articleVendu}">
+
+                <div class="form-group">
+                    <label for="article">Article&nbsp;:</label>
+                    <input id="nomArticle" type="text" name="nomArticle" data-th-field="*{nomArticle}" />
+                    <div class="error-bloc">
+                        <span data-th-if="${#fields.hasErrors('nomArticle')}" data-th-errors="*{nomArticle}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description&nbsp;:</label>
+                    <textarea id="description" name="description" rows="3" data-th-field="*{description}"
+                        required></textarea>
+                    <div class="error-bloc">
+                        <span data-th-if="${#fields.hasErrors('description')}" data-th-errors="*{description}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group select-group">
+                    <label for="categorie">Categorie&nbsp;:</label>
+                    <select id="categorie" name="categorie" required>
+                        <option data-th-each="category : ${categoriesInSession}" data-th-text="${category.libelle}"
+                            data-th-value="${category.noCategorie}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="miseAPrix">Mise à prix&nbsp;:</label>
+                    <input id="miseAPrix" type="number" name="miseAPrix" data-th-field="*{miseAPrix}" required />
+                    <div class="error-bloc">
+                        <span data-th-if="${#fields.hasErrors('miseAPrix')}" data-th-errors="*{miseAPrix}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateDebutEncheres">Début de l'enchère&nbsp;:</label>
+                    <input type="datetime-local" name="dateDebutEncheres" id="dateDebutEncheres"
+                        data-th-field="*{dateDebutEncheres}" required />
+                    <div class="error-bloc">
+                        <span data-th-if="${#fields.hasErrors('dateDebutEncheres')}"
+                            data-th-errors="*{dateDebutEncheres}"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateFinEncheres">Fin de l'enchère&nbsp;:</label>
+                    <input type="datetime-local" name="dateFinEncheres" id="dateFinEncheres"
+                        data-th-field="*{dateFinEncheres}" required />
+                    <div class="error-bloc">
+                        <span data-th-if="${#fields.hasErrors('dateFinEncheres')}"
+                            data-th-errors="*{dateFinEncheres}"></span>
+                    </div>
+                </div>
+
+                <fieldset>
+                    <legend>Retrait</legend>
+                    <div>
+                        <div class="form-group">
+                            <label for="rue">Rue&nbsp;:</label>
+                            <input id="rue" type="text" name="rue" data-th-field="*{retrait.rue}" required />
+                            <div class="error-bloc">
+                                <span data-th-if="${#fields.hasErrors('retrait.rue')}"
+                                    data-th-errors="*{retrait.rue}"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="codePostal">Code postal&nbsp;:</label>
+                            <input id="codePostal" type="text" name="codePostal" data-th-field="*{retrait.codePostal}"
+                                required />
+                            <div class="error-bloc">
+                                <span data-th-if="${#fields.hasErrors('retrait.codePostal')}"
+                                    data-th-errors="*{retrait.codePostal}"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ville">Ville&nbsp;:</label>
+                            <input id="ville" type="text" name="ville" data-th-field="*{retrait.ville}" required />
+                            <div class="error-bloc">
+                                <span data-th-if="${#fields.hasErrors('retrait.ville')}"
+                                    data-th-errors="*{retrait.ville}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="button-group">
+                    <input type="submit">
+                    <input type="reset" value="Reset" />
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+   <!-- <h2>Nouvelle vente</h2>
+    <div class="center-main">
       <form data-th-action="@{/vendreUnArticle}" method="post" data-th-object="${articleVendu}">
- <!--     <input type="hidden" data-th-name="${_csrf.parameterName}" data-th-value="${_csrf.token}" /> -->
-      <label for="article">Article :</label>
-      <input
-        id="nomArticle"
-        type="text"
-        name="nomArticle"
-        data-th-field="*{nomArticle}"
-        required
-      />
-   <span data-th-if="${#fields.hasErrors('nomArticle')}" data-th-errors="*{nomArticle}"></span>
-
-      <label for="description">Description :</label>
-      <textarea 
-        id="description" 
-        name="description"
-        rows="3"
-        data-th-field="*{description}"
-        required
-        >
-      </textarea>
-      <span data-th-if="${#fields.hasErrors('description')}" data-th-errors="*{description}"></span>
-
-      <label for="categorie">Categorie :</label>
-      <select  id="categorie" name="categorie">
-        <option 
-        data-th-each="category : ${categoriesInSession}" 
-        data-th-text="${category.libelle}" 
-        data-th-value="${category.noCategorie}"
-        required
-        ></option>
-      </select>
-
-      <label for="miseAPrix">Mise à prix :</label>
-      <input
-        id="miseAPrix"
-        type="number"
-        name="miseAPrix"
-        data-th-field="*{miseAPrix}"
-        required
-      />
-      <span data-th-if="${#fields.hasErrors('miseAPrix')}" data-th-errors="*{miseAPrix}"></span>
-
-      <label for="dateDebutEncheres">Début de l'enchère :</label>
-      <input type="datetime-local" name="dateDebutEncheres" id="dateDebutEncheres" data-th-field="*{dateDebutEncheres}" required
-      />
-      <span data-th-if="${#fields.hasErrors('dateDebutEncheres')}" data-th-errors="*{dateDebutEncheres}"></span>
-
-      <label for="dateFinEncheres">Fin de l'enchère :</label>
-      <input type="datetime-local" name="dateFinEncheres" id="dateFinEncheres"  data-th-field="*{dateFinEncheres}" required/>
-      <span data-th-if="${#fields.hasErrors('dateFinEncheres')}" data-th-errors="*{dateFinEncheres}"></span>
-      <fieldset>
+      
+        <div class="form-group">
+          <label for="article">Article :</label>
+          <input
+              id="nomArticle"
+              type="text"
+              name="nomArticle"
+              data-th-field="*{nomArticle}"
+              required
+          />
+          <span data-th-if="${#fields.hasErrors('nomArticle')}" data-th-errors="*{nomArticle}"></span>
+      </div>
+      
+      <div class="form-group">
+          <label for="description">Description :</label>
+          <textarea 
+              id="description" 
+              name="description"
+              rows="3"
+              data-th-field="*{description}"
+              required
+          ></textarea>
+          <span data-th-if="${#fields.hasErrors('description')}" data-th-errors="*{description}"></span>
+      </div>
+      
+      <div class="form-group">
+          <label for="categorie">Categorie :</label>
+          <select id="categorie" name="categorie" required>
+              <option 
+                  data-th-each="category : ${categoriesInSession}" 
+                  data-th-text="${category.libelle}" 
+                  data-th-value="${category.noCategorie}"
+              ></option>
+          </select>
+      </div>
+      
+      <div class="form-group">
+          <label for="miseAPrix">Mise à prix :</label>
+          <input
+              id="miseAPrix"
+              type="number"
+              name="miseAPrix"
+              data-th-field="*{miseAPrix}"
+              required
+          />
+          <span data-th-if="${#fields.hasErrors('miseAPrix')}" data-th-errors="*{miseAPrix}"></span>
+      </div>
+      
+      <div class="form-group">
+          <label for="dateDebutEncheres">Début de l'enchère :</label>
+          <input 
+              type="datetime-local" 
+              name="dateDebutEncheres" 
+              id="dateDebutEncheres" 
+              data-th-field="*{dateDebutEncheres}" 
+              required
+          />
+          <span data-th-if="${#fields.hasErrors('dateDebutEncheres')}" data-th-errors="*{dateDebutEncheres}"></span>
+      </div>
+      
+      <div class="form-group">
+          <label for="dateFinEncheres">Fin de l'enchère :</label>
+          <input 
+              type="datetime-local" 
+              name="dateFinEncheres" 
+              id="dateFinEncheres"  
+              data-th-field="*{dateFinEncheres}" 
+              required
+          />
+          <span data-th-if="${#fields.hasErrors('dateFinEncheres')}" data-th-errors="*{dateFinEncheres}"></span>
+      </div>
+        <fieldset>
         <legend>Retrait</legend>
       <div>
+        <div class="form-group">
           <label for="rue">Rue :</label>
-          <input id="rue" 
-          type="text" 
-          name="rue"
-          data-th-field="*{retrait.rue}"
-          required
+          <input 
+              id="rue" 
+              type="text" 
+              name="rue"
+              data-th-field="*{retrait.rue}"
+              required
           />
           <span data-th-if="${#fields.hasErrors('retrait.rue')}" data-th-errors="*{retrait.rue}"></span>
-
+      </div>
+      
+      <div class="form-group">
           <label for="codePostal">Code postal :</label>
           <input
-            id="codePostal"
-            type="text"
-            name="codePostal"
-            data-th-field="*{retrait.codePostal}"
-            required
+              id="codePostal"
+              type="text"
+              name="codePostal"
+              data-th-field="*{retrait.codePostal}"
+              required
           />
           <span data-th-if="${#fields.hasErrors('retrait.codePostal')}" data-th-errors="*{retrait.codePostal}"></span>
-
+      </div>
+      
+      <div class="form-group">
           <label for="ville">Ville :</label>
           <input
-            id="ville"
-            type="text"
-            name="ville"
-            data-th-field="*{retrait.ville}"
-            required
-          /> 
+              id="ville"
+              type="text"
+              name="ville"
+              data-th-field="*{retrait.ville}"
+              required
+          />
           <span data-th-if="${#fields.hasErrors('retrait.ville')}" data-th-errors="*{retrait.ville}"></span>
-    </div>
+      </div>
+          </div>
       </fieldset>
       <input type="submit">
       <input type="reset" value="Reset" />
     </form>
-    </main>
-  </body>
+  </div> -->
 </html>
 
