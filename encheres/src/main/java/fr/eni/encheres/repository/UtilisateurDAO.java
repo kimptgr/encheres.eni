@@ -29,6 +29,10 @@ public interface UtilisateurDAO {
 
 	Utilisateur readByEmail(String email);
 
+	public void update(Utilisateur utilisateur);
+	
+	public void updateCredit(Utilisateur utilisateur);
+
 	
 	
 

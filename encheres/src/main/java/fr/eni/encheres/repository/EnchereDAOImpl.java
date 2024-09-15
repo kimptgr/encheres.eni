@@ -29,6 +29,7 @@ import fr.eni.encheres.bo.Utilisateur;
  */
 @Repository
 public class EnchereDAOImpl implements EnchereDAO {
+//	String SELECT_ALL_ENCHERE_INNER_JOIN = "SELECT a.[no_article], a.[nom_article], a.[description], a.[date_debut_encheres], a.[date_fin_encheres], a.[prix_initial], a.[prix_vente], a.[no_utilisateur], a.[no_categorie], e.[date_enchere], e.[montant_enchere], u.[pseudo], u.[nom], u.[prenom], u.[email], u.[telephone], u.[rue], u.[code_postal], u.[ville], u.[credit] FROM [ENCHERES].[dbo].[ARTICLES_VENDUS] a INNER JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article] INNER JOIN [ENCHERES].[dbo].[UTILISATEURS] u ON a.[no_utilisateur] = u.[no_utilisateur]";
 	String SELECT_ALL_ENCHERE = "SELECT e.no_utilisateur, e.no_article, e.date_enchere, montant_enchere FROM ENCHERES e;";
 	String INSERT_ENCHERE = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (:noUtilisateur, :noArticle, :dateEnchere, :montantEnchere);";
 	String UPDATE_ENCHERE ="UPDATE ENCHERES SET no_utilisateur = :noUtilisateur, date_enchere=:dateEnchere, montant_enchere = :montantEnchere WHERE no_article=:noArticle";
@@ -67,10 +68,10 @@ public class EnchereDAOImpl implements EnchereDAO {
 	}
 
 	@Override
-	public Enchere readEnchereByNoArticle(Integer noArticle) {
-		Map<String, Object> params = new HashMap<>();
-	    params.put("noArticle", noArticle);
-		return namedParameterJdbcTemplate.queryForObject(SELECT_ENCHERE_WITH_NOARTICLE ,params , new EnchereRowMapper());
+	public List<Enchere> readEncheresByNoArticle(Integer noArticle) {
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("noArticle", noArticle);
+		return namedParameterJdbcTemplate.query(SELECT_ENCHERE_WITH_NOARTICLE, namedParameters, new EnchereRowMapper());
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("noUtilisateur", noUser);
 		
-		return namedParameterJdbcTemplate.query(SELECT_ALL_ENCHERE_BY_USERNAME, new EnchereRowMapper());
+		return namedParameterJdbcTemplate.query(SELECT_ALL_ENCHERE_BY_USERNAME, namedParameters, new EnchereRowMapper());
 	}
 	
 	class EnchereRowMapper implements RowMapper<Enchere> {

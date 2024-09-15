@@ -3,7 +3,6 @@
  */
 package fr.eni.encheres;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -74,28 +73,27 @@ public class TestArticleVendu {
 //    	e.setUtilisateur(u);
 //    	enchereDao.updateEnchere(e);
 //    }
+    
     @Test
-    public List<Enchere> b3_readAllEncheres(){
+    void b3_readAllEncheres(){
     	var e = enchereDao.readAllEncheres();
     	System.err.println("Test b3");
     	e.forEach(System.out::println);
-    	return e;
-    };
+    	
+    }
     
     @Test
-    public Enchere b4_readEnchereByNoArticle(){
-    	var e = enchereDao.readEnchereByNoArticle(1);
+    void b4_readEnchereByNoArticle(){
+    	var e = enchereDao.readEncheresByNoArticle(1);
     	System.err.println("Test b4");
     	System.out.println(e);
-    	return e;
-    };
-    
+    }
+   
     @Test
-    public List<Enchere> b5_readEncheresByNoUser(){
+    void b5_readEncheresByNoUser(){
     	var e = enchereDao.readEncheresByNoUser(1);
     	System.err.println("Test b5");
     	e.forEach(System.out::println);
-    	return e;
-    };
+    }
 
 }

@@ -16,8 +16,7 @@ import fr.eni.encheres.bo.Enchere;
 public interface EnchereDAO {
 	void createEnchere(Enchere enchere);
 	List<Enchere> readAllEncheres();
-	Enchere readEnchereByNoArticle(Integer noArticle);
+	List<Enchere> readEncheresByNoArticle(Integer noArticle);
 	void updateEnchere(Enchere enchere);
 	List<Enchere> readEncheresByNoUser(Integer noUser);
-	
 }

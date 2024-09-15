@@ -127,4 +127,34 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		}
 	}
 
+	@Override
+	public void update(Utilisateur utilisateur) {
+		String UPDATE_USER = "UPDATE Utilisateurs SET pseudo = :pseudo,prenom = :prenom,nom= :nom,email=:email,telephone=:telephone,rue=:rue,code_postal=:code_postal,ville=:ville,mot_de_passe=:mot_de_passe,credit=:credit,administrateur=:administrateur WHERE no_utilisateur = :noUtilisateur";
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("pseudo", utilisateur.getPseudo());
+		namedParameters.addValue("nom", utilisateur.getNom());
+		namedParameters.addValue("prenom", utilisateur.getPrenom());
+		namedParameters.addValue("email", utilisateur.getEmail());
+		namedParameters.addValue("telephone", utilisateur.getTelephone());
+		namedParameters.addValue("rue", utilisateur.getRue());
+		namedParameters.addValue("code_postal", utilisateur.getCodePostal());
+		namedParameters.addValue("ville", utilisateur.getVille());
+		namedParameters.addValue("mot_de_passe", utilisateur.getMotDePasse());
+		namedParameters.addValue("credit", utilisateur.getCredit());
+		namedParameters.addValue("administrateur", utilisateur.getAdministrateur());
+		namedParameters.addValue("noUtilisateur", utilisateur.getNoUtilisateur());
+		jdbcTemplate.update(UPDATE_USER, namedParameters);
+		
+	}
+
+	@Override
+	public void updateCredit(Utilisateur utilisateur) {
+		String UPDATE_CREDIT = "UPDATE Utilisateurs SET credit=:credit WHERE no_utilisateur = :noUtilisateur";
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("credit", utilisateur.getCredit());
+		namedParameters.addValue("noUtilisateur", utilisateur.getNoUtilisateur());
+		jdbcTemplate.update(UPDATE_CREDIT, namedParameters);
+		
+	}
+
 }

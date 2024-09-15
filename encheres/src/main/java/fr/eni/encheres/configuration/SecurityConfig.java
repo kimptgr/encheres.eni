@@ -54,7 +54,12 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain getFilterChain(HttpSecurity security) throws Exception {
 
-		security.authorizeHttpRequests((requests) -> requests.requestMatchers("/", "/inscription", "/css/**", "/js/**")
+		security.authorizeHttpRequests((requests) ->
+		//=========TO DO POUR TESTER
+//		requests.anyRequest().permitAll());
+//		security.csrf().disable().
+		//=========FIN POUR TESTER
+		requests.requestMatchers("/", "/inscription", "/css/**", "/js/**")
 				.permitAll().anyRequest().authenticated())
 				.formLogin((form) -> form.usernameParameter("email").passwordParameter("motDePasse")
 						.loginPage("/connexion").defaultSuccessUrl("/").permitAll())

@@ -116,13 +116,14 @@ public class EncheresController {
 	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle, @RequestParam("proposition") Integer proposition) {
 		Utilisateur userInSession = getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() >= 1) {
-			var e = new Enchere();
-			e.setArticleVendus(new ArticleVendu());
-			e.getArticleVendu().setNoArticle(noArticle);
+		
+		var e = new Enchere();
+			var av = articleVenduService.findById(noArticle);
+			e.setArticleVendus(av);
 			e.setDateEnchere(LocalDateTime.now());
 			e.setMontantEnchere(proposition);
 			e.setUtilisateur(userInSession);
-			enchereService.
+			enchereService.addEnchere(e);
 		}
 		return "index";
 
