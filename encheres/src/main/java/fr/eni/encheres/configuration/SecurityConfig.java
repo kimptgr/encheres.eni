@@ -53,7 +53,7 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain getFilterChain(HttpSecurity security) throws Exception {
-
+ 
 		security.authorizeHttpRequests((requests) ->
 		//=========TO DO POUR TESTER
 //		requests.anyRequest().permitAll());
