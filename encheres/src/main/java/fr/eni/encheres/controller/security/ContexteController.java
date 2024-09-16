@@ -5,6 +5,8 @@ package fr.eni.encheres.controller.security;
 
 import java.security.Principal;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -74,6 +76,13 @@ public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur u
 public Utilisateur userInSession() {
 	System.out.println("Add Attribut Session");
 	return new Utilisateur();
+}
+
+private Utilisateur getUserInSession() {
+	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	String currentUsernameInSession = authentication.getName();
+	Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+	return userInSession;
 }
 
 }

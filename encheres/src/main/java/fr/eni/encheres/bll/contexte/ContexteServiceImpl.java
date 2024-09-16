@@ -3,6 +3,8 @@
  */
 package fr.eni.encheres.bll.contexte;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Utilisateur;
@@ -37,6 +39,14 @@ public class ContexteServiceImpl implements ContexteService {
 	@Override
 	public Utilisateur chargePseudo(String pseudo) {
 		return utilisateurDAO.readByPseudo(pseudo);
+	}
+	
+	@Override
+	public Utilisateur getUserInSession() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUsernameInSession = authentication.getName();
+		Utilisateur userInSession = chargeEmail(currentUsernameInSession);
+		return userInSession;
 	}
 
 }

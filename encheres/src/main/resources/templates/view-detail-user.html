@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <input type="submit" value="Modifier">
+                    <input type="submit" value="Modifier" data-th-if="${userInSession != null} and ${userInSession.pseudo} == ${utilisateur.pseudo}">
                 </div>
             </form>
         </div>

@@ -112,7 +112,7 @@ public class EncheresController {
 	
 	@PostMapping("/detailArticle")
 	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle, @RequestParam("proposition") Integer proposition) {
-		Utilisateur userInSession = getUserInSession();
+		Utilisateur userInSession = contexteService.getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() >= 1) {
 		
 		var e = new Enchere();
@@ -129,7 +129,7 @@ public class EncheresController {
 
 	@GetMapping("/vendreUnArticle")
 	public String sell(HttpSession session, Model model) {
-		String currentUsernameInSession = getUserInSession().getEmail();
+		String currentUsernameInSession = contexteService.getUserInSession().getEmail();
 		ArticleVendu articleVendu = new ArticleVendu();
 	    
 		if (!currentUsernameInSession.isBlank()) {
@@ -144,7 +144,7 @@ public class EncheresController {
 
 	@PostMapping("/vendreUnArticle")
 	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult) {
-		Utilisateur userInSession = getUserInSession();
+		Utilisateur userInSession = contexteService.getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
 	        articleVendu.setVendeur(userInSession);
 	        articleVendu.setPrixVente(articleVendu.getPrixVente());
@@ -174,10 +174,10 @@ public class EncheresController {
 	    }
 	}
 	
-	private Utilisateur getUserInSession() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentUsernameInSession = authentication.getName();
-		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
-		return userInSession;
-	}
+//	private Utilisateur getUserInSession() {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String currentUsernameInSession = authentication.getName();
+//		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+//		return userInSession;
+//	}
 }

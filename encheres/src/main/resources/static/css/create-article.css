@@ -70,7 +70,6 @@ header {
     .form-group {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5em;
 }
@@ -88,14 +87,14 @@ legend {
     margin: 0 auto;
 }
 
-label {
+label, .label {
     width: 35%;
     font-weight: bold;
     color: #333;
     margin-left: 1em; 
 }
 
-input, select, textarea {
+input, select, textarea, .value {
     width: 55%;
     padding: 10px;
     margin-right: 1em;
