@@ -33,8 +33,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 	private final String FIND_ALL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
 			+ "FROM UTILISATEURS;";
 	private final String FIND_BY_PSEUDO = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
-			+ "FROM UTILISATEURS " + "WHERE PSEUDO=?;";
-
+			+ "FROM UTILISATEURS " + "WHERE PSEUDO=:pseudo;";
+	private final String FIND_BY_ID = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur FROM UTILISATEURS WHERE no_utilisateur=:noUtilisateur;";
 	private final String VERIF_BY_EMAIL = "select COUNT(*) from UTILISATEURS where email= ?;";
 
 	private final String FIND_BY_EMAIL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
@@ -70,7 +70,9 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public Utilisateur readById(Integer noUtilisateur) {
-		return null;
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("noUtilisateur", noUtilisateur);
+		return jdbcTemplate.queryForObject(FIND_BY_ID, namedParameters, new UtilisateurRowMapper());
 	}
 
 	@Override
@@ -112,7 +114,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			Utilisateur u = new Utilisateur();
 			u.setNoUtilisateur(rs.getInt("no_utilisateur"));
 			u.setPseudo(rs.getString("pseudo"));
-			u.setPrenom(rs.getString("nom"));
+			u.setNom(rs.getString("nom"));
 			u.setPrenom(rs.getString("prenom"));
 			u.setEmail(rs.getString("email"));
 			u.setTelephone(rs.getString("telephone"));
