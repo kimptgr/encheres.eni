@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layouts/layout :: layoutEncheres(
+                    navBar=~{},
+                    titrePage=~{::h2},
+                    contenuPage=~{:: .center-main},
+                    linkcss=~{::#css})}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ENI-Enchères</title>
+    <link id="css" rel="stylesheet" href="/encheres/css/create-article.css">
+  </head>
+  <body>
+    <header>
+        <h1 id="nav-title">
+            <a href="/encheres">ENI-Enchères</a>
+        </h1>
+    </header>
+    <main>
+        <h2>Mon profil :</h2>
+        <div class="center-main">
+            <form data-th-action="@{/detailsProfil}" method="get" data-th-object="${utilisateur}">
+                <div class="form-group">
+                    <div class="label">
+                        <p >Pseudo&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.pseudo}">Value 1</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label">
+                        <p>Nom&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.nom}">Value 2</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label">
+                        <p>Prénom&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.prenom}">Value 3</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label">
+                        <p>Email&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.email}">Value 5</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label">
+                        <p>Téléphone&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.telephone}">Value 6</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label">
+                        <p>Rue&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.rue}">Value 7</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label">
+                        <p>Code Postal&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.codePostal}">Value 8</p>
+                    </div>
+                </div> 
+                
+                <div class="form-group">
+                    <div class="label">
+                        <p>Ville&nbsp;:</p>
+                    </div>
+                    <div class="value">
+                        <p data-th-text="${utilisateur.ville}">Value 7</p>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <input type="submit" value="Modifier">
+                </div>
+            </form>
+        </div>
+    </main>
+</body>

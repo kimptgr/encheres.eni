@@ -43,9 +43,19 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	}
 
 	@Override
+
 	public boolean verifByEmail(String email) {
-		utilisateurDAO.verifByEmail(email);
-		return true;
+		return utilisateurDAO.verifByEmail(email);
 	}
 	
+	@Override
+	public Utilisateur findByEmail(String email) {
+		return utilisateurDAO.readByEmail(email);
+	}
+
+	@Override
+	public Utilisateur findByPseudo(String pseudo) {
+		return utilisateurDAO.readByPseudo(pseudo);
+	}
+
 }

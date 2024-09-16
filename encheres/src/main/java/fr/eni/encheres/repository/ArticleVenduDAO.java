@@ -22,4 +22,6 @@ public interface ArticleVenduDAO {
 //	public List<ArticleVendu> findByNom(String searchTerm);
 	
 	public List<ArticleVendu> findFilteredArticles(Integer noCategorie, String searchTerm);
+
+	ArticleVendu updatePrixVenteById(Integer noArticle, Integer prixVente);
 }

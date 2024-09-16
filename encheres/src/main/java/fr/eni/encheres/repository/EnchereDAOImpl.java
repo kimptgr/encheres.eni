@@ -32,7 +32,7 @@ public class EnchereDAOImpl implements EnchereDAO {
 //	String SELECT_ALL_ENCHERE_INNER_JOIN = "SELECT a.[no_article], a.[nom_article], a.[description], a.[date_debut_encheres], a.[date_fin_encheres], a.[prix_initial], a.[prix_vente], a.[no_utilisateur], a.[no_categorie], e.[date_enchere], e.[montant_enchere], u.[pseudo], u.[nom], u.[prenom], u.[email], u.[telephone], u.[rue], u.[code_postal], u.[ville], u.[credit] FROM [ENCHERES].[dbo].[ARTICLES_VENDUS] a INNER JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article] INNER JOIN [ENCHERES].[dbo].[UTILISATEURS] u ON a.[no_utilisateur] = u.[no_utilisateur]";
 	String SELECT_ALL_ENCHERE = "SELECT e.no_utilisateur, e.no_article, e.date_enchere, montant_enchere FROM ENCHERES e;";
 	String INSERT_ENCHERE = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (:noUtilisateur, :noArticle, :dateEnchere, :montantEnchere);";
-	String UPDATE_ENCHERE ="UPDATE ENCHERES SET no_utilisateur = :noUtilisateur, date_enchere=:dateEnchere, montant_enchere = :montantEnchere WHERE no_article=:noArticle";
+	String UPDATE_ENCHERE ="UPDATE ENCHERES SET date_enchere=:dateEnchere, montant_enchere = :montantEnchere WHERE no_article=:noArticle AND no_utilisateur = :noUtilisateur" ;
 	String SELECT_ENCHERE_WITH_NOARTICLE = "SELECT e.no_utilisateur, e.no_article, e.date_enchere, montant_enchere FROM ENCHERES e WHERE no_article=:noArticle;";
 	String SELECT_ALL_ENCHERE_BY_USERNAME = "SELECT e.no_utilisateur, e.no_article, e.date_enchere, montant_enchere FROM ENCHERES e WHERE no_utilisateur=:noUtilisateur;";
 	
