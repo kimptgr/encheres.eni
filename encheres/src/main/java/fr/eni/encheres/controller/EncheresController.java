@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import fr.eni.encheres.bll.ArticleVenduService;
 import fr.eni.encheres.bll.EnchereService;
 import fr.eni.encheres.bll.contexte.ContexteService;
@@ -30,9 +29,9 @@ import fr.eni.encheres.exceptions.BusinessException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-
 /**
- * Classe en charge de 
+ * Classe en charge de
+ * 
  * @projet : encheres - V1.0
  * @author : kpatingre2024
  * @since: 9 sept. 2024 - 15:01:28
@@ -47,7 +46,8 @@ public class EncheresController {
 	private ContexteService contexteService;
 	private EnchereService enchereService;
 
-	public EncheresController(ArticleVenduService articleVenduService, ContexteService contexteService, EnchereService enchereService) {
+	public EncheresController(ArticleVenduService articleVenduService, ContexteService contexteService,
+			EnchereService enchereService) {
 		this.articleVenduService = articleVenduService;
 		this.contexteService = contexteService;
 		this.enchereService = enchereService;
@@ -60,41 +60,26 @@ public class EncheresController {
 		return articleVenduService.findAllCategories();
 	}
 
-//#######--BLOC A SUPPRIMER QUAND USERINSESSION D'ALEX--#################################################
-//	@ModelAttribute("userInSession")
-//	public Utilisateur testuis() {
-//		System.out.println("Chargement en Session - CATEGORIES");
-//		Utilisateur userTest = new Utilisateur();
-//		userTest.setNoUtilisateur(1);
-//		userTest.setRue("chemin des saules");
-//		userTest.setVille("MaVille");
-//		userTest.setCodePostal("90000");
-//		return userTest;
-//	}
-//########--FIN BLOC A SUPPRIMER QUAND USERINSESSION D'ALEX--################################################
-
 	@GetMapping
-	public String afficherArticlesVendus(
-		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
-		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
-		    Model model) {
+	public String afficherArticlesVendus(@RequestParam(name = "Categorie", required = false) String noCategorieParam,
 
-		    Integer noCategorie = null;
+			@RequestParam(name = "searchTerm", required = false) String searchTerm, Model model) {
 
-		    // Si la catégorie n'est pas vide, la convertir en Integer
-		    if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
-		        noCategorie = Integer.valueOf(noCategorieParam);
-		    }
+		Integer noCategorie = null;
 
-		    // Appel au service avec les deux filtres
-		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm);
-
-		    model.addAttribute("ArticlesVendus", articlesVendus);
-		    
-		    return "index";
+		// Si la catégorie n'est pas vide, la convertir en Integer
+		if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
+			noCategorie = Integer.valueOf(noCategorieParam);
 		}
 
-		
+		// Appel au service avec les deux filtres
+		List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm);
+
+		model.addAttribute("ArticlesVendus", articlesVendus);
+
+		return "index";
+	}
+
 	@GetMapping("/detailArticle")
 	public String afficherUnArticle(@RequestParam(name = "noArticle", required = true) Integer noArticle, Model model) {
 		if (noArticle > 0) {
@@ -109,13 +94,13 @@ public class EncheresController {
 		}
 		return "redirect:/view-detail-article";
 	}
-	
+
 	@PostMapping("/detailArticle")
 	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle, @RequestParam("proposition") Integer proposition) {
 		Utilisateur userInSession = contexteService.getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() >= 1) {
-		
-		var e = new Enchere();
+
+			var e = new Enchere();
 			var av = articleVenduService.findById(noArticle);
 			e.setArticleVendus(av);
 			e.setDateEnchere(LocalDateTime.now());
@@ -131,13 +116,13 @@ public class EncheresController {
 	public String sell(HttpSession session, Model model) {
 		String currentUsernameInSession = contexteService.getUserInSession().getEmail();
 		ArticleVendu articleVendu = new ArticleVendu();
-	    
+
 		if (!currentUsernameInSession.isBlank()) {
-	    	Retrait defaultRetrait = articleVenduService.findDefaultRetraitByUser(currentUsernameInSession);
-	        articleVendu.setRetrait(defaultRetrait);
-	    } else {
-	        System.out.println("Aucun utilisateur en session.");
-	    }
+			Retrait defaultRetrait = articleVenduService.findDefaultRetraitByUser(currentUsernameInSession);
+			articleVendu.setRetrait(defaultRetrait);
+		} else {
+			System.out.println("Aucun utilisateur en session.");
+		}
 		model.addAttribute("articleVendu", articleVendu);
 		return "view-create-article";
 	}
@@ -146,33 +131,34 @@ public class EncheresController {
 	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult) {
 		Utilisateur userInSession = contexteService.getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
-	        articleVendu.setVendeur(userInSession);
-	        articleVendu.setPrixVente(articleVendu.getPrixVente());
+			articleVendu.setVendeur(userInSession);
+			articleVendu.setPrixVente(articleVendu.getPrixVente());
 
-	        if (bindingResult.hasErrors()) {
-	            // Si des erreurs de validation existent, retourne la vue de création d'article
-	            return "view-create-article";
-	        }
+			if (bindingResult.hasErrors()) {
+				// Si des erreurs de validation existent, retourne la vue de création d'article
+				return "view-create-article";
+			}
 
-	        try {
-	            articleVenduService.add(articleVendu);
-	            return "redirect:/"; // Redirection vers la page d'accueil ou une autre page après succès
-	        } catch (BusinessException e) {
-	            // Ajoute les erreurs globales au BindingResult
-	            e.getClefsExternalisations().forEach(key -> {
-	                ObjectError error = new ObjectError("globalError", key);
-	                bindingResult.addError(error);
-	            });
+			try {
+				articleVenduService.add(articleVendu);
+				return "redirect:/"; // Redirection vers la page d'accueil ou une autre page après succès
+			} catch (BusinessException e) {
+				// Ajoute les erreurs globales au BindingResult
+				e.getClefsExternalisations().forEach(key -> {
+					ObjectError error = new ObjectError("globalError", key);
+					bindingResult.addError(error);
+				});
 
-	            // Retourne la vue de création d'article avec les erreurs
-	            return "view-create-article";
-	        }
-	    } else {
-	        System.out.println("Aucun utilisateur en session");
-	        // Optionnel : Redirection ou affichage d'une erreur spécifique
-	        return "redirect:/error"; // Par exemple, redirection vers une page d'erreur
-	    }
+				// Retourne la vue de création d'article avec les erreurs
+				return "view-create-article";
+			}
+		} else {
+			System.out.println("Aucun utilisateur en session");
+			// Optionnel : Redirection ou affichage d'une erreur spécifique
+			return "redirect:/error"; // Par exemple, redirection vers une page d'erreur
+		}
 	}
+
 	
 //	private Utilisateur getUserInSession() {
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -180,4 +166,13 @@ public class EncheresController {
 //		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
 //		return userInSession;
 //	}
+
+
+	private Utilisateur getUserInSession() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUsernameInSession = authentication.getName();
+		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+		return userInSession;
+	}
+
 }

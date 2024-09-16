@@ -43,6 +43,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	}
 
 	@Override
+
+	public boolean verifByEmail(String email) {
+		return utilisateurDAO.verifByEmail(email);
+	}
+	
+	@Override
 	public Utilisateur findByEmail(String email) {
 		return utilisateurDAO.readByEmail(email);
 	}
@@ -51,4 +57,5 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	public Utilisateur findByPseudo(String pseudo) {
 		return utilisateurDAO.readByPseudo(pseudo);
 	}
+
 }

@@ -57,28 +57,38 @@ public class UtilisateurController {
 	}
 
 	@PostMapping("/inscription")
-	public String addUtilisateur(@Valid @ModelAttribute("utilisateur") Utilisateur utilisateur, BindingResult bindingResult) {
+	public String addUtilisateur(@Valid @ModelAttribute("utilisateur") Utilisateur utilisateur,
+			BindingResult bindingResult, @RequestParam("mdpConfirm") String mdpConfirm, Model model) {
 		if (bindingResult.hasErrors()) {
-				return "view-encheres-inscription";
-			} else {
-				try {
-					String password = utilisateur.getMotDePasse();
-					String encodedPassword = passwordEncoder.encode(password);
-					utilisateur.setMotDePasse(encodedPassword);
-					
-					return "redirect:/";
-				} catch (BusinessException e) {
-					// Afficher les messages d’erreur - il faut les injecter dans le contexte de
-					// BindingResult
-					e.getClefsExternalisations().forEach(key -> {
-						ObjectError error = new ObjectError("globalError", key);
-						bindingResult.addError(error);
-					});
+			return "view-encheres-inscription";
+		}
+		if (utilisateurService.verifByEmail(utilisateur.getEmail())) {
+			bindingResult.rejectValue("email", "error.utilisateur", "L'email est déjà utilisé.");
+			return "view-encheres-inscription";
+		}
+		if (!utilisateur.getMotDePasse().equals(mdpConfirm)) {
+			bindingResult.rejectValue("motDePasse", "error.utilisateur", "Les mots de passe ne correspondent pas.");
+			return "view-sinscrire";
+		} else {
+			try {
+				String password = utilisateur.getMotDePasse();
+				String encodedPassword = passwordEncoder.encode(password);
+				utilisateur.setMotDePasse(encodedPassword);
+				utilisateurService.addUser(utilisateur);
 
-					return "view-encheres-inscription";
-				}
+				return "redirect:/";
+			} catch (BusinessException e) {
+				// Afficher les messages d’erreur - il faut les injecter dans le contexte de
+				// BindingResult
+				e.getClefsExternalisations().forEach(key -> {
+					ObjectError error = new ObjectError("error", key);
+					bindingResult.addError(error);
+				});
+
+				return "view-encheres-inscription";
 			}
 		}
+	}
 	@GetMapping("/detailsProfil")
 	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
 		if (!pseudo.isEmpty() && !pseudo.isBlank()) {
@@ -96,5 +106,6 @@ public class UtilisateurController {
 		}
 		return "redirect:/";
 	} 
-	} 
+	 
 
+}

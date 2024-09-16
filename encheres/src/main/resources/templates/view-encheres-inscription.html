@@ -11,45 +11,63 @@
 
 		<ul class="formulaireCreat">
 			<li><label for="pseudo">Pseudo:</label><input type="text"
-				id="pseudo" data-th-field="*{pseudo}"  required/></li>
-				
-
+				id="pseudo" data-th-field="*{pseudo}" required /><span
+				data-th-if="${#fields.hasErrors('pseudo')}"
+				data-th-errorclass="error" data-th-errors="*{pseudo}"></span></li>
 
 			<li><label for="nom">Nom:</label><input type="text" id="nom"
-				data-th-field="*{nom}" required/></li>
+				data-th-field="*{nom}" required /><span
+				data-th-if="${#fields.hasErrors('nom')}" data-th-errorclass="error"
+				data-th-errors="*{nom}"></span></li>
 
 
 			<li><label for="prenom">Prénom:</label><input type="text"
-				id="prenom" data-th-field="*{prenom}" required/></li>
+				id="prenom" data-th-field="*{prenom}" required /><span
+				data-th-if="${#fields.hasErrors('prenom')}"
+				data-th-errorclass="error" data-th-errors="*{prenom}"></span></li>
 
 
 			<li><label for="email">Email:</label><input type="text"
-				id="email" data-th-field="*{email}" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required/></li>
+				id="email" data-th-field="*{email}" required /><span
+				data-th-if="${#fields.hasErrors('email')}"
+				data-th-errorclass="error" data-th-errors="*{email}"></span></li>
 
 
 			<li><label for="telephone">Téléphone:</label><input type="text"
-				id="telephone" data-th-field="*{telephone}" required/></li>
+				 id="telephone" data-th-field="*{telephone}" required /><span 
+				data-th-if="${#fields.hasErrors('telephone')}"
+				data-th-errorclass="error" data-th-errors="*{telephone}"></span></li>
 
 
 			<li><label for="rue">Rue:</label><input type="text" id="rue"
-				data-th-field="*{rue}" required/></li>
+				data-th-field="*{rue}" required /><span 
+				data-th-if="${#fields.hasErrors('rue')}" data-th-errorclass="error"
+				data-th-errors="*{rue}"></span></li>
 
 
 			<li><label for="codePostal">Code postal:</label><input
-				type="text" id="codePostal" data-th-field="*{codePostal}" required/></li>
+				type="text" id="codePostal" data-th-field="*{codePostal}" required /><span
+				data-th-if="${#fields.hasErrors('codePostal')}"
+				data-th-errorclass="error" data-th-errors="*{codePostal}"></span></li>
 
 
 			<li><label for="ville">Ville:</label><input type="text"
-				id="ville" data-th-field="*{ville}" required/></li>
+				id="ville" data-th-field="*{ville}" required /><span 
+				data-th-if="${#fields.hasErrors('ville')}"
+				data-th-errorclass="error" data-th-errors="*{ville}"></span></li>
 
 
 			<li><label for="mdp">Mot de passe</label><input type="password"
-				id="mdp" name="password" placeholder="********" required/></li>
+				id="mdp" name="password" placeholder="********" required /><span
+				data-th-if="${#fields.hasErrors('motDePasse')}"
+				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
 
 
-			<li><label for="mdpConfirm" >Confirmation:</label><input
+			<li><label for="mdpConfirm">Confirmation:</label><input
 				type="password" id="mdpConfirm" data-th-field="*{motDePasse}"
-				placeholder="********" required /></li>
+				placeholder="********" required /><span
+				data-th-if="${#fields.hasErrors('motDePasse')}"
+				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
 
 		</ul>
 
@@ -58,8 +76,9 @@
 			<li><input type="reset" value="Annuler" /></li>
 		</ul>
 
-
 	</form>
+
+
 
 </body>
 </html>
