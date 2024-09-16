@@ -41,4 +41,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		utilisateurDAO.create(utilisateur);
 
 	}
+
+	@Override
+	public boolean verifByEmail(String email) {
+		utilisateurDAO.verifByEmail(email);
+		return true;
+	}
+	
 }

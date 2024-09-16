@@ -29,32 +29,34 @@ public class Utilisateur {
 	private String nom;
 	
 	@NotBlank
-	@Pattern(regexp = "^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]{2,29}$", message="Votre prénom doit contenir au minimum 2 lettres.")
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'-]{2,29}$", 
+	message="Votre prénom doit contenir au minimum 2 lettres.")
 	private String prenom;
 	
 	@NotBlank
 	@Email
-	@Pattern (regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message="Votre email est invalide. Veuillez saisir un email valide.")
+	@Pattern (regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", 
+	message="Votre email est invalide. Veuillez saisir un email valide.")
 	private String email;
 	
 	@NotBlank
-	@Pattern (regexp = "^((\\\\+33|0)[1-9]( \\\\d{2}){4}|\\\\+33[1-9]\\\\d{8}|0[1-9]\\\\d{8}|[1-9]\\\\d{8})$"
-	, message="Numero de téléphone non reconnu.")
+	@Pattern (regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\\./0-9]*$"
+	, message="Numéro de téléphone non reconnu.")
 	private String telephone;
 	
 	@NotBlank
-	@Pattern(regexp = "^(\\d+\\s(?:rue|boulevard|avenue|chemin|place|impasse|allée|quai|route|boulevard|cours|voie|esplanade|promenade)\\s[A-ZÀ-Ù][A-ZÀ-Ù'-]*(?:\\s[A-ZÀ-Ù][A-ZÀ-Ù'-]*)*)$"
+	@Pattern(regexp = "^[0-9]{1,5}\\s[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\\s'\\-\\.]*,?\\s?[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\\s'\\-\\.]*$"
 	, message="Veuillez saisir votre numéro,type de voie et nom de la voie.")
 	private String rue;
 	
 	@NotBlank
 	@Pattern (regexp = "^[0-9]{5}$"
-	, message="Veuillez saisir un code postal de 5 chiffres(0100,35000,...")
+	, message="Veuillez saisir un code postal de 5 chiffres(0100, 35000,...)")
 	private String codePostal;
 	
 	@NotBlank
 	@Pattern (regexp = "^[A-ZÀ-Ù][A-ZÀ-Ù'-]*(?: [A-ZÀ-Ù][A-ZÀ-Ù'-]*)*$"
-	, message="Veuillez saisir en majuscule votre ville (l'AIN; RENNES,...")
+	, message="Veuillez saisir en majuscule votre ville (l\''AIN, RENNES,...)")
 	private String ville;
 	
 	@NotBlank
