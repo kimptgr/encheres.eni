@@ -41,4 +41,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		utilisateurDAO.create(utilisateur);
 
 	}
+
+	@Override
+	public Utilisateur findByEmail(String email) {
+		return utilisateurDAO.readByEmail(email);
+	}
+
+	@Override
+	public Utilisateur findByPseudo(String pseudo) {
+		return utilisateurDAO.readByPseudo(pseudo);
+	}
 }

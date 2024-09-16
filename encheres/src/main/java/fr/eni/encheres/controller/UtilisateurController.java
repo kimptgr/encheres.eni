@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.eni.encheres.bll.UtilisateurService;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
 import jakarta.validation.Valid;
@@ -73,5 +75,21 @@ public class UtilisateurController {
 				}
 			}
 		}
-	}
+	@GetMapping("/detailsProfil")
+	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
+		if (!pseudo.isEmpty() && !pseudo.isBlank()) {
+			Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
+
+			if (utilisateur != null) {
+				model.addAttribute("utilisateur", utilisateur);
+				System.err.println(utilisateur);
+				return "view-detail-user";
+			} else
+				System.out.println("Utilisateur inconnu!!");
+		} else {
+			System.out.println("Identifiant inconnu");
+		}
+		return "redirect:/";
+	} 
+	} 
 

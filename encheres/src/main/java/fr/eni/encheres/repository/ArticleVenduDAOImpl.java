@@ -21,13 +21,13 @@ import fr.eni.encheres.bo.Utilisateur;
 @Repository
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
-	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie);";
+	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente :no_utilisateur, :no_categorie);";
 	private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville"
 			+ " from ARTICLES_VENDUS A"
 			+ " join CATEGORIES C on a.no_categorie=c.no_categorie"
 			+ " join UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur"
 			+ " join RETRAITS R on a.no_article=r.no_article";		
-	
+	private final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prixVente where no_article = :noArticle";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
@@ -46,6 +46,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 		namedParameters.addValue("date_debut_encheres", articleVendu.getDateDebutEncheres());
 		namedParameters.addValue("date_fin_encheres", articleVendu.getDateFinEncheres());
 		namedParameters.addValue("prix_initial", articleVendu.getMiseAPrix());
+		namedParameters.addValue("prix_vente", articleVendu.getPrixVente());
 		namedParameters.addValue("no_utilisateur", articleVendu.getVendeur().getNoUtilisateur());
 		namedParameters.addValue("no_categorie", articleVendu.getCategorie().getNoCategorie());
 		
@@ -180,12 +181,18 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	
 	@Override
-	public ArticleVendu updateById(Integer noArticle) {
+	public ArticleVendu updatePrixVenteById(Integer noArticle, Integer prixVente) {
 		return null;
 	}
 
 	@Override
 	public ArticleVendu deleteById(Integer noArticle) {
+		return null;
+	}
+
+	@Override
+	public ArticleVendu updateById(Integer noArticle) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

@@ -13,4 +13,6 @@ import fr.eni.encheres.bo.Utilisateur;
  */
 public interface UtilisateurService {
 	public void addUser(Utilisateur utilisateur);
+	Utilisateur findByEmail(String email);
+	Utilisateur findByPseudo(String pseudo);
 }
