@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.ArticleVenduService;
 import fr.eni.encheres.bll.EnchereService;
-import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bll.contexte.ContexteService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
@@ -79,6 +77,7 @@ public class EncheresController {
 	public String afficherArticlesVendus(
 		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
 		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
+		    @RequestParam(name = "vente", required = false) String vente, 
 		    Model model) {
 
 		    Integer noCategorie = null;
@@ -89,7 +88,7 @@ public class EncheresController {
 		    }
 
 		    // Appel au service avec les deux filtres
-		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm);
+		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm, vente);
 
 		    model.addAttribute("ArticlesVendus", articlesVendus);
 		    

@@ -3,7 +3,6 @@ package fr.eni.encheres.repository;
 import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
 
 public interface ArticleVenduDAO {
 	
@@ -21,5 +20,5 @@ public interface ArticleVenduDAO {
 //	
 //	public List<ArticleVendu> findByNom(String searchTerm);
 	
-	public List<ArticleVendu> findFilteredArticles(Integer noCategorie, String searchTerm);
+	List<ArticleVendu> findFilteredArticles(Integer noCategorie, String searchTerm, String vente) ;
 }

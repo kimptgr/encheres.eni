@@ -1,13 +1,14 @@
 package fr.eni.encheres;
 
+
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
+
 import fr.eni.encheres.repository.ArticleVenduDAO;
 import fr.eni.encheres.repository.CategorieDAO;
 
@@ -75,7 +76,7 @@ class EncheresApplicationTests {
 	   
 	   @Test
 	    void TestFindFilter() {
-	        var articlesFiltres = articleVenduDAO.findFilteredArticles(null, "Vélo");
+	        var articlesFiltres = articleVenduDAO.findFilteredArticles(3, null,"nonDebutees");
 	        articlesFiltres.forEach(System.out::println);
 	        }
 	   
