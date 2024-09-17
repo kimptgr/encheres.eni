@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.UtilisateurService;
+import fr.eni.encheres.bll.contexte.ContexteService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.controller.security.ContexteController;
 import fr.eni.encheres.exceptions.BusinessException;
 import jakarta.validation.Valid;
 
@@ -35,6 +37,7 @@ public class UtilisateurController {
 
 	private UtilisateurService utilisateurService;
 	private PasswordEncoder passwordEncoder;
+	private ContexteService contexteservice;
 
 	/**
 	 * Constructeur.
@@ -42,9 +45,10 @@ public class UtilisateurController {
 	 * @param utilisateurService
 	 * @param passwordEncoder
 	 */
-	public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
+	public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder, ContexteService contexteservice) {
 		this.utilisateurService = utilisateurService;
 		this.passwordEncoder = passwordEncoder;
+		this.contexteservice = contexteservice;
 
 	}
 
@@ -73,13 +77,15 @@ public class UtilisateurController {
 	
 	@GetMapping("/detailsProfil")
 	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
+		System.err.println(pseudo);
 		if (!pseudo.isEmpty() && !pseudo.isBlank()) {
 			Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
-
-			if (utilisateur != null) {
+			Utilisateur userInSession = contexteservice.getUserInSession();
+			if (utilisateur != null && userInSession !=null) {
 				model.addAttribute("utilisateur", utilisateur);
-				System.err.println(utilisateur);
-				return "view-detail-user";
+				model.addAttribute("userInSession", userInSession);
+				
+				return "view-detail-user"; 
 			} else
 				System.out.println("Utilisateur inconnu!!");
 		} else {

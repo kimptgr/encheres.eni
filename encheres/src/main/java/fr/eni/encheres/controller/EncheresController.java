@@ -38,7 +38,7 @@ import jakarta.validation.Valid;
  */
 
 @Controller
-@SessionAttributes({ "categoriesInSession", "userInSession" })
+@SessionAttributes({ "categoriesInSession"})
 public class EncheresController {
 
 	// injection de dépendance
@@ -61,24 +61,25 @@ public class EncheresController {
 	}
 
 	@GetMapping
-	public String afficherArticlesVendus(@RequestParam(name = "Categorie", required = false) String noCategorieParam,
 
-			@RequestParam(name = "searchTerm", required = false) String searchTerm, Model model) {
+	public String afficherArticlesVendus(
+		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
+		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
+		    @RequestParam(name = "vente", required = false) String vente, 
+		    Model model) {
 
-		Integer noCategorie = null;
+			Integer noCategorie = null;
 
-		// Si la catégorie n'est pas vide, la convertir en Integer
-		if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
-			noCategorie = Integer.valueOf(noCategorieParam);
-		}
+		    // Appel au service avec les deux filtres
+		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm, vente);
 
-		// Appel au service avec les deux filtres
-		List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm);
+		    model.addAttribute("ArticlesVendus", articlesVendus);
+		    
+		    return "index";
+			}
 
-		model.addAttribute("ArticlesVendus", articlesVendus);
 
-		return "index";
-	}
+	
 
 	@GetMapping("/detailArticle")
 	public String afficherUnArticle(@RequestParam(name = "noArticle", required = true) Integer noArticle, Model model) {
@@ -96,9 +97,8 @@ public class EncheresController {
 	}
 
 	@PostMapping("/detailArticle")
-	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle,
-			@RequestParam("proposition") Integer proposition) {
-		Utilisateur userInSession = getUserInSession();
+	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle, @RequestParam("proposition") Integer proposition) {
+		Utilisateur userInSession = contexteService.getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() >= 1) {
 
 			var e = new Enchere();
@@ -115,7 +115,7 @@ public class EncheresController {
 
 	@GetMapping("/vendreUnArticle")
 	public String sell(HttpSession session, Model model) {
-		String currentUsernameInSession = getUserInSession().getEmail();
+		String currentUsernameInSession = contexteService.getUserInSession().getEmail();
 		ArticleVendu articleVendu = new ArticleVendu();
 
 		if (!currentUsernameInSession.isBlank()) {
@@ -129,9 +129,8 @@ public class EncheresController {
 	}
 
 	@PostMapping("/vendreUnArticle")
-	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,
-			BindingResult bindingResult) {
-		Utilisateur userInSession = getUserInSession();
+	public String creerArticle(@Valid @ModelAttribute("articleVendu") ArticleVendu articleVendu,BindingResult bindingResult) {
+		Utilisateur userInSession = contexteService.getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
 			articleVendu.setVendeur(userInSession);
 			articleVendu.setPrixVente(articleVendu.getPrixVente());
@@ -161,10 +160,11 @@ public class EncheresController {
 		}
 	}
 
-	private Utilisateur getUserInSession() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentUsernameInSession = authentication.getName();
-		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
-		return userInSession;
-	}
+	
+//	private Utilisateur getUserInSession() {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String currentUsernameInSession = authentication.getName();
+//		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+//		return userInSession;
+//	}
 }

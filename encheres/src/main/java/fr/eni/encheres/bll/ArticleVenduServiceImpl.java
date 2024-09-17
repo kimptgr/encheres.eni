@@ -79,8 +79,8 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 //	}
 	
 	@Override
-	public List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm) {
-        return articleVenduDAO.findFilteredArticles(noCategorie, searchTerm);
+	public List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm, String vente) {
+        return articleVenduDAO.findFilteredArticles(noCategorie, searchTerm, vente);
     }
 
 

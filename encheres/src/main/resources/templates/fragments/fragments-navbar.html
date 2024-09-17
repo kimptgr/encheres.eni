@@ -1,16 +1,19 @@
 <nav xmlns:th="http://www.thymeleaf.org" data-th-fragment="frag-navbar">
 	<ul>
-		<li sec:authorize="!isAuthenticated()"><a
-			href="/encheres/connexion">S'inscrire - Se connecter</a></li>
-		<sec:authorize access="isAuthenticated()">
-			<li><a href="/encheres">Enchères</a></li>
-			<li><a href="/encheres/vendreUnArticle">Vendre un article</a></li>
-			<li><a href="/encheres/profil">Mon profil</a></li>
-
-			<form data-th-action="@{/logout}" method="post">
-				<li sec:authorize="isAuthenticated()"><input type="submit"
-					value="Déconnexion" /></li>
-			</form>
-		</sec:authorize>
+		<li sec:authorize="!isAuthenticated()">
+			<a href="/encheres/connexion">S'inscrire - Se connecter</a>
+		</li>
 	</ul>
+	
+	<ul sec:authorize="isAuthenticated()">
+		<li><a href="/encheres">Enchères</a></li>
+		<li><a href="/encheres/vendreUnArticle">Vendre un article</a></li>
+		<li><a href="/encheres/profil">Mon profil</a></li>
+		<li>
+			<form data-th-action="@{/logout}" method="post">
+				<input type="submit" value="Déconnexion" />
+			</form>
+		</li>
+	</ul>
+	
 </nav>

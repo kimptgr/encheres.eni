@@ -14,10 +14,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import fr.eni.encheres.bo.ArticleVendu;
-
 import fr.eni.encheres.bo.Enchere;
+
 
 import fr.eni.encheres.bo.Utilisateur;
 

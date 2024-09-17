@@ -3,13 +3,13 @@
     th:replace="~{layouts/layout :: layoutEncheres(
                     navBar=~{::nav},
                     titrePage=~{::h2},
-                    contenuPage=~{:: main},
-                    linkcss=~{})}">
+                    contenuPage=~{:: .center-main},
+                    linkcss=~{::#css})}">
 
 <head>
     <meta charset="UTF-8">
     <title>ENI-Enchères</title>
-    
+    <link id="css" rel="stylesheet" href="/encheres/css/index.css">
 </head>
 <header>
     <nav data-th-replace="~{fragments/fragments-navbar::frag-navbar}">
@@ -17,23 +17,19 @@
 </header>
 <body>
     <h2>Liste des enchères</h2>
-    <!-- Section de contenu de la page -->
-        <main class="center-main">
-
+        <div class="center-main">
+			<div class="main-top">
             <h3>Filtres :</h3>
 
             <form method="GET" >
-             		<!-- Barre de recherche -->
+				<div class="form-group">
 				    <label for="searchTerm">Rechercher un article :</label>
-				    <input type="text" id="searchTerm" name="searchTerm" placeholder="Nom de l'article">
-            
-            
-            		<!-- Filtre par catégorie -->
+				    <input class="value" type="text" id="searchTerm" name="searchTerm" placeholder="Nom de l'article">
+            </div>
+            <div class="form-group">
 	             	 <label for="categorie">Categorie :</label>
 				      <select  id="Categorie" name="Categorie">
-				      <!-- Option par défaut : Toutes les catégories -->
       				    <option value="">Toutes les catégories</option>
-				        <!-- Les autres catégories -->
 				        <option 
 				        data-th-each="category : ${categoriesInSession}" 
 				        data-th-text="${category.libelle}" 
@@ -41,26 +37,57 @@
 				        </option>
 				      </select>
 				
-					<!-- Filtre par catégorie -->
+					  <!-- Filtre Ventes -->
+ 			   			<h4>Ventes :</h4>    
+						<label><input type="checkbox" name="vente" value="nonDebutees"> Ventes non débutées</label><br>
+						<label><input type="checkbox" name="vente" value="ventesCours"> Ventes en cours</label><br>
+						<label><input type="checkbox" name="vente" value="terminees"> Ventes terminées</label><br>
+
 						<button type=submit>Rechercher</button>
             </form>
-            
-            
-            <div>
-            	<dl data-th-each="articleVendu : ${ArticlesVendus}" >
-            	
-            		<dd>
-    					<a 	data-th-text="${articleVendu.nomArticle}" 
-      						data-th-href="@{/detailArticle(noArticle=${articleVendu.noArticle})}">
-   						</a>
-					</dd>
-            		<dd data-th-text="'Prix : ' + ${articleVendu.prixVente}"></dd>
-            		<dd data-th-text="' Fin de l\'enchere :  ' + ${articleVendu.dateFinEncheres}"></dd>
-            		<dd data-th-text="'Vendeur : ' + ${articleVendu.vendeur.pseudo}"></dd> 
-            	</dl>
             </div>
-            
-        
-        </main>
+			<div class="cards-group">
+            	<div class="cards" data-th-each="articleVendu : ${ArticlesVendus}" >
+					<div class="form-group">
+						<div class="label">
+							<p ><a 	data-th-text="${articleVendu.nomArticle}" 
+								data-th-href="@{/detailArticle(noArticle=${articleVendu.noArticle})}">
+							 </a></p>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="label">
+                        	<p >Prix&nbsp;:</p>
+						</div>
+						<div class="value">
+							<p data-th-text="${articleVendu.prixVente}">Value 1</p>
+						</div>
+                    </div>
+
+				
+				<div class="form-group">
+					<div class="label">
+						<p >Fin de l'enchere&nbsp;:</p>
+					</div>
+					<div class="value">
+						<p data-th-text="${articleVendu.dateFinEncheres}">Value 1</p>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="label">
+						<p >Vendeur&nbsp;:</p>
+					</div>
+					<div class="value">
+						<p ><a 	data-th-text="${articleVendu.vendeur.pseudo}" 
+							data-th-href="@{/detailsProfil(pseudo=${articleVendu.vendeur.pseudo})}">
+						 </a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+        </div>
 </body>
 </html>
