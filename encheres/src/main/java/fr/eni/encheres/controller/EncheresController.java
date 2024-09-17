@@ -67,6 +67,11 @@ public class EncheresController {
 		    @RequestParam(name = "vente", required = false) String vente, 
 		    Model model) {
 			Integer noCategorie = null;
+			
+		    // Si la catégorie n'est pas vide, la convertir en Integer
+		    if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
+		        noCategorie = Integer.valueOf(noCategorieParam);
+		    }
 
 		    // Appel au service les trois filtres
 		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm, vente);
