@@ -2,19 +2,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Inscription</title>
+<title>Modifier mon profile</title>
 <link id="css" rel="stylesheet" href="/encheres/css/general.css">
 </head>
 <body>
-	<h1>Mon Profil</h1>
-	<form data-th-action="@{/inscription}" data-th-object="${utilisateur}"
-		method="post">
+<h1>Modifier Profil</h1>
+	<form data-th-action="@{/modifierProfil}" data-th-object="${utilisateur}"
+		method="get">
+		<input type="hidden" name="pseudo" th:value="${utilisateur.pseudo}" />
 
 		<ul class="formulaireCreat">
 			<li><label for="pseudo">Pseudo:</label><input type="text"
-				id="pseudo" data-th-field="*{pseudo}" required /><span
+				id="pseudo"  data-th-field="*{pseudo}" required /><span
 				data-th-if="${#fields.hasErrors('pseudo')}"
-				data-th-errorclass="error" data-th-errors="*{pseudo}"></span></li>
+				data-th-errorclass="error" data-th-errors="*{pseudo}" ></span></li>
 
 			<li><label for="nom">Nom:</label><input type="text" id="nom"
 				data-th-field="*{nom}" required /><span
@@ -23,25 +24,25 @@
 
 
 			<li><label for="prenom">Prénom:</label><input type="text"
-				id="prenom" data-th-field="*{prenom}" required /><span
+				id="prenom" data-th-field="*{prenom}" required  /><span
 				data-th-if="${#fields.hasErrors('prenom')}"
 				data-th-errorclass="error" data-th-errors="*{prenom}"></span></li>
 
 
 			<li><label for="email">Email:</label><input type="text"
-				id="email" data-th-field="*{email}" required /><span
+				id="email" data-th-field="*{email}" required  /><span
 				data-th-if="${#fields.hasErrors('email')}"
 				data-th-errorclass="error" data-th-errors="*{email}"></span></li>
 
 
 			<li><label for="telephone">Téléphone:</label><input type="text"
-				 id="telephone" data-th-field="*{telephone}" required /><span 
+				 id="telephone" data-th-field="*{telephone}" required  /><span 
 				data-th-if="${#fields.hasErrors('telephone')}"
 				data-th-errorclass="error" data-th-errors="*{telephone}"></span></li>
 
 
 			<li><label for="rue">Rue:</label><input type="text" id="rue"
-				data-th-field="*{rue}" required /><span 
+				data-th-field="*{rue}" required  /><span 
 				data-th-if="${#fields.hasErrors('rue')}" data-th-errorclass="error"
 				data-th-errors="*{rue}"></span></li>
 
@@ -53,16 +54,23 @@
 
 
 			<li><label for="ville">Ville:</label><input type="text"
-				id="ville" data-th-field="*{ville}" required /><span 
+				id="ville" data-th-field="*{ville}" required  /><span 
 				data-th-if="${#fields.hasErrors('ville')}"
 				data-th-errorclass="error" data-th-errors="*{ville}"></span></li>
 
 
-			<li><label for="mdp">Mot de passe</label><input type="password"
+			<li><label for="mdp">Mot de passe actuel:</label><input type="password"
 				id="mdp" data-th-field="*{motDePasse}" placeholder="********" required /><span
 				data-th-if="${#fields.hasErrors('motDePasse')}"
 				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
+			</ul>
 
+		<ul class="newPassword">
+			<li><label for="mdpConfirm">Nouveau mot de passe:</label><input
+				type="password" id="mdpConfirm" name="mdpConfirm"
+				placeholder="********" required /><span
+				data-th-if="${#fields.hasErrors('motDePasse')}"
+				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
 
 			<li><label for="mdpConfirm">Confirmation:</label><input
 				type="password" id="mdpConfirm" name="mdpConfirm"
@@ -71,15 +79,15 @@
 				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
 
 		</ul>
+		<ul class="credit">
+				<li><label for="credit">Crédit:</label><input type="text" data-th-field="*{credit}" readonly></li>
+				</ul>
 
-		<ul>
+		<ul class="subNewPassword">
 			<li><input type="submit" value="Créer" /></li>
-			<li><input type="reset" value="Annuler" /></li>
+			<li><input type="submit" value="Supprimer mon compte" /></li>
 		</ul>
 
 	</form>
-
-
-
 </body>
 </html>

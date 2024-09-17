@@ -71,11 +71,7 @@ public class EncheresController {
 		    @RequestParam(name = "venteNonDebutes", required = false) String venteNonDebutes, 
 		    @RequestParam(name = "venteTerminees", required = false) String venteTerminees, 
 		    Model model) {
-//		Integer noCategorie = null;
-//	    if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
-//	        noCategorie = Integer.valueOf(noCategorieParam);
-//	    }
-		    // Appel au service avec les deux filtres
+
 		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorieParam, searchTerm, ouvertes, enCours, remportees, venteEncours, venteNonDebutes, venteTerminees);
 		    Utilisateur userInSession = contexteService.getUserInSession();
 		    if (userInSession != null)

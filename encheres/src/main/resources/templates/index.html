@@ -9,6 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ENI-Enchères</title>
+    <link id="css" rel="stylesheet" href="/encheres/css/general.css">
     <link id="css" rel="stylesheet" href="/encheres/css/index.css">
 </head>
 <header>
@@ -53,7 +54,7 @@
             	<div class="cards" data-th-each="articleVendu : ${ArticlesVendus}" >
 					<div class="form-group">
 						<div class="label">
-							<p ><a 	data-th-text="${articleVendu.nomArticle}" 
+							<p ><a id="TitreArticle"	data-th-text="${articleVendu.nomArticle}" 
 								data-th-href="@{/detailArticle(noArticle=${articleVendu.noArticle})}">
 							 </a></p>
 						</div>
@@ -62,7 +63,7 @@
 
 					<div class="form-group">
 						<div class="label">
-                        	<p >Prix&nbsp;: </p>
+                        	<p >Prix&nbsp;:&nbsp;</p>
 						</div>
 						<div class="value">
 							<p data-th-text="${articleVendu.prixVente}">Value 1</p>
@@ -72,7 +73,7 @@
 				
 				<div class="form-group">
 					<div class="label">
-						<p >Fin de l'enchere&nbsp;: </p>
+						<p >Fin de l'enchere&nbsp;:&nbsp;</p>
 					</div>
 					<div class="value">
 						<p th:text="${#temporals.format(articleVendu.dateFinEncheres, 'dd/MM/yyyy HH:mm')}">Value 1</p>
@@ -81,10 +82,10 @@
 
 				<div class="form-group">
 					<div class="label">
-						<p >Vendeur&nbsp;: </p>
+						<p >Vendeur&nbsp;:&nbsp;</p>
 					</div>
 					<div class="value">
-						<p ><a 	data-th-text="${articleVendu.vendeur.pseudo}" 
+						<p ><a id="NomVendeur" 	data-th-text="${articleVendu.vendeur.pseudo}" 
 							data-th-href="@{/detailsProfil(pseudo=${articleVendu.vendeur.pseudo})}">
 						 </a></p>
 					</div>
