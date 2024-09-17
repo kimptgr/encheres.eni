@@ -39,14 +39,17 @@ public class ContexteServiceImpl implements ContexteService {
 	@Override
 	public Utilisateur chargePseudo(String pseudo) {
 		return utilisateurDAO.readByPseudo(pseudo);
-	}
+	} 
 	
 	@Override
 	public Utilisateur getUserInSession() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 if (authentication != null && authentication.isAuthenticated() && 
+			        !(authentication.getPrincipal() instanceof String && authentication.getPrincipal().equals("anonymousUser"))) {
 		String currentUsernameInSession = authentication.getName();
 		Utilisateur userInSession = chargeEmail(currentUsernameInSession);
-		return userInSession;
+		return userInSession; }
+		 else return null;
 	}
 
 }

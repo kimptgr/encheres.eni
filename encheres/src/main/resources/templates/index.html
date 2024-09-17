@@ -38,11 +38,14 @@
 				      </select>
 				
 					  <!-- Filtre Ventes -->
- 			   			<h4>Ventes :</h4>    
-						<label><input type="checkbox" name="vente" value="nonDebutees"> Ventes non débutées</label><br>
-						<label><input type="checkbox" name="vente" value="ventesCours"> Ventes en cours</label><br>
-						<label><input type="checkbox" name="vente" value="terminees"> Ventes terminées</label><br>
+ 			   			<h4>Ventes :</h4>
+						<label><input type="checkbox" name="ouvertes" value="true">Enchères ouvertes</label><br>
+						<label><input type="checkbox" name="enCours" value="true">Mes enchères en cours</label><br>
+						<label><input type="checkbox" name="remportees" value="true">Mes enchères remportés</label><br>
 
+						<label><input type="checkbox" name="venteEncours" value="true">Ventes en cours</label><br>
+						<label><input type="checkbox" name="venteNonDebutes" value="true">Ventes non débutées</label><br>
+						<label><input type="checkbox" name="venteTerminees" value="true">Ventes terminées</label><br>
 						<button type=submit>Rechercher</button>
             </form>
             </div>
@@ -59,7 +62,7 @@
 
 					<div class="form-group">
 						<div class="label">
-                        	<p >Prix&nbsp;:</p>
+                        	<p >Prix&nbsp;: </p>
 						</div>
 						<div class="value">
 							<p data-th-text="${articleVendu.prixVente}">Value 1</p>
@@ -69,16 +72,16 @@
 				
 				<div class="form-group">
 					<div class="label">
-						<p >Fin de l'enchere&nbsp;:</p>
+						<p >Fin de l'enchere&nbsp;: </p>
 					</div>
 					<div class="value">
-						<p data-th-text="${articleVendu.dateFinEncheres}">Value 1</p>
+						<p th:text="${#temporals.format(articleVendu.dateFinEncheres, 'dd/MM/yyyy HH:mm')}">Value 1</p>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="label">
-						<p >Vendeur&nbsp;:</p>
+						<p >Vendeur&nbsp;: </p>
 					</div>
 					<div class="value">
 						<p ><a 	data-th-text="${articleVendu.vendeur.pseudo}" 

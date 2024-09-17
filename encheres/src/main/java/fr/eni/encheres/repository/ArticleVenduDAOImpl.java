@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import fr.eni.encheres.bll.contexte.ContexteService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -22,19 +23,17 @@ import fr.eni.encheres.bo.Utilisateur;
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente :no_utilisateur, :no_categorie);";
-	private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville"
-			+ " from ARTICLES_VENDUS A"
-			+ " join CATEGORIES C on a.no_categorie=c.no_categorie"
-			+ " join UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur"
-			+ " join RETRAITS R on a.no_article=r.no_article";		
-	private final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prixVente where no_article = :noArticle";
+	private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville, e.no_utilisateur acheteur from ARTICLES_VENDUS A INNER join CATEGORIES C on a.no_categorie=c.no_categorie INNER join UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur INNER join RETRAITS R on a.no_article=r.no_article INNER JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article]";		
+	private final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prixVente where no_article = :noArticle ;";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-	
+	@Autowired
+	private ContexteService contexteService;
+
 	@Override
 	public void create(ArticleVendu articleVendu) {
 	
@@ -58,6 +57,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			articleVendu.setNoArticle((int) keyHolder.getKey().longValue());
 		}
 		
+		//TODO RETRAIT à GERER DANS RETRAIT DAO
 		Retrait retrait = new Retrait(articleVendu.getVendeur().getRue(), articleVendu.getVendeur().getCodePostal(),articleVendu.getVendeur().getVille(), articleVendu );
 		
 		String INSERT_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (:no_article, :rue, :code_postal, :ville)";
@@ -98,7 +98,10 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			article.setVendeur(new Utilisateur(rs.getInt("no_utilisateur"),(rs.getString("pseudo"))));
 			article.setRetrait(new Retrait(rs.getString("rue"),rs.getString("code_postal"),(rs.getString("ville"))));
 
-
+			///////////////////////////////Kim modifie ici
+			var acheteur = new Utilisateur();
+			acheteur.setNoUtilisateur(rs.getInt("acheteur"));
+			article.setAcheteur(acheteur);
 			return article;
 		}
 	}
@@ -106,7 +109,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	//requette pour rechercher les articles par num article
 	@Override
 	public ArticleVendu readById(Integer noArticle) {
-		var sql = READ_ALL_ARTICLES + " where A.no_article=?";
+		var sql = READ_ALL_ARTICLES + " where a.no_article=?";
 		return jdbcTemplate.queryForObject(sql, new ArticleVenduMapper(), noArticle);
 	}
 
@@ -133,14 +136,14 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	//requette dynamique qui gère à la fois le filtre avec catégorie et recherche dans la barre
 	@Override
-	public List<ArticleVendu> findFilteredArticles(Integer noCategorie, String searchTerm, String vente) {
+	public List<ArticleVendu> findFilteredArticles(String noCategorie, String searchTerm, String ouvertes,String enCours,String remportees,String venteEncours,String venteNonDebutes,String venteTerminees) {
 	    // Base de la requête
-	    String sql = READ_ALL_ARTICLES + " WHERE 1=1";  // "1=1" permet d'ajouter des conditions facilement
+	    String sql = READ_ALL_ARTICLES  + " WHERE 1=1";  // "1=1" permet d'ajouter des conditions facilement
 	    
 	    List<Object> params = new ArrayList<>();
 	    
 	    // Filtrer par catégorie si présente
-	    if (noCategorie != null) {
+	    if (noCategorie != null && !noCategorie.isEmpty() ) {
 	        sql += " AND a.no_categorie = ?";
 	        params.add(noCategorie);
 	    }
@@ -151,26 +154,40 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	        params.add("%" + searchTerm + "%");  // Utilisation des jokers pour la recherche partielle
 	    }
 	    
-	    // Gérer les filtres "Vente"
-	    if (vente != null && !vente.isEmpty())  {
-	            switch (vente) {
-	                case "ventesCours":
-	                    sql += " AND a.date_debut_encheres <= GETDATE() AND a.date_fin_encheres >= GETDATE()";
-	                    break;
-	                case "nonDebutees":
-	                    sql += " AND a.date_debut_encheres > GETDATE()";
-	                    break;
-	                case "terminees":
-	                    sql += " AND a.date_fin_encheres < GETDATE()";
-	                    break;
-	            }
-	        }
+	    if (ouvertes!= null && !ouvertes.isEmpty()) {
+	    	sql+= " AND GETDATE() > date_debut_encheres AND GETDATE() < date_fin_encheres";
+	    }
 	    
+	    if (enCours!= null && !enCours.isEmpty()) {
+	    	sql+= " AND GETDATE() > date_debut_encheres AND GETDATE() < date_fin_encheres AND e.no_utilisateur = ? ";
+	    	contexteService.getUserInSession();
+	    	params.add(contexteService.getUserInSession().getNoUtilisateur());
+	    }
 	    
+	    if (remportees!= null && !remportees.isEmpty()) {
+	    	sql+= " AND GETDATE() > date_fin_encheres AND e.no_utilisateur = ?";
+	    	contexteService.getUserInSession();
+	    	params.add(contexteService.getUserInSession().getNoUtilisateur());
+	    }
 	    
+	    if (venteEncours!= null && !venteEncours.isEmpty()) {
+	    	sql+= " AND GETDATE() > date_debut_encheres AND GETDATE() < date_fin_encheres AND a.no_utilisateur = ? ";
+	    	contexteService.getUserInSession();
+	    	params.add(contexteService.getUserInSession().getNoUtilisateur());
+	    }
 	    
+	    if (venteNonDebutes!= null && !venteNonDebutes.isEmpty()) {
+	    	sql+= "AND a.no_utilisateur = ? AND GETDATE() < date_debut_encheres ";
+	    	contexteService.getUserInSession();
+	    	params.add(contexteService.getUserInSession().getNoUtilisateur());
+	    }
 	    
-
+	    if (venteTerminees!= null && !venteTerminees.isEmpty()) {
+	    	sql+= " AND GETDATE() > date_fin_encheres AND a.no_utilisateur = ? ";
+	    	contexteService.getUserInSession();
+	    	params.add(contexteService.getUserInSession().getNoUtilisateur());
+	    }
+	    
 	    // Exécuter la requête avec les paramètres ajoutés
 	    return jdbcTemplate.query(sql, new ArticleVenduMapper(), params.toArray());
 	}
@@ -201,8 +218,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	
 	@Override
-	public ArticleVendu updatePrixVenteById(Integer noArticle, Integer prixVente) {
-		return null;
+	public void updatePrixVenteById(Integer noArticle, Integer prixVente) {
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("noArticle", noArticle);
+		namedParameters.addValue("prixVente", prixVente);
+		namedParameterJdbcTemplate.update(UPDATE_PRIX_VENTE, namedParameters);
 	}
 
 	@Override

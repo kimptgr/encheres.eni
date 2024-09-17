@@ -74,12 +74,12 @@ class EncheresApplicationTests {
 //	        var articleNOM = articleVenduDAO.findByNom("Ordinateur");
 //	        articleNOM.forEach(System.out::println);
 //	        }
-	   
-	   @Test
-	    void TestFindFilter() {
-	        var articlesFiltres = articleVenduDAO.findFilteredArticles(3, null,"nonDebutees");
-	        articlesFiltres.forEach(System.out::println);
-	        }
+//	   
+//	   @Test
+//	    void TestFindFilter() {
+//	        var articlesFiltres = articleVenduDAO.findFilteredArticles(3, null,"nonDebutees");
+//	        articlesFiltres.forEach(System.out::println);
+//	        }
 	   
 
 }

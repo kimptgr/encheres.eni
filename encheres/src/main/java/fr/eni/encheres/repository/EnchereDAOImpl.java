@@ -37,6 +37,9 @@ public class EnchereDAOImpl implements EnchereDAO {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	
+	
 	
 	@Override
 	public void createEnchere(Enchere enchere) {

@@ -24,7 +24,7 @@ public interface ArticleVenduService {
 
 //	List<ArticleVendu> findByCategorie(Integer noCategorie);
 	
-	List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm, String vente);
+	List<ArticleVendu> findArticlesFiltres(String noCategorie, String searchTerm, String ouvertes,String enCours,String remportees,String venteEncours,String venteNonDebutes,String venteTerminees);
 
 	
 	

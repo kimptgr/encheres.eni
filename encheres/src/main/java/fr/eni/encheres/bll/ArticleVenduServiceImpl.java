@@ -77,11 +77,6 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 //	    return articleVenduDAO.findByCategorie(noCategorie);
 //	
 //	}
-	
-	@Override
-	public List<ArticleVendu> findArticlesFiltres(Integer noCategorie, String searchTerm, String vente) {
-        return articleVenduDAO.findFilteredArticles(noCategorie, searchTerm, vente);
-    }
 
 
 	@Override
@@ -94,6 +89,13 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 		Utilisateur userInSession = utilisateurDAO.readByEmail(username);
 		Retrait defaultRetrait = new Retrait(userInSession.getRue(), userInSession.getCodePostal() , userInSession.getVille());
 		return defaultRetrait;
+	}
+
+
+	@Override
+	public List<ArticleVendu> findArticlesFiltres(String noCategorie, String searchTerm, String ouvertes,
+			String enCours, String remportees, String venteEncours, String venteNonDebutes, String venteTerminees) {
+		return articleVenduDAO.findFilteredArticles(noCategorie, searchTerm, ouvertes, enCours, remportees, venteEncours, venteNonDebutes, venteTerminees);
 	}
 
 }

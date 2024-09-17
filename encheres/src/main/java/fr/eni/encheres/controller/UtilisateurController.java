@@ -52,6 +52,7 @@ public class UtilisateurController {
 
 	@GetMapping("/inscription")
 	public String addUtilisateur(Model model) {
+		
 		model.addAttribute(new Utilisateur());
 		return "view-encheres-inscription";
 	}

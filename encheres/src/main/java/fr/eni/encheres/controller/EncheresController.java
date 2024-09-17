@@ -61,18 +61,25 @@ public class EncheresController {
 	}
 
 	@GetMapping
-
 	public String afficherArticlesVendus(
 		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
 		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
-		    @RequestParam(name = "vente", required = false) String vente, 
+		    @RequestParam(name = "ouvertes", required = false) String ouvertes, 
+		    @RequestParam(name = "enCours", required = false) String enCours, 
+		    @RequestParam(name = "remportees", required = false) String remportees, 
+		    @RequestParam(name = "venteEncours", required = false) String venteEncours, 
+		    @RequestParam(name = "venteNonDebutes", required = false) String venteNonDebutes, 
+		    @RequestParam(name = "venteTerminees", required = false) String venteTerminees, 
 		    Model model) {
-
-			Integer noCategorie = null;
-
+//		Integer noCategorie = null;
+//	    if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
+//	        noCategorie = Integer.valueOf(noCategorieParam);
+//	    }
 		    // Appel au service avec les deux filtres
-		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm, vente);
-
+		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorieParam, searchTerm, ouvertes, enCours, remportees, venteEncours, venteNonDebutes, venteTerminees);
+		    Utilisateur userInSession = contexteService.getUserInSession();
+		    if (userInSession != null)
+		    	model.addAttribute("userInSession", userInSession);
 		    model.addAttribute("ArticlesVendus", articlesVendus);
 		    
 		    return "index";

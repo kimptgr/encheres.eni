@@ -8,7 +8,9 @@
 	<ul sec:authorize="isAuthenticated()">
 		<li><a href="/encheres">Enchères</a></li>
 		<li><a href="/encheres/vendreUnArticle">Vendre un article</a></li>
-		<li><a href="/encheres/profil">Mon profil</a></li>
+		<li sec:authorize="isAuthenticated()" th:if="${userInSession != null}">
+			<a data-th-href="@{/detailsProfil(pseudo=${userInSession.pseudo})}">Mon profil</a>
+		</li>
 		<li>
 			<form data-th-action="@{/logout}" method="post">
 				<input type="submit" value="Déconnexion" />

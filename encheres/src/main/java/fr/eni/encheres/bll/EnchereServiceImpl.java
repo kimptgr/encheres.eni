@@ -36,7 +36,6 @@ public class EnchereServiceImpl implements EnchereService {
 		isValid &= isAuctionHigherThanSellPrice(e);
 		isValid &= isAuctionHigherThanOtherAuctions(e);
 		isValid &= isUserRichEnough(e);
-		
 		//Update price of Article
 		if (isValid) {
 			articleVenduDAO.updatePrixVenteById(e.getArticleVendu().getNoArticle(), e.getMontantEnchere());};
@@ -61,13 +60,19 @@ public class EnchereServiceImpl implements EnchereService {
 			utilisateurDAO.updateCredit(previousBidder);
 		};
 		}
+		System.err.println("noA"+e.getArticleVendu().getNoArticle()+" montant"+ e.getMontantEnchere());
+
 		boolean isUTPB = encheres.stream().anyMatch(a -> a.getUtilisateur().getNoUtilisateur() == e.getUtilisateur().getNoUtilisateur());
 		//verify if bidder must be update or create
 		if (isValid && !encheres.isEmpty() && isUTPB ) {
-			enchereDAO.updateEnchere(e);}
+			enchereDAO.updateEnchere(e);
+			articleVenduDAO.updatePrixVenteById(e.getArticleVendu().getNoArticle(), e.getMontantEnchere());
+			}
 			else if (isValid){
 				enchereDAO.createEnchere(e);
+				articleVenduDAO.updatePrixVenteById(e.getArticleVendu().getNoArticle(), e.getMontantEnchere());
 			};
+			
 	}
 
 	@Override
@@ -108,7 +113,7 @@ public class EnchereServiceImpl implements EnchereService {
 	
 	private boolean isAuctionHigherThanSellPrice(Enchere e) {
 		var proposition = e.getMontantEnchere();
-		var prixArticle = articleVenduDAO.readById(e.getArticleVendu().getNoArticle()).getPrixVente();
+		var prixArticle = articleVenduDAO.readById(e.getArticleVendu().getNoArticle()).getMiseAPrix();
 
 		return prixArticle < proposition;
 	}
