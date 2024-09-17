@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layoutEncheres(
+                    navBar=~{::nav},
+                    titrePage=~{},
+                    contenuPage=~{::form},
+                    linkcss=~{::#css})}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>ENI-Enchères</title>
+    <link id="css" rel="stylesheet" href="/encheres/css/login.css">
 </head>
 <body>
 	<main >
-		
-		 <div th:if="${param.error}">
-            Email ou mot de passe incorrect.
-            Veuillez vérifier votre saisie.
-        </div>
-		<form data-th-action="@{/connexion}" method="post">
-
+		<form data-th-action="@{/connexion}" method="post" class="center-main">
+			<div class="form-group">
 			<ul class="connexion">
+				
 				<li><label for="inputUser">Identifiant:<input
 						type="text" id="inputUser" name="email" required/></label></li>
 				<li><label for="inputPwd">Mot de passe:<input
 						type="password" id="inputPwd" name="motDePasse"
 						placeholder="********" required/></label></li>
 			</ul>
+			</div>
+			<div class="error-bloc">
+			<div th:if="${param.error}">
+				Email ou mot de passe incorrect. <br>Veuillez vérifier votre saisie.
+			</div>
+		</div>
+			<div class="form-group">
 			<ul>
 				<li><input type="submit" value="Se connecter" /></li>
 			</ul>
+			<div class="form-group">
 			<ul class="checkbox">
 				<li><label for="check"><input type="checkbox" id="check" name="check"/>Se
 						souvenir de moi</label></li>
 				<li><a href="">Mot de passe oublié</a></li>
 			</ul>
-
-			<a href="/encheres/inscription">Créer un compte</a>
+		</div>
+		</div>
+		<div class="button-group">
+			<a href="/encheres/inscription">Créer un compte</a></div>
 		</form>
 	</main>
 </body>
