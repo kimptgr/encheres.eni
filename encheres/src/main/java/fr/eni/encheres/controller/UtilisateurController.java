@@ -3,6 +3,8 @@
  */
 package fr.eni.encheres.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,7 +78,7 @@ public class UtilisateurController {
 		}
 	
 	@GetMapping("/detailsProfil")
-	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
+	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true)  String pseudo, Model model) {
 		System.err.println(pseudo);
 		if (!pseudo.isEmpty() && !pseudo.isBlank()) {
 			Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
@@ -84,6 +86,7 @@ public class UtilisateurController {
 			if (utilisateur != null && userInSession !=null) {
 				model.addAttribute("utilisateur", utilisateur);
 				model.addAttribute("userInSession", userInSession);
+				
 				
 				return "view-detail-user"; 
 			} else
@@ -95,15 +98,17 @@ public class UtilisateurController {
 	} 
 	
 	@GetMapping("/modifierProfil")
-	public String modifyUserProfil(Model model, @ModelAttribute("userInSession") Utilisateur userInSession) {
-		if (userInSession != null) {
-			
-			model.addAttribute("utilisateur", new Utilisateur());
+	   public String afficherFormulaireModification(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
+        Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
+        Utilisateur userInSession = contexteservice.getUserInSession();
+        if (utilisateur != null && userInSession !=null) {
+            model.addAttribute("utilisateur", utilisateur);
+            model.addAttribute("userInSession", userInSession);
 			return "view-encheres-modify-user";
+			}
+		return  "redirect:/";
 		
-	}
-		return new String();
-		
-	}
+	}	
+	
 	}
 	

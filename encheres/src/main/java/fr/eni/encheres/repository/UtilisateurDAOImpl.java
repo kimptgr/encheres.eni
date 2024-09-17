@@ -34,12 +34,12 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			+ "FROM UTILISATEURS;";
 	private final String FIND_BY_PSEUDO = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
 			+ "FROM UTILISATEURS " + "WHERE PSEUDO=:pseudo;";
-	private final String FIND_BY_ID = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur FROM UTILISATEURS WHERE no_utilisateur=:noUtilisateur;";
+	private final String FIND_BY_ID = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit FROM UTILISATEURS WHERE no_utilisateur=:noUtilisateur;";
 	private final String VERIF_BY_EMAIL = "select COUNT(*) from UTILISATEURS where email= ?;";
 
 	private final String FIND_BY_EMAIL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
 			+ " FROM UTILISATEURS WHERE EMAIL= :email ;";
-
+	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
