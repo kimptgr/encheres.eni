@@ -18,5 +18,11 @@ public interface UtilisateurService {
 
 	Utilisateur findByEmail(String email);
 	Utilisateur findByPseudo(String pseudo);
+	Utilisateur findById (Integer noUtilisateur);
+	
+	
+	
+		
+	
 
 }

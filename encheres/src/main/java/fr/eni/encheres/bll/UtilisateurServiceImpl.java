@@ -3,7 +3,6 @@
  */
 package fr.eni.encheres.bll;
 
-
 import org.springframework.stereotype.Service;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.repository.UtilisateurDAO;
@@ -47,7 +46,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	public boolean verifByEmail(String email) {
 		return utilisateurDAO.verifByEmail(email);
 	}
-	
+
 	@Override
 	public Utilisateur findByEmail(String email) {
 		return utilisateurDAO.readByEmail(email);
@@ -56,6 +55,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	@Override
 	public Utilisateur findByPseudo(String pseudo) {
 		return utilisateurDAO.readByPseudo(pseudo);
+	}
+
+	@Override
+	public Utilisateur findById(Integer noUtilisateur) {
+		return utilisateurDAO.readById(noUtilisateur);
 	}
 
 }
