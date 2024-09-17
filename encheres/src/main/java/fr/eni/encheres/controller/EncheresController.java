@@ -61,16 +61,14 @@ public class EncheresController {
 	}
 
 	@GetMapping
-
 	public String afficherArticlesVendus(
 		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
 		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
 		    @RequestParam(name = "vente", required = false) String vente, 
 		    Model model) {
-
 			Integer noCategorie = null;
 
-		    // Appel au service avec les deux filtres
+		    // Appel au service les trois filtres
 		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm, vente);
 
 		    model.addAttribute("ArticlesVendus", articlesVendus);
