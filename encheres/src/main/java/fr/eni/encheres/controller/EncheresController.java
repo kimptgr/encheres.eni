@@ -61,24 +61,25 @@ public class EncheresController {
 	}
 
 	@GetMapping
-	public String afficherArticlesVendus(@RequestParam(name = "Categorie", required = false) String noCategorieParam,
 
-			@RequestParam(name = "searchTerm", required = false) String searchTerm, Model model) {
+	public String afficherArticlesVendus(
+		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
+		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
+		    @RequestParam(name = "vente", required = false) String vente, 
+		    Model model) {
 
-		Integer noCategorie = null;
+			Integer noCategorie = null;
 
-		// Si la catégorie n'est pas vide, la convertir en Integer
-		if (noCategorieParam != null && !noCategorieParam.isEmpty()) {
-			noCategorie = Integer.valueOf(noCategorieParam);
-		}
+		    // Appel au service avec les deux filtres
+		    List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm, vente);
 
-		// Appel au service avec les deux filtres
-		List<ArticleVendu> articlesVendus = articleVenduService.findArticlesFiltres(noCategorie, searchTerm);
+		    model.addAttribute("ArticlesVendus", articlesVendus);
+		    
+		    return "index";
+			}
 
-		model.addAttribute("ArticlesVendus", articlesVendus);
 
-		return "index";
-	}
+	
 
 	@GetMapping("/detailArticle")
 	public String afficherUnArticle(@RequestParam(name = "noArticle", required = true) Integer noArticle, Model model) {

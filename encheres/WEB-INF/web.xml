@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 55877ba53a6ad11c398c2285de063796c7e0c9ee
 <!--<?xml version="1.0" encoding="UTF-8"?>-->
 <!--<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID">-->
 <!--	<display-name>encheres</display-name>-->
@@ -11,6 +14,8 @@
 <!--		<welcome-file>default.jsp</welcome-file>-->
 <!--	</welcome-file-list>-->
 <!--</web-app>-->
+<<<<<<< HEAD
+=======
 =======
 <!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <!-- <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID"> -->
@@ -25,3 +30,4 @@
 <!-- 	</welcome-file-list> -->
 <!-- </web-app> -->
 >>>>>>> b70438ea3a7fcc90978207223f91514291bb92f3
+>>>>>>> 55877ba53a6ad11c398c2285de063796c7e0c9ee

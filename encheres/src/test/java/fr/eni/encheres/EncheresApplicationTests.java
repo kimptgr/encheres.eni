@@ -77,7 +77,7 @@ class EncheresApplicationTests {
 	   
 	   @Test
 	    void TestFindFilter() {
-	        var articlesFiltres = articleVenduDAO.findFilteredArticles(null, "Vélo");
+	        var articlesFiltres = articleVenduDAO.findFilteredArticles(3, null,"nonDebutees");
 	        articlesFiltres.forEach(System.out::println);
 	        }
 	   

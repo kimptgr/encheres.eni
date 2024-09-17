@@ -4,6 +4,7 @@
 package fr.eni.encheres.bo;
 
 import java.time.LocalDateTime;
+
 /**
  * Classe en charge de la création de l'Enchere et de ses attributs
  * 
