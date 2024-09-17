@@ -114,7 +114,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			Utilisateur u = new Utilisateur();
 			u.setNoUtilisateur(rs.getInt("no_utilisateur"));
 			u.setPseudo(rs.getString("pseudo"));
-			u.setPrenom(rs.getString("nom"));
+			u.setNom(rs.getString("nom"));
 			u.setPrenom(rs.getString("prenom"));
 			u.setEmail(rs.getString("email"));
 			u.setTelephone(rs.getString("telephone"));

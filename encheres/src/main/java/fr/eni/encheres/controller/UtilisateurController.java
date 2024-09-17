@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -29,6 +30,7 @@ import jakarta.validation.Valid;
  */
 @Controller
 @RequestMapping()
+@SessionAttributes({"userInSession"})
 public class UtilisateurController {
 
 	private UtilisateurService utilisateurService;
@@ -54,37 +56,21 @@ public class UtilisateurController {
 
 	@PostMapping("/inscription")
 	public String addUtilisateur(@Valid @ModelAttribute("utilisateur") Utilisateur utilisateur,
-			BindingResult bindingResult, @RequestParam("mdpConfirm") String mdpConfirm, Model model) {
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "view-encheres-inscription";
-		}
-		if (utilisateurService.verifByEmail(utilisateur.getEmail())) {
-			bindingResult.rejectValue("email", "error.utilisateur", "L'email est déjà utilisé.");
-			return "view-encheres-inscription";
-		}
-		if (!utilisateur.getMotDePasse().equals(mdpConfirm)) {
-			bindingResult.rejectValue("motDePasse", "error.utilisateur", "Les mots de passe ne correspondent pas.");
-			return "view-sinscrire";
+		
 		} else {
-			try {
+			
 				String password = utilisateur.getMotDePasse();
 				String encodedPassword = passwordEncoder.encode(password);
 				utilisateur.setMotDePasse(encodedPassword);
 				utilisateurService.addUser(utilisateur);
 
 				return "redirect:/";
-			} catch (BusinessException e) {
-				// Afficher les messages d’erreur - il faut les injecter dans le contexte de
-				// BindingResult
-				e.getClefsExternalisations().forEach(key -> {
-					ObjectError error = new ObjectError("error", key);
-					bindingResult.addError(error);
-				});
-
-				return "view-encheres-inscription";
 			}
 		}
-	}
+	
 	@GetMapping("/detailsProfil")
 	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
 		if (!pseudo.isEmpty() && !pseudo.isBlank()) {
@@ -101,6 +87,17 @@ public class UtilisateurController {
 		}
 		return "redirect:/";
 	} 
-	 
-
-}
+	
+	@GetMapping("/modifierProfil")
+	public String modifyUserProfil(Model model, @ModelAttribute("userInSession") Utilisateur userInSession) {
+		if (userInSession != null) {
+			
+			model.addAttribute("utilisateur", new Utilisateur());
+			return "view-encheres-modify-user";
+		
+	}
+		return new String();
+		
+	}
+	}
+	
