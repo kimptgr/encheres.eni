@@ -30,7 +30,11 @@ a {
         -2px -2px 5px rgba(255, 255, 255, 0.8),
         -2px 2px 5px rgba(255, 255, 255, 0.8),
         2px -2px 5px rgba(255, 255, 255, 0.8);
-     } 
+     }
+     
+a:hover {
+    text-decoration: underline;
+}
 
 ul {
   list-style-type: none;

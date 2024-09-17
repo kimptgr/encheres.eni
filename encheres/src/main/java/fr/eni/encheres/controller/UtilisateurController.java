@@ -91,13 +91,14 @@ public class UtilisateurController {
 	}
 	@GetMapping("/detailsProfil")
 	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
+		System.err.println(pseudo);
 		if (!pseudo.isEmpty() && !pseudo.isBlank()) {
 			Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
 			Utilisateur userInSession = contexteservice.getUserInSession();
 			if (utilisateur != null && userInSession !=null) {
 				model.addAttribute("utilisateur", utilisateur);
 				model.addAttribute("userInSession", userInSession);
-				System.err.println(utilisateur);
+				
 				return "view-detail-user"; 
 			} else
 				System.out.println("Utilisateur inconnu!!");

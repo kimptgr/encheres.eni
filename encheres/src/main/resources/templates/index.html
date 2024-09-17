@@ -75,7 +75,9 @@
 						<p >Vendeur&nbsp;:</p>
 					</div>
 					<div class="value">
-						<p data-th-text="${articleVendu.vendeur.pseudo}">Value 1</p>
+						<p ><a 	data-th-text="${articleVendu.vendeur.pseudo}" 
+							data-th-href="@{/detailsProfil(pseudo=${articleVendu.vendeur.pseudo})}">
+						 </a></p>
 					</div>
 				</div>
 			</div>

@@ -38,7 +38,7 @@ import jakarta.validation.Valid;
  */
 
 @Controller
-@SessionAttributes({ "categoriesInSession", "userInSession" })
+@SessionAttributes({ "categoriesInSession"})
 public class EncheresController {
 
 	// injection de dépendance
@@ -166,13 +166,4 @@ public class EncheresController {
 //		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
 //		return userInSession;
 //	}
-
-
-	private Utilisateur getUserInSession() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentUsernameInSession = authentication.getName();
-		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
-		return userInSession;
-	}
-
 }
