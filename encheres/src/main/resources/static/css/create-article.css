@@ -68,14 +68,14 @@ input, select, textarea, .value {
     padding: 10px;
     margin-right: 1em;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 4px; 
     font-size: 16px;
     background-color: #fff;
     transition: border-color 0.3s ease;
 }
 
 .select-group{
-	margin-bottom: 1.5em;
+	margin-bottom: 1.5em; 
 }
 
 input:focus, select:focus, textarea:focus {

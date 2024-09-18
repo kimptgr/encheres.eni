@@ -116,7 +116,6 @@ a[href="/encheres/inscription"] {
 a[href="/encheres/inscription"]:hover {
     background-color:  #ffffff;
      color: #004D40;
-     border: 2px solid #004D40;
 }
 
 ul {
