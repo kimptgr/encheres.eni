@@ -33,13 +33,17 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			+ "FROM ARTICLES_VENDUS a "
 			+ "INNER JOIN UTILISATEURS v ON a.no_utilisateur = v.no_utilisateur "
 			+ "INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie "
-			+ "LEFT JOIN RETRAITS r ON a.no_article = r.no_article "
-			+ "LEFT JOIN (SELECT e.no_article, e.no_utilisateur, e.date_enchere, e.montant_enchere FROM ENCHERES e "
-				+ "INNER JOIN (SELECT no_article, MAX(montant_enchere) AS max_montant "
-				+ "FROM ENCHERES GROUP BY no_article) max_enchere "
-				+ "ON e.no_article = max_enchere.no_article "
-				+ "AND e.montant_enchere = max_enchere.max_montant) e "
-			+ "ON a.no_article = e.no_article LEFT JOIN UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur ";
+			+ "INNER JOIN RETRAITS r ON a.no_article = r.no_article "
+			+ "LEFT JOIN ("
+							+ "SELECT e.no_article, e.no_utilisateur, e.date_enchere, e.montant_enchere FROM ENCHERES e "
+							+ "INNER JOIN ("
+										+ "SELECT no_article, MAX(montant_enchere) AS max_montant "
+										+ "FROM ENCHERES GROUP BY no_article) max_enchere "
+										+ "ON e.no_article = max_enchere.no_article "
+										+ "AND e.montant_enchere = max_enchere.max_montant"
+						+ ") e "
+			+ "ON a.no_article = e.no_article "
+			+ "LEFT JOIN UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur ";
 	private final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prixVente where no_article = :noArticle ;";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -51,7 +55,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	private ContexteService contexteService;
 
 	@Override
-	public void create(ArticleVendu articleVendu) {
+	public ArticleVendu create(ArticleVendu articleVendu) {
 	
 		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -72,19 +76,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			// Mise à jour de l'identifiant du film auto-généré par la base
 			articleVendu.setNoArticle((int) keyHolder.getKey().longValue());
 		}
-		
-		//TODO RETRAIT à GERER DANS RETRAIT DAO
-		Retrait retrait = new Retrait(articleVendu.getVendeur().getRue(), articleVendu.getVendeur().getCodePostal(),articleVendu.getVendeur().getVille(), articleVendu );
-		
-		String INSERT_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (:no_article, :rue, :code_postal, :ville)";
-		MapSqlParameterSource namedParametersRetrait = new MapSqlParameterSource();
-		namedParametersRetrait.addValue("no_article", articleVendu.getNoArticle());
-		namedParametersRetrait.addValue("rue", articleVendu.getVendeur().getRue());
-		namedParametersRetrait.addValue("code_postal", articleVendu.getVendeur().getCodePostal());
-		namedParametersRetrait.addValue("ville", articleVendu.getVendeur().getVille());
-		
-		namedParameterJdbcTemplate.update(INSERT_RETRAIT, namedParametersRetrait);
-
+		return articleVendu;
 	}
 	
 	//requette pour recherche tous les articles

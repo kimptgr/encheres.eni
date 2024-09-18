@@ -137,17 +137,13 @@ public class EncheresController {
 		if (userInSession != null && userInSession.getNoUtilisateur() > 0) {
 			articleVendu.setVendeur(userInSession);
 			articleVendu.setPrixVente(articleVendu.getPrixVente());
-
 			if (bindingResult.hasErrors()) {
-				// Si des erreurs de validation existent, retourne la vue de création d'article
 				return "view-create-article";
 			}
-
 			try {
 				articleVenduService.add(articleVendu);
-				return "redirect:/"; // Redirection vers la page d'accueil ou une autre page après succès
+				return "redirect:/";
 			} catch (BusinessException e) {
-				// Ajoute les erreurs globales au BindingResult
 				e.getClefsExternalisations().forEach(key -> {
 					ObjectError error = new ObjectError("globalError", key);
 					bindingResult.addError(error);
@@ -158,8 +154,7 @@ public class EncheresController {
 			}
 		} else {
 			System.out.println("Aucun utilisateur en session");
-			// Optionnel : Redirection ou affichage d'une erreur spécifique
-			return "redirect:/error"; // Par exemple, redirection vers une page d'erreur
+			return "redirect:/error";
 		}
 	}
 

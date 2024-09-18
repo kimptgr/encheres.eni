@@ -19,5 +19,6 @@ public interface RetraitDAO {
 	 * @return
 	 */
 Retrait readByNoArticle(Integer noArticle);
+	void createRetrait(Retrait retrait);
 
 }
