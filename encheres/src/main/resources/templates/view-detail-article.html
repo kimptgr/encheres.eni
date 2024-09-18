@@ -44,7 +44,7 @@
         </div>
         <div class="form-group">
             <p>Fin de l'enchère :</p>
-            <p data-th-text="${articleVendu.dateFinEncheres}">Fin de l'enchère :</p>
+            <p data-th-text="${#temporals.format(articleVendu.dateFinEncheres, 'dd/MM/yyyy HH:mm')}">Fin de l'enchère :</p>
         </div>
         <div class="form-group">
             <p>Retrait :</p>

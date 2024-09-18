@@ -23,9 +23,23 @@ import fr.eni.encheres.bo.Utilisateur;
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente, :no_utilisateur, :no_categorie);";
-	private final String READ_BY_ARTICLE = "SELECT TOP 1 a.no_article, u1.pseudo AS acheteur, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, a.prix_initial, a.prix_vente, a.no_categorie, u2.pseudo AS vendeur, c.libelle, r.rue, r.code_postal, r.ville FROM ARTICLES_VENDUS a LEFT JOIN ENCHERES e ON a.no_article = e.no_article LEFT JOIN UTILISATEURS u1 ON e.no_utilisateur = u1.no_utilisateur INNER JOIN UTILISATEURS u2 ON a.no_utilisateur = u2.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie INNER JOIN RETRAITS r ON a.no_article = r.no_article WHERE a.no_article = ? ORDER BY date_enchere DESC";		
-	private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville, e.no_utilisateur acheteur from ARTICLES_VENDUS A LEFT JOIN CATEGORIES C on a.no_categorie=c.no_categorie LEFT JOIN UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur LEFT JOIN RETRAITS R on a.no_article=r.no_article LEFT JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article]";		
-	
+	//private final String READ_BY_ARTICLE = "SELECT TOP 1 a.no_article, u1.pseudo AS acheteur, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, a.prix_initial, a.prix_vente, a.no_categorie, u2.pseudo AS vendeur, c.libelle, r.rue, r.code_postal, r.ville FROM ARTICLES_VENDUS a LEFT JOIN ENCHERES e ON a.no_article = e.no_article LEFT JOIN UTILISATEURS u1 ON e.no_utilisateur = u1.no_utilisateur INNER JOIN UTILISATEURS u2 ON a.no_utilisateur = u2.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie INNER JOIN RETRAITS r ON a.no_article = r.no_article WHERE a.no_article = ? ORDER BY date_enchere DESC";		
+	//private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville, e.no_utilisateur acheteur from ARTICLES_VENDUS A LEFT JOIN CATEGORIES C on a.no_categorie=c.no_categorie LEFT JOIN UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur LEFT JOIN RETRAITS R on a.no_article=r.no_article LEFT JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article]";		
+	private final String READ_ALL_ARTICLES = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, a.prix_initial, a.prix_vente, "
+			+ "v.no_utilisateur AS vendeur_id, v.pseudo AS vendeur_pseudo, "
+			+ "u.no_utilisateur AS acheteur_id, u.pseudo AS acheteur_pseudo, "
+			+ "e.montant_enchere AS meilleure_offre, "
+			+ "c.no_categorie, c.libelle, r.rue, r.code_postal, r.ville "
+			+ "FROM ARTICLES_VENDUS a "
+			+ "INNER JOIN UTILISATEURS v ON a.no_utilisateur = v.no_utilisateur "
+			+ "INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie "
+			+ "LEFT JOIN RETRAITS r ON a.no_article = r.no_article "
+			+ "LEFT JOIN (SELECT e.no_article, e.no_utilisateur, e.date_enchere, e.montant_enchere FROM ENCHERES e "
+				+ "INNER JOIN (SELECT no_article, MAX(montant_enchere) AS max_montant "
+				+ "FROM ENCHERES GROUP BY no_article) max_enchere "
+				+ "ON e.no_article = max_enchere.no_article "
+				+ "AND e.montant_enchere = max_enchere.max_montant) e "
+			+ "ON a.no_article = e.no_article LEFT JOIN UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur ";
 	private final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prixVente where no_article = :noArticle ;";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -81,43 +95,43 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 
 	
 	
-	class ArticleVenduMapper implements RowMapper<ArticleVendu> {
-		@Override
-		public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
-			var article = new ArticleVendu();
-			article.setNoArticle(rs.getInt("no_article"));
-			article.setNomArticle(rs.getString("nom_article"));
-			article.setDescription(rs.getString("description"));
-			
-			
-			article.setDateDebutEncheres(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
-			article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
-		    
-		    article.setMiseAPrix(rs.getInt("prix_initial"));
-			article.setPrixVente(rs.getInt("prix_vente"));
-			
-			article.setCategorie(new Categorie(rs.getInt("no_categorie"),(rs.getString("libelle"))));
-			article.setVendeur(new Utilisateur(rs.getInt("no_utilisateur"),(rs.getString("pseudo"))));
-			article.setRetrait(new Retrait(rs.getString("rue"),rs.getString("code_postal"),(rs.getString("ville"))));
-
-			///////////////////////////////Kim modifie ici
-			try {
-				var acheteur = new Utilisateur();
-				acheteur.setNoUtilisateur(rs.getInt("acheteur"));
-				article.setAcheteur(acheteur);
-			} catch (SQLException e) {
-				article.setAcheteur(null);
-		    }
-
-			return article;
-		}
-	}
+//	class ArticleVenduMapper implements RowMapper<ArticleVendu> {
+//		@Override
+//		public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
+//			var article = new ArticleVendu();
+//			article.setNoArticle(rs.getInt("no_article"));
+//			article.setNomArticle(rs.getString("nom_article"));
+//			article.setDescription(rs.getString("description"));
+//			
+//			
+//			article.setDateDebutEncheres(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+//			article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+//		    
+//		    article.setMiseAPrix(rs.getInt("prix_initial"));
+//			article.setPrixVente(rs.getInt("prix_vente"));
+//			
+//			article.setCategorie(new Categorie(rs.getInt("no_categorie"),(rs.getString("libelle"))));
+//			article.setVendeur(new Utilisateur(rs.getInt("no_utilisateur"),(rs.getString("pseudo"))));
+//			article.setRetrait(new Retrait(rs.getString("rue"),rs.getString("code_postal"),(rs.getString("ville"))));
+//
+//			///////////////////////////////Kim modifie ici
+//			try {
+//				var acheteur = new Utilisateur();
+//				acheteur.setNoUtilisateur(rs.getInt("acheteur"));
+//				article.setAcheteur(acheteur);
+//			} catch (SQLException e) {
+//				article.setAcheteur(null);
+//		    }
+//
+//			return article;
+//		}
+//	}
 	
 	//requette pour rechercher les articles par num article
 	@Override
 	public ArticleVendu readById(Integer noArticle) {
-		var sql = READ_BY_ARTICLE;
-		return jdbcTemplate.queryForObject(sql, new ArticleEnchereMapper(), noArticle);
+		var sql = READ_ALL_ARTICLES + " WHERE a.no_article = ?";
+		return jdbcTemplate.queryForObject(sql, new ArticleVenduMapper(), noArticle);
 	}
 
 	
@@ -199,45 +213,81 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	    return jdbcTemplate.query(sql, new ArticleVenduMapper(), params.toArray());
 	}
 
-	class ArticleEnchereMapper implements RowMapper<ArticleVendu> {
-		@Override
-		public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
-			var article = new ArticleVendu();
-			article.setNoArticle(rs.getInt("no_article"));
-			article.setNomArticle(rs.getString("nom_article"));
-			article.setDescription(rs.getString("description"));
-			
-			
-			article.setDateDebutEncheres(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
-			article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
-		    
-		    article.setMiseAPrix(rs.getInt("prix_initial"));
-			article.setPrixVente(rs.getInt("prix_vente"));
-			
-			article.setCategorie(new Categorie(rs.getInt("no_categorie"),(rs.getString("libelle"))));
-		//	article.setVendeur(new Utilisateur(rs.getInt("vendeur"),(rs.getString("pseudo"))));
-			article.setRetrait(new Retrait(rs.getString("rue"),rs.getString("code_postal"),(rs.getString("ville"))));
+//	class ArticleEnchereMapper implements RowMapper<ArticleVendu> {
+//		@Override
+//		public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
+//			var article = new ArticleVendu();
+//			article.setNoArticle(rs.getInt("no_article"));
+//			article.setNomArticle(rs.getString("nom_article"));
+//			article.setDescription(rs.getString("description"));
+//			
+//			
+//			article.setDateDebutEncheres(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+//			article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+//		    
+//		    article.setMiseAPrix(rs.getInt("prix_initial"));
+//			article.setPrixVente(rs.getInt("prix_vente"));
+//			
+//			article.setCategorie(new Categorie(rs.getInt("no_categorie"),(rs.getString("libelle"))));
+//		//	article.setVendeur(new Utilisateur(rs.getInt("vendeur"),(rs.getString("pseudo"))));
+//			article.setRetrait(new Retrait(rs.getString("rue"),rs.getString("code_postal"),(rs.getString("ville"))));
+//
+//			///////////////////////////////Kim modifie ici
+//			try {
+//				var vendeur = new Utilisateur(); 
+//				vendeur.setPseudo(rs.getString("vendeur"));
+//				article.setVendeur(vendeur);
+//			} catch (SQLException e) {
+//				article.setVendeur(null);
+//		    } 
+//			try {
+//				var acheteur = new Utilisateur();
+//				acheteur.setPseudo(rs.getString("acheteur"));
+//				article.setAcheteur(acheteur);
+//			} catch (SQLException e) {
+//				article.setAcheteur(null);
+//		    }
+//
+//			return article;
+//		}
+//	}
+	public class ArticleVenduMapper implements RowMapper<ArticleVendu> {
 
-			///////////////////////////////Kim modifie ici
-			try {
-				var vendeur = new Utilisateur(); 
-				vendeur.setPseudo(rs.getString("vendeur"));
-				article.setVendeur(vendeur);
-			} catch (SQLException e) {
-				article.setVendeur(null);
-		    } 
-			try {
-				var acheteur = new Utilisateur();
-				acheteur.setPseudo(rs.getString("acheteur"));
-				article.setAcheteur(acheteur);
-			} catch (SQLException e) {
-				article.setAcheteur(null);
-		    }
-
-			return article;
-		}
+	    @Override
+	    public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
+	        // Création d'une instance de ArticleVendu
+	        var article = new ArticleVendu();
+	        
+	        // Mapping des colonnes d'ArticleVendu
+	        article.setNoArticle(rs.getInt("no_article"));
+	        article.setNomArticle(rs.getString("nom_article"));
+	        article.setDescription(rs.getString("description"));
+	        article.setDateDebutEncheres(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+	        article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+	        article.setMiseAPrix(rs.getInt("prix_initial"));
+	        article.setPrixVente(rs.getInt("prix_vente"));
+	        article.setCategorie(new Categorie(rs.getInt("no_categorie"), rs.getString("libelle")));
+	        article.setRetrait(new Retrait(rs.getString("rue"), rs.getString("code_postal"), rs.getString("ville")));
+	        
+	        // Mapping du vendeur
+	        var vendeur = new Utilisateur();
+	        vendeur.setNoUtilisateur(rs.getInt("vendeur_id"));
+	        vendeur.setPseudo(rs.getString("vendeur_pseudo"));
+	        article.setVendeur(vendeur);
+	        
+	        // Mapping de l'acheteur
+	        var acheteur = new Utilisateur();
+	        acheteur.setNoUtilisateur(rs.getInt("acheteur_id"));
+	        acheteur.setPseudo(rs.getString("acheteur_pseudo"));
+	        article.setAcheteur(acheteur);
+	        
+	        // Mapping de la meilleure offre
+//	        article.setMeilleureOffre(rs.getInt("meilleure_offre"));
+	        
+	        return article;
+	    }
 	}
-	
+
 	
 	
 	
