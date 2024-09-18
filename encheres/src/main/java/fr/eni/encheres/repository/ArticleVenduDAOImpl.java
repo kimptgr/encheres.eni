@@ -23,7 +23,9 @@ import fr.eni.encheres.bo.Utilisateur;
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente :no_utilisateur, :no_categorie);";
-	private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville, e.no_utilisateur acheteur from ARTICLES_VENDUS A INNER join CATEGORIES C on a.no_categorie=c.no_categorie INNER join UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur INNER join RETRAITS R on a.no_article=r.no_article INNER JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article]";		
+	private final String READ_BY_ARTICLE = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville from ARTICLES_VENDUS A INNER join CATEGORIES C on a.no_categorie=c.no_categorie INNER join UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur INNER join RETRAITS R on a.no_article=r.no_article";		
+	private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville, e.no_utilisateur acheteur from ARTICLES_VENDUS A LEFT JOIN CATEGORIES C on a.no_categorie=c.no_categorie LEFT JOIN UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur LEFT JOIN RETRAITS R on a.no_article=r.no_article LEFT JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article]";		
+	
 	private final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prixVente where no_article = :noArticle ;";
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -99,9 +101,14 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 			article.setRetrait(new Retrait(rs.getString("rue"),rs.getString("code_postal"),(rs.getString("ville"))));
 
 			///////////////////////////////Kim modifie ici
-			var acheteur = new Utilisateur();
-			acheteur.setNoUtilisateur(rs.getInt("acheteur"));
-			article.setAcheteur(acheteur);
+			try {
+				var acheteur = new Utilisateur();
+				acheteur.setNoUtilisateur(rs.getInt("acheteur"));
+				article.setAcheteur(acheteur);
+			} catch (SQLException e) {
+				article.setAcheteur(null);
+		    }
+
 			return article;
 		}
 	}
@@ -109,7 +116,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	//requette pour rechercher les articles par num article
 	@Override
 	public ArticleVendu readById(Integer noArticle) {
-		var sql = READ_ALL_ARTICLES + " where a.no_article=?";
+		var sql = READ_BY_ARTICLE + " where A.no_article=?";
 		return jdbcTemplate.queryForObject(sql, new ArticleVenduMapper(), noArticle);
 	}
 
@@ -152,7 +159,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	    if (searchTerm != null && !searchTerm.isEmpty()) {
 	        sql += " AND a.nom_article LIKE ?";
 	        params.add("%" + searchTerm + "%");  // Utilisation des jokers pour la recherche partielle
-	    }
+	    } 
 	    
 	    if (ouvertes!= null && !ouvertes.isEmpty()) {
 	    	sql+= " AND GETDATE() > date_debut_encheres AND GETDATE() < date_fin_encheres";

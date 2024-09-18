@@ -62,16 +62,16 @@ public class SecurityConfig {
 		requests.requestMatchers("/", "/inscription", "/css/**", "/js/**")
 				.permitAll().anyRequest().authenticated())
 				.formLogin((form) -> form.usernameParameter("email").passwordParameter("motDePasse")
-						.loginPage("/connexion").defaultSuccessUrl("/").permitAll())
+						.loginPage("/connexion").defaultSuccessUrl("/", true).permitAll())
 				.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());
 
 		return security.build();
 	}
 	//Controle session
-	@Bean
-	public HttpSessionEventPublisher httpSessionEventPublisher() {
-	    return new HttpSessionEventPublisher();
-	}
+//	@Bean
+//	public HttpSessionEventPublisher httpSessionEventPublisher() {
+//	    return new HttpSessionEventPublisher();
+//	}
 
 
 

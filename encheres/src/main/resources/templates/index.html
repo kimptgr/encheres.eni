@@ -39,6 +39,7 @@
 				      </select>
 				
 					  <!-- Filtre Ventes -->
+					   <div class="checkbox-group" sec:authorize="isAuthenticated()" data-th-if="${userInSession != null}">
  			   			<h4>Ventes :</h4>
 						<label><input type="checkbox" name="ouvertes" value="true">Enchères ouvertes</label><br>
 						<label><input type="checkbox" name="enCours" value="true">Mes enchères en cours</label><br>
@@ -47,6 +48,7 @@
 						<label><input type="checkbox" name="venteEncours" value="true">Ventes en cours</label><br>
 						<label><input type="checkbox" name="venteNonDebutes" value="true">Ventes non débutées</label><br>
 						<label><input type="checkbox" name="venteTerminees" value="true">Ventes terminées</label><br>
+					</div>
 						<button type=submit>Rechercher</button>
             </form>
             </div>
