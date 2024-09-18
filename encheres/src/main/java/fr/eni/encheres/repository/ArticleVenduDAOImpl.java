@@ -22,8 +22,8 @@ import fr.eni.encheres.bo.Utilisateur;
 @Repository
 public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
-	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente :no_utilisateur, :no_categorie);";
-	private final String READ_BY_ARTICLE = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville from ARTICLES_VENDUS A INNER join CATEGORIES C on a.no_categorie=c.no_categorie INNER join UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur INNER join RETRAITS R on a.no_article=r.no_article";		
+	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS ([nom_article], [description], date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :prix_vente, :no_utilisateur, :no_categorie);";
+	private final String READ_BY_ARTICLE = "SELECT TOP 1 a.no_article, u1.pseudo AS acheteur, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, a.prix_initial, a.prix_vente, a.no_categorie, u2.pseudo AS vendeur, c.libelle, r.rue, r.code_postal, r.ville FROM ARTICLES_VENDUS a LEFT JOIN ENCHERES e ON a.no_article = e.no_article LEFT JOIN UTILISATEURS u1 ON e.no_utilisateur = u1.no_utilisateur INNER JOIN UTILISATEURS u2 ON a.no_utilisateur = u2.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie INNER JOIN RETRAITS r ON a.no_article = r.no_article WHERE a.no_article = ? ORDER BY date_enchere DESC";		
 	private final String READ_ALL_ARTICLES = "select a.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, c.libelle, r.rue, r.code_postal, r.ville, e.no_utilisateur acheteur from ARTICLES_VENDUS A LEFT JOIN CATEGORIES C on a.no_categorie=c.no_categorie LEFT JOIN UTILISATEURS U on  a.no_utilisateur=u.no_utilisateur LEFT JOIN RETRAITS R on a.no_article=r.no_article LEFT JOIN [ENCHERES].[dbo].[ENCHERES] e ON a.[no_article] = e.[no_article]";		
 	
 	private final String UPDATE_PRIX_VENTE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prixVente where no_article = :noArticle ;";
@@ -116,8 +116,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	//requette pour rechercher les articles par num article
 	@Override
 	public ArticleVendu readById(Integer noArticle) {
-		var sql = READ_BY_ARTICLE + " where A.no_article=?";
-		return jdbcTemplate.queryForObject(sql, new ArticleVenduMapper(), noArticle);
+		var sql = READ_BY_ARTICLE;
+		return jdbcTemplate.queryForObject(sql, new ArticleEnchereMapper(), noArticle);
 	}
 
 	
@@ -199,7 +199,44 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	    return jdbcTemplate.query(sql, new ArticleVenduMapper(), params.toArray());
 	}
 
-	
+	class ArticleEnchereMapper implements RowMapper<ArticleVendu> {
+		@Override
+		public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
+			var article = new ArticleVendu();
+			article.setNoArticle(rs.getInt("no_article"));
+			article.setNomArticle(rs.getString("nom_article"));
+			article.setDescription(rs.getString("description"));
+			
+			
+			article.setDateDebutEncheres(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+			article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+		    
+		    article.setMiseAPrix(rs.getInt("prix_initial"));
+			article.setPrixVente(rs.getInt("prix_vente"));
+			
+			article.setCategorie(new Categorie(rs.getInt("no_categorie"),(rs.getString("libelle"))));
+		//	article.setVendeur(new Utilisateur(rs.getInt("vendeur"),(rs.getString("pseudo"))));
+			article.setRetrait(new Retrait(rs.getString("rue"),rs.getString("code_postal"),(rs.getString("ville"))));
+
+			///////////////////////////////Kim modifie ici
+			try {
+				var vendeur = new Utilisateur(); 
+				vendeur.setPseudo(rs.getString("vendeur"));
+				article.setVendeur(vendeur);
+			} catch (SQLException e) {
+				article.setVendeur(null);
+		    } 
+			try {
+				var acheteur = new Utilisateur();
+				acheteur.setPseudo(rs.getString("acheteur"));
+				article.setAcheteur(acheteur);
+			} catch (SQLException e) {
+				article.setAcheteur(null);
+		    }
+
+			return article;
+		}
+	}
 	
 	
 	

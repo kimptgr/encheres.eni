@@ -3,13 +3,13 @@
     margin: 1rem 1rem;
     position: absolute;
 } */
-
+ 
 @media screen and (max-width: 1216px) {
     header {
         position: static;
-    }
-}
-
+    } 
+} 
+ 
     main, .main-top {
         background-color: #f9f9f9;
         border: 1px solid #ddd;
@@ -23,9 +23,9 @@
     @media screen and (min-width: 1216px) {
     main, .main-top {
         margin-top: 1.3em;
-    }
+    } 
 }
-
+ 
     .center-main {
         display: flex;
         flex-direction: column;        
