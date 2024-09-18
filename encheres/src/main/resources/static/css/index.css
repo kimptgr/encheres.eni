@@ -57,6 +57,7 @@ ul li form input  {
     }
     
     .cards-group {
+    clear: both;
     display:flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -81,6 +82,9 @@ ul li form input  {
 p {
     font-size: 0,8em;
 }
+
+
+
 
 
 
@@ -112,4 +116,45 @@ p {
 
 #NomVendeur {
 	color: #004D40;
+}
+
+#FiltresGauches {
+  float: left; 
+  width: 60%; 
+  margin-right: 20px; 
+}
+
+
+#ListeFiltres {
+  /* Conteneur principal */
+  margin: 0px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  float: right; 
+  width: 30%; 
+}
+
+#ListeFiltres h4 {
+  margin-bottom: 10px;
+}
+
+#ListeFiltres label {
+  display: block;
+  margin-bottom: 0px;
+}
+
+#ListeFiltres input[type="checkbox"] {
+  /* Les cases à cocher */
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+}
+
+#ListeFiltres input[type="checkbox"]:checked {
+  /* Aspect de la case cochée */
+  background-color: #FFC900;
+  border: none;
 }

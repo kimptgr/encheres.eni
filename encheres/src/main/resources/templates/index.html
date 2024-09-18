@@ -20,15 +20,17 @@
     <h2>Liste des enchères</h2>
         <div class="center-main">
 			<div class="main-top">
-            <h3>Filtres :</h3>
+           
 
             <form method="GET" >
+            <div id="FiltresGauches">
+             <h3>Filtres :</h3><br>
 				<div class="form-group">
-				    <label for="searchTerm">Rechercher un article :</label>
+				    <label for="searchTerm">Rechercher un article :&nbsp;</label>
 				    <input class="value" type="text" id="searchTerm" name="searchTerm" placeholder="Nom de l'article">
             </div>
             <div class="form-group">
-	             	 <label for="categorie">Categorie :</label>
+	             	 <label for="categorie">Categorie :&nbsp;</label>
 				      <select  id="Categorie" name="Categorie">
       				    <option value="">Toutes les catégories</option>
 				        <option 
@@ -37,8 +39,11 @@
 				        data-th-value="${category.noCategorie}">
 				        </option>
 				      </select>
+			</div>
+			</div>
 				
 					  <!-- Filtre Ventes -->
+ 			   		<div id="ListeFiltres">
  			   			<h4>Ventes :</h4>
 						<label><input type="checkbox" name="ouvertes" value="true">Enchères ouvertes</label><br>
 						<label><input type="checkbox" name="enCours" value="true">Mes enchères en cours</label><br>
@@ -47,7 +52,8 @@
 						<label><input type="checkbox" name="venteEncours" value="true">Ventes en cours</label><br>
 						<label><input type="checkbox" name="venteNonDebutes" value="true">Ventes non débutées</label><br>
 						<label><input type="checkbox" name="venteTerminees" value="true">Ventes terminées</label><br>
-						<button type=submit>Rechercher</button>
+						<button id="boutonVert" type=submit>Rechercher</button>
+					</div>
             </form>
             </div>
 			<div class="cards-group">
