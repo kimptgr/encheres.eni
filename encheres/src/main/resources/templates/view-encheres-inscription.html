@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layoutEncheres(
+                    navBar=~{::nav},
+                    titrePage=~{::h1},
+                    contenuPage=~{::form},
+                    linkcss=~{::#css})}">
+
 <head>
-<meta charset="UTF-8">
-<title>Inscription</title>
-<link id="css" rel="stylesheet" href="/encheres/css/general.css">
+    <meta charset="UTF-8">
+    <title>Mon profil</title>
+    <link id="css" rel="stylesheet" href="/encheres/css/general.css">
+    <link id="css" rel="stylesheet" href="/encheres/css/inscription.css">
 </head>
 <body>
 	<h1>Mon Profil</h1>
@@ -74,7 +81,7 @@
 
 		<ul>
 			<li><input type="submit" value="Créer" /></li>
-			<li><input type="reset" value="Annuler" /></li>
+			<li><br/><input type="reset" value="Annuler" /></li>
 		</ul>
 
 	</form>

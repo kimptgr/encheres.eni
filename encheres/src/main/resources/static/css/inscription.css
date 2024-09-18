@@ -1,0 +1,138 @@
+ header {
+    font-size: 1em;
+    margin: 1em 1em;
+    display: flex;
+    justify-content: space-between;
+}
+     
+      main {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width:clamp(350px 90vw 500px); 
+        margin: 0 auto;
+        padding: 2em;
+    }
+
+h1 {
+	 color: #004D40;
+	 margin-bottom: 10px;
+}
+    
+    .center-main {
+    	max-width :400px;
+    	width: clamp(350px, 90vw, 600px); 
+        margin: 0 auto;
+    }
+    
+    label {
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-right: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #B5CFB7;
+    outline:#B5CFB7 solid 2px ;
+}
+
+input[type="submit"] {
+    width: 60%;
+    padding: 12px;
+    margin-right: 1em;
+    background-color: #FFC900;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    float: left;
+    margin-bottom: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #ffffff;
+    color: #FFC900;
+    border: 2px solid #FFC900; 
+}
+.checkbox {
+	text-align: right;
+	padding-right:2em;
+}
+.checkbox label {
+    font-size: 1em;
+    color: #555;
+    cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Style pour le lien "Mot de passe oublié" */
+li > a {
+     color: #555;
+        text-decoration: none;
+} 
+
+a:hover {
+    text-decoration: underline;
+}
+
+.error-bloc {
+    min-height: 1.5em;
+    color: red;
+    text-align: center;
+    flex-basis: 100%;
+}
+
+
+input[type="reset"] {
+	display: block;
+	text-align:center;
+    width: 60%;
+    padding: 1em; 
+    background-color:#004D40;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-shadow: none;
+    font-weight: 400;
+}
+
+input[type="reset"]:hover {
+    background-color:  #ffffff;
+     color: #004D40;
+     border: 2px solid #004D40;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+ul li {
+    margin-bottom: 10px;
+}
