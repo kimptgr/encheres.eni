@@ -24,16 +24,14 @@ public interface UtilisateurDAO {
 
 	public List<Utilisateur> readAll();
 
-	
 	boolean verifByEmail(String email);
+
+	boolean verifByPseudo(String pseudo);
 
 	Utilisateur readByEmail(String email);
 
 	public void update(Utilisateur utilisateur);
-	
-	public void updateCredit(Utilisateur utilisateur);
 
-	
-	
+	public void updateCredit(Utilisateur utilisateur);
 
 }

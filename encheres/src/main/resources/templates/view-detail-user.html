@@ -10,7 +10,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>ENI-Enchères</title>
-    <link id="css" rel="stylesheet" href="/encheres/css/general.css">
     <link id="css" rel="stylesheet" href="/encheres/css/create-article.css">
   </head>
   <body>
@@ -22,10 +21,11 @@
     <main>
         <h2>Mon profil :</h2>
         <div class="center-main">
-            <form data-th-action="@{/detailsProfil}" method="get" data-th-object="${utilisateur}">
+            <form data-th-action="@{|/detailsProfil/modifierProfil?pseudo=${#authentication.name}|}" method="post" data-th-object="${utilisateur}">
                 <div class="form-group">
                     <div class="label">
                         <p >Pseudo&nbsp;:</p>
+                        
                     </div>
                     <div class="value">
                         <p data-th-text="${utilisateur.pseudo}">Value 1</p>
