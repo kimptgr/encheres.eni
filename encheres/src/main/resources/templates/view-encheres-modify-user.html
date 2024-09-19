@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/layout :: layoutEncheres(
+                    navBar=~{::nav},
+                    titrePage=~{::h1},
+                    contenuPage=~{::form},
+                    linkcss=~{::#css})}">
+
 <head>
-<meta charset="UTF-8">
-<title>Modifier mon profile</title>
-<link id="css" rel="stylesheet" href="/encheres/css/general.css">
+    <meta charset="UTF-8">
+    <title>Modifier profil</title>
+    <link id="css" rel="stylesheet" href="/encheres/css/general.css">
+    <link id="css" rel="stylesheet" href="/encheres/css/modifierProfil.css">
 </head>
 <body>
 <h1>Modifier Profil</h1>
@@ -85,7 +92,7 @@
 
 		<ul class="subNewPassword">
 			<li><input type="submit" value="Créer" /></li>
-			<li><input type="submit" value="Supprimer mon compte" /></li>
+			<li><input id="btnSup" type="submit" value="Supprimer mon compte" /></li>
 		</ul>
 
 	</form>

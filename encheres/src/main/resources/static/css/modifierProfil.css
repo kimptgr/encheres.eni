@@ -1,4 +1,5 @@
- header {
+
+header {
     font-size: 1em;
     margin: 1em 1em;
     display: flex;
@@ -10,7 +11,7 @@
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width:50%; 
+        width: 60%; 
         margin: 0 auto;
         padding: 2em;
     }
@@ -54,7 +55,7 @@ input[type="password"]:focus {
 
 input[type="submit"] {
     width: 60%;
-    padding: 0.8em;
+    padding: 0.7em;
     margin-right: 1em;
     background-color: #FFC900;
     color: #ffffff;
@@ -104,11 +105,11 @@ a:hover {
 }
 
 
-input[type="reset"] {
+#btnSup {
 	display: block;
 	text-align:center;
-    width: 60%;
-    padding: 0.8em; 
+	width: 60%;
+    padding: 0.7em; 
     background-color:#004D40;
     color: #ffffff;
     border: none;
@@ -120,7 +121,7 @@ input[type="reset"] {
     font-weight: 400;
 }
 
-input[type="reset"]:hover {
+#btnSup:hover {
     background-color:  #ffffff;
      color: #004D40;
      border: 2px solid #004D40;
