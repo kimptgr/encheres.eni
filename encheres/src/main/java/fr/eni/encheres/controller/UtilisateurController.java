@@ -3,6 +3,8 @@
  */
 package fr.eni.encheres.controller;
 
+import java.security.Principal;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.controller.security.ContexteController;
 import fr.eni.encheres.exceptions.BusinessException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 /**
@@ -34,7 +37,7 @@ import jakarta.validation.Valid;
  */
 @Controller
 @RequestMapping()
-@SessionAttributes({"userInSession"})
+@SessionAttributes({ "userInSession" })
 public class UtilisateurController {
 
 	private UtilisateurService utilisateurService;
@@ -47,7 +50,8 @@ public class UtilisateurController {
 	 * @param utilisateurService
 	 * @param passwordEncoder
 	 */
-	public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder, ContexteService contexteservice) {
+	public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder,
+			ContexteService contexteservice) {
 		this.utilisateurService = utilisateurService;
 		this.passwordEncoder = passwordEncoder;
 		this.contexteservice = contexteservice;
@@ -56,60 +60,74 @@ public class UtilisateurController {
 
 	@GetMapping("/inscription")
 	public String addUtilisateur(Model model) {
-		
+
 		model.addAttribute(new Utilisateur());
 		return "view-encheres-inscription";
 	}
 
 	@PostMapping("/inscription")
 	public String addUtilisateur(@Valid @ModelAttribute("utilisateur") Utilisateur utilisateur,
-			BindingResult bindingResult) {
+			BindingResult bindingResult, @RequestParam("mdpConfirm") String mdpConfirm, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "view-encheres-inscription";
-		
-		} else {
-			
-				String password = utilisateur.getMotDePasse();
-				String encodedPassword = passwordEncoder.encode(password);
-				utilisateur.setMotDePasse(encodedPassword);
-				utilisateurService.addUser(utilisateur);
 
-				return "redirect:/";
-			}
 		}
-	
+		if (utilisateurService.verifByPseudo(utilisateur.getPseudo())) {
+			bindingResult.rejectValue("pseudo", "error.utilisateur", "Le pseudo est déjà pris.");
+
+			if (utilisateurService.verifByEmail(utilisateur.getEmail())) {
+				bindingResult.rejectValue("email", "error.utilisateur", "L'email est déjà utilisé.");
+
+				if (!utilisateur.getMotDePasse().equals(mdpConfirm)) {
+					bindingResult.rejectValue("motDePasse", "error.utilisateur",
+							"Les mots de passe ne correspondent pas.");
+				}
+			}
+			return "view-encheres-inscription";
+		} else {
+			String password = utilisateur.getMotDePasse();
+			String encodedPassword = passwordEncoder.encode(password);
+			utilisateur.setMotDePasse(encodedPassword);
+			utilisateurService.addUser(utilisateur);
+
+			return "redirect:/";
+		}
+	}
+
 	@GetMapping("/detailsProfil")
-	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true)  String pseudo, Model model) {
+	public String afficherUnProfil(@RequestParam(name = "pseudo", required = true) String pseudo, Model model,
+			Principal principal) {
 		System.err.println(pseudo);
 		if (!pseudo.isEmpty() && !pseudo.isBlank()) {
 			Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
+
 			Utilisateur userInSession = contexteservice.getUserInSession();
-			if (utilisateur != null && userInSession !=null) {
+			if (utilisateur != null && userInSession != null) {
 				model.addAttribute("utilisateur", utilisateur);
 				model.addAttribute("userInSession", userInSession);
-				
-				
-				return "view-detail-user"; 
+
+				return "view-detail-user";
 			} else
 				System.out.println("Utilisateur inconnu!!");
 		} else {
 			System.out.println("Identifiant inconnu");
 		}
 		return "redirect:/";
-	} 
-	
-	@GetMapping("/modifierProfil")
-	   public String afficherFormulaireModification(@RequestParam(name = "pseudo", required = true) String pseudo, Model model) {
-        Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
-        Utilisateur userInSession = contexteservice.getUserInSession();
-        if (utilisateur != null && userInSession !=null) {
-            model.addAttribute("utilisateur", utilisateur);
-            model.addAttribute("userInSession", userInSession);
-			return "view-encheres-modify-user";
-			}
-		return  "redirect:/";
-		
-	}	
-	
 	}
-	
+
+	@PostMapping("/detailsProfil/modifierProfil")
+	public String afficherFormulaireModification(@RequestParam(name = "pseudo", required = true) String pseudo,
+			Model model) {
+		Utilisateur utilisateur = utilisateurService.findByPseudo(pseudo);
+		Utilisateur userInSession = contexteservice.getUserInSession();
+		if (utilisateur != null && userInSession != null) {
+			model.addAttribute("utilisateur", utilisateur);
+			model.addAttribute("userInSession", userInSession);
+			
+			return "view-encheres-modify-user";
+		}
+		return "redirect:/";
+
+	}
+
+}

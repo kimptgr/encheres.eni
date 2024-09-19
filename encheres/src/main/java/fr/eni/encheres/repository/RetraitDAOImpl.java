@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import fr.eni.encheres.bo.ArticleVendu;
@@ -27,10 +29,24 @@ public class RetraitDAOImpl implements RetraitDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	@Autowired 
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
 	@Override
 	public Retrait readByNoArticle(Integer noArticle) {
 		return jdbcTemplate.queryForObject(SELECT_RETRAIT_BY_NO_ARTICLE,new RetraitRowMapper(), noArticle);
 	}
+	
+	@Override
+	public void createRetrait(Retrait retrait) {
+	String INSERT_RETRAIT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (:no_article, :rue, :code_postal, :ville)";
+	MapSqlParameterSource namedParametersRetrait = new MapSqlParameterSource();
+	namedParametersRetrait.addValue("no_article", retrait.getArticleVendu().getNoArticle());
+	namedParametersRetrait.addValue("rue", retrait.getRue());
+	namedParametersRetrait.addValue("code_postal", retrait.getCodePostal());
+	namedParametersRetrait.addValue("ville", retrait.getVille());
+	
+	namedParameterJdbcTemplate.update(INSERT_RETRAIT, namedParametersRetrait);}
 
 	class RetraitRowMapper implements RowMapper<Retrait> {
 		@Override

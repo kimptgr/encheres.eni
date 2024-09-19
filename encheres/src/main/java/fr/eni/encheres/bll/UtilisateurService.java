@@ -6,7 +6,8 @@ package fr.eni.encheres.bll;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
- * Interface en charge de 
+ * Interface en charge de
+ * 
  * @projet : encheres - V1.0
  * @author : kim, ophélie, alex
  * @since: 10 sept. 2024 - 10:41:25
@@ -14,15 +15,16 @@ import fr.eni.encheres.bo.Utilisateur;
 public interface UtilisateurService {
 	public void addUser(Utilisateur utilisateur);
 
+	Utilisateur findByEmail(String email);
+
+	boolean verifByPseudo(String pseudo);
+
 	boolean verifByEmail(String email);
 
-	Utilisateur findByEmail(String email);
+	Utilisateur findById(Integer noUtilisateur);
+	
 	Utilisateur findByPseudo(String pseudo);
-	Utilisateur findById (Integer noUtilisateur);
 	
-	
-	
-		
-	
+	public void updateUser(Utilisateur utilisateur);
 
 }

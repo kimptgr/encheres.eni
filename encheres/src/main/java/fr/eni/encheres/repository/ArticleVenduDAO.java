@@ -6,7 +6,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 
 public interface ArticleVenduDAO {
 	
-	void create(ArticleVendu articleVendu);
+	ArticleVendu create(ArticleVendu articleVendu);
 	
 	List<ArticleVendu> readAll();
 	

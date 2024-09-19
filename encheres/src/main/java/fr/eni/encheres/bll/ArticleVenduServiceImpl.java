@@ -49,6 +49,10 @@ public class ArticleVenduServiceImpl implements ArticleVenduService {
 	public void add(ArticleVendu articleVendu) {
 		articleVendu.setPrixVente(articleVendu.getMiseAPrix());
 		articleVenduDAO.create(articleVendu);
+		ArticleVendu articleWithNo = articleVenduDAO.create(articleVendu);
+		Retrait retrait = articleWithNo.getRetrait() ;
+		retrait.setArticleVendu(articleVendu);
+		retraitDAO.createRetrait(retrait);
 	}
 
 

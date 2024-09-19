@@ -13,10 +13,10 @@
     <link id="css" rel="stylesheet" href="/encheres/css/inscription.css">
 </head>
 <body>
-	<h1>Mon Profil</h1>
 	<form data-th-action="@{/inscription}" data-th-object="${utilisateur}"
 		method="post">
-		
+
+	<h1>Mon Profil</h1>
 		<ul class="formulaireCreat">
 			<li><label for="pseudo">Pseudo:</label><input type="text"
 				id="pseudo" data-th-field="*{pseudo}" required /><span

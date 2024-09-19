@@ -4,20 +4,67 @@
   th:replace="~{layouts/layout :: layoutEncheres(
                     navBar=~{},
                     titrePage=~{::h2},
-                    contenuPage=~{:: .center-main},
-                    linkcss=~{})}"
+                    contenuPage=~{:: .main-top},
+                    linkcss=~{::#css})}"
 >
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8" /> 
     <title>ENI-Enchères</title>
-    <link id="css" rel="stylesheet" href="/encheres/css/general.css">
+    <link id="css" rel="stylesheet" href="/encheres/css/view-article.css">
   </head>
   <header>
     <nav data-th-replace="~{fragments/fragments-navbar::frag-navbar}"></nav>
   </header>
     <h2>Détail vente</h2>
-    <div class="center-main">
-    	<div>
+    <div class="main-top">
+    <div class="center-main"> 
+        <div class="form-group">
+            <h3 data-th-text="${articleVendu.nomArticle}">Nom de l'article</h3>
+        </div>
+        <div class="form-group">
+            <p>Description :</p>
+            <p data-th-text="${articleVendu.description}"></p>
+        </div>
+        <div class="form-group">
+            <p>Catégorie :</p>
+            <p data-th-text="${articleVendu.categorie.libelle}">Catégorie :</p>
+        </div>
+        <div class="form-group">
+            <p>Meilleure offre :</p>
+            <p data-th-text="${articleVendu.prixVente}">
+              <span data-th-if="${articleVendu.acheteur.pseudo != null}">
+                <span data-th-text="' par '+${articleVendu.acheteur.pseudo}">
+                </span>
+              </span>
+            </p>
+        </div>
+        <div class="form-group">
+            <p>Mise à prix :</p>
+            <p data-th-text="${articleVendu.miseAPrix}">Mise à prix :</p>
+        </div>
+        <div class="form-group">
+            <p>Fin de l'enchère :</p>
+            <p data-th-text="${#temporals.format(articleVendu.dateFinEncheres, 'dd/MM/yyyy HH:mm')}">Fin de l'enchère :</p>
+        </div>
+        <div class="form-group">
+            <p>Retrait :</p>
+            <p><span data-th-text="${articleVendu.retrait.rue}"></span><br><span data-th-text="${articleVendu.retrait.codePostal} +' ' + ${articleVendu.retrait.ville}"></p>
+        </div>
+        <div class="form-group">
+            <p>Vendeur :</p>
+            <p data-th-text="${articleVendu.vendeur.pseudo}">Vendeur :</p>
+        </div>
+        <sec:authorize access="isAuthenticated()">
+        <div class="form-group">
+            <form data-th-action="@{/detailArticle?noArticle=}+${articleVendu.noArticle}" method="post">
+                <label for="proposition">Ma proposition :</label>
+                <input hidden type="number" name="noArticle" value="${articleVendu.noArticle}">
+                <input type="number" name="proposition" id="proposition">
+                <input type="submit" value="Enchérir" />
+              </form>
+        </div>
+    </sec:authorize>
+      </div></div><!--
             	<dl>
             		<dd data-th-text=" 'Article : ' + ${articleVendu.nomArticle}"></dd>
             		<dd data-th-text="'Description : ' + ${articleVendu.description}"></dd>
@@ -27,7 +74,7 @@
                 <dd data-th-text="'Mise à prix : ' + ${articleVendu.miseAPrix}"></dd>
           			<dd data-th-text="'Fin de l\'enchère : ' + ${articleVendu.dateFinEncheres}"></dd>
           			<dd data-th-text="'Retrait : '"></dd>
-            		<dd data-th-text="${articleVendu.retrait.rue} +' <br/>' + ${articleVendu.retrait.codePostal} +' ' + ${articleVendu.retrait.ville}"></dd>
+            		<dd data-th-text="${articleVendu.retrait.rue} +' '+ ${articleVendu.retrait.codePostal} +' ' + ${articleVendu.retrait.ville}"></dd>
             	</dl>       	
             </div>
             
@@ -41,5 +88,5 @@
               </form>
             </dd>
             </sec:authorize>
-          </div>
+          </div> -->
 </html>

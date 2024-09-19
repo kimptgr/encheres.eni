@@ -51,7 +51,7 @@ public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur u
 	Utilisateur charge = contexteService.chargeEmail(email);
 	if(charge != null) {
 		userInSession.setNoUtilisateur(charge.getNoUtilisateur());
-		userInSession.setEmail(charge.getEmail());
+		userInSession.setPseudo(charge.getPseudo());
 		userInSession.setNom(charge.getNom());
 		userInSession.setPrenom(charge.getPrenom());
 		userInSession.setRue(charge.getRue());
@@ -61,7 +61,7 @@ public String chargeUserInSession(@ModelAttribute("userInSession") Utilisateur u
 		
 	}else {
 		userInSession.setNoUtilisateur(0);
-		userInSession.setEmail(null);
+		userInSession.setPseudo(null);
 		userInSession.setNom(null);
 		userInSession.setPrenom(null);
 		userInSession.setAdministrateur(false);
@@ -80,7 +80,7 @@ public Utilisateur userInSession() {
 private Utilisateur getUserInSession() {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	String currentUsernameInSession = authentication.getName();
-	Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
+	Utilisateur userInSession = contexteService.chargePseudo(currentUsernameInSession);
 	return userInSession;
 }
 
