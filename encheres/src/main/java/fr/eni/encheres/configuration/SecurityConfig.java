@@ -43,7 +43,6 @@ public class SecurityConfig {
 
 	@Bean
 	UserDetailsManager getUsers(DataSource source) {
-
 		var manager = new JdbcUserDetailsManager(source);
 		manager.setUsersByUsernameQuery("select u.pseudo,u.mot_de_passe,1 from Utilisateurs u where pseudo=?");
 		manager.setAuthoritiesByUsernameQuery("select u.pseudo,u.administrateur from Utilisateurs u where pseudo=?");
@@ -52,25 +51,13 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain getFilterChain(HttpSecurity security) throws Exception {
-
 		security.authorizeHttpRequests((requests) ->
-		// =========TO DO POUR TESTER
-//		requests.anyRequest().permitAll());
-//		security.csrf().disable().
-		// =========FIN POUR TESTER
-		requests.requestMatchers("/", "/inscription", "/css/**", "/js/**").permitAll().anyRequest().authenticated())
-
+		requests.requestMatchers("/", "/inscription", "/css/**", "/js/**")
+				.permitAll().anyRequest().authenticated())
 				.formLogin((form) -> form.usernameParameter("pseudo").passwordParameter("motDePasse")
-						.loginPage("/connexion").defaultSuccessUrl("/").permitAll())
-
+						.loginPage("/connexion").defaultSuccessUrl("/", true).permitAll())
 				.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());
-
-		return security.build();
+		return security.build(); 
 	}
-	// Controle session
-//	@Bean
-//	public HttpSessionEventPublisher httpSessionEventPublisher() {
-//	    return new HttpSessionEventPublisher();
-//	}
 
 }

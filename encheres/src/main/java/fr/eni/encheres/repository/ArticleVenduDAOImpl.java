@@ -148,14 +148,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	
 	
 	//requette dynamique qui gère à la fois le filtre avec catégorie et recherche dans la barre
+	
 	@Override
-	public List<ArticleVendu> findFilteredArticles(String noCategorie, String searchTerm, String ouvertes,String enCours,String remportees,String venteEncours,String venteNonDebutes,String venteTerminees) {
-	    // Base de la requête
+	public List<ArticleVendu> findFilteredArticles(String noCategorie, String searchTerm, String ouvertes,String enCours,
+			String remportees,String venteEncours,String venteNonDebutes,String venteTerminees) {
+	    
 	    String sql = READ_ALL_ARTICLES  + " WHERE 1=1";  // "1=1" permet d'ajouter des conditions facilement
 	    
 	    List<Object> params = new ArrayList<>();
 	    
-	    // Filtrer par catégorie si présente
 	    if (noCategorie != null && !noCategorie.isEmpty() ) {
 	        sql += " AND a.no_categorie = ?";
 	        params.add(noCategorie);
@@ -164,7 +165,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO {
 	    // Filtrer par nom si présent
 	    if (searchTerm != null && !searchTerm.isEmpty()) {
 	        sql += " AND a.nom_article LIKE ?";
-	        params.add("%" + searchTerm + "%");  // Utilisation des jokers pour la recherche partielle
+	        params.add("%" + searchTerm + "%"); 
 	    } 
 	    
 	    if (ouvertes!= null && !ouvertes.isEmpty()) {

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.exceptions.EnchereException;
 import fr.eni.encheres.repository.ArticleVenduDAO;
 import fr.eni.encheres.repository.EnchereDAO;
 import fr.eni.encheres.repository.UtilisateurDAO;
@@ -25,7 +26,7 @@ public class EnchereServiceImpl implements EnchereService {
 		this.enchereDAO = enchereDAO;
 		this.utilisateurDAO = utilisateurDAO;
 		this.articleVenduDAO = articleVenduDAO;
-	}
+	} 
 	
 	@Transactional
 	@Override
@@ -71,8 +72,7 @@ public class EnchereServiceImpl implements EnchereService {
 			else if (isValid){
 				enchereDAO.createEnchere(e);
 				articleVenduDAO.updatePrixVenteById(e.getArticleVendu().getNoArticle(), e.getMontantEnchere());
-			};
-			
+			};	
 	}
 
 	@Override
@@ -99,28 +99,39 @@ public class EnchereServiceImpl implements EnchereService {
 		var dateEnchere = e.getDateEnchere();
 		var dateFinEnchere = e.getArticleVendu().getDateFinEncheres();
 		var dateDebutEnchere = e.getArticleVendu().getDateDebutEncheres();
-		if (dateEnchere.isBefore(dateDebutEnchere) || dateEnchere.isAfter(dateFinEnchere)) 
+		if (dateEnchere.isBefore(dateDebutEnchere) || dateEnchere.isAfter(dateFinEnchere)) {
 			isValid = false;
+			throw new EnchereException("L'enchère n'est pas ouverte !");
+		}
 		return isValid;
 	}
 	
 	private boolean isAuctionHigherThanOtherAuctions(Enchere e) {
+		boolean isValid = true ;
 		var proposition = e.getMontantEnchere();
 		var otherAuctions = enchereDAO.readEncheresByNoArticle(e.getArticleVendu().getNoArticle());
-
-		return !otherAuctions.stream().anyMatch(a -> a.getMontantEnchere() > proposition);
+		if (otherAuctions.stream().anyMatch(a -> a.getMontantEnchere() > proposition)) {
+			throw new EnchereException("Votre enchère n'est pas assez haute !");
+		}
+			return isValid ;
 	}
 	
 	private boolean isAuctionHigherThanSellPrice(Enchere e) {
 		var proposition = e.getMontantEnchere();
 		var prixArticle = articleVenduDAO.readById(e.getArticleVendu().getNoArticle()).getMiseAPrix();
-
+		
+		if (prixArticle > proposition) {
+			throw new EnchereException("Votre enchère n'est pas assez haute !");
+		}
 		return prixArticle < proposition;
 	}
 	
 	private boolean isUserRichEnough(Enchere e) {
 		var proposition = e.getMontantEnchere();
 		var userMoney = e.getUtilisateur().getCredit();
+		if (userMoney-proposition < 0) {
+			throw new EnchereException("Vous n'avez pas assez de points !");
+		}
 		return (userMoney-proposition >= 0);
 	}
 

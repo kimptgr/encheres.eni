@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,7 @@ import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exceptions.BusinessException;
+import fr.eni.encheres.exceptions.EnchereException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -62,7 +65,7 @@ public class EncheresController {
 
 	@GetMapping
 	public String afficherArticlesVendus(
-		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,  // Utilisation d'une chaîne de caractères pour capturer les valeurs vides
+		    @RequestParam(name = "Categorie", required = false) String noCategorieParam,
 		    @RequestParam(name = "searchTerm", required = false) String searchTerm, 
 		    @RequestParam(name = "ouvertes", required = false) String ouvertes, 
 		    @RequestParam(name = "enCours", required = false) String enCours, 
@@ -81,13 +84,11 @@ public class EncheresController {
 		    return "index";
 			}
 
-
-	
-
 	@GetMapping("/detailArticle")
 	public String afficherUnArticle(@RequestParam(name = "noArticle", required = true) Integer noArticle, Model model) {
 		if (noArticle > 0) {
 			ArticleVendu articleVendu = articleVenduService.findById(noArticle);
+			System.err.println(articleVendu.getAcheteur().getPseudo());
 			if (articleVendu != null) {
 				model.addAttribute("articleVendu", articleVendu);
 				return "view-detail-article";
@@ -100,10 +101,10 @@ public class EncheresController {
 	}
 
 	@PostMapping("/detailArticle")
-	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle, @RequestParam("proposition") Integer proposition) {
+	public String makeAnEnchere(@RequestParam(name = "noArticle") int noArticle, @RequestParam("proposition") Integer proposition, Model model) {
 		Utilisateur userInSession = contexteService.getUserInSession();
 		if (userInSession != null && userInSession.getNoUtilisateur() >= 1) {
-
+			try {
 			var e = new Enchere();
 			var av = articleVenduService.findById(noArticle);
 			e.setArticleVendus(av);
@@ -111,13 +112,19 @@ public class EncheresController {
 			e.setMontantEnchere(proposition);
 			e.setUtilisateur(userInSession);
 			enchereService.addEnchere(e);
+			} catch (EnchereException e) {
+				model.addAttribute("articleVendu", articleVenduService.findById(noArticle));
+				model.addAttribute("errorMessage", e.getMessage());
+				return "view-detail-article";
+			}
 		}
 		return "index";
 
 	}
+	
 
 	@GetMapping("/vendreUnArticle")
-	public String sell(HttpSession session, Model model) {
+	public String sell(Model model) {
 		String currentUsernameInSession = contexteService.getUserInSession().getEmail();
 		ArticleVendu articleVendu = new ArticleVendu();
 
@@ -140,7 +147,7 @@ public class EncheresController {
 			if (bindingResult.hasErrors()) {
 				return "view-create-article";
 			}
-			try {
+			try { 
 				articleVenduService.add(articleVendu);
 				return "redirect:/";
 			} catch (BusinessException e) {
@@ -158,11 +165,15 @@ public class EncheresController {
 		}
 	}
 
-	
-//	private Utilisateur getUserInSession() {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		String currentUsernameInSession = authentication.getName();
-//		Utilisateur userInSession = contexteService.chargeEmail(currentUsernameInSession);
-//		return userInSession;
-//	}
+	@ControllerAdvice
+	public class GlobalExceptionHandler {
+
+	    @ExceptionHandler(EnchereException.class)
+	    public String handleEnchereException(EnchereException ex, Model model) {
+	        model.addAttribute("errorMessage", ex.getMessage());
+	        return "view-detail-article"; 
+	    }
+	    
+	    // Autres exceptions globales peuvent être gérées ici
+	}
 }

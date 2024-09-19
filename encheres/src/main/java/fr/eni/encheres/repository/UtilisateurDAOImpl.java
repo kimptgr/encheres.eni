@@ -32,14 +32,13 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 			+ " VALUES (:pseudo,:nom,:prenom,:email,:telephone,:rue,:code_postal,:ville,:mot_de_passe,:credit,:administrateur)";
 	private final String FIND_ALL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
 			+ "FROM UTILISATEURS;";
-	private final String FIND_BY_PSEUDO = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
-			+ " FROM UTILISATEURS WHERE PSEUDO= :pseudo;";
+	private final String FIND_BY_PSEUDO = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur "
+			+ "FROM UTILISATEURS " + "WHERE PSEUDO=:pseudo;";
 	private final String FIND_BY_ID = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit FROM UTILISATEURS WHERE no_utilisateur=:noUtilisateur;";
-	private final String VERIF_BY_EMAIL = "select COUNT(*) from UTILISATEURS where email= :email";
-	private final String VERIF_BY_PSEUDO = "select COUNT(*) from UTILISATEURS where pseudo= :pseudo";
+	private final String VERIF_BY_EMAIL = "select COUNT(*) from UTILISATEURS where email= ?;";
+
 	private final String FIND_BY_EMAIL = "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur"
 			+ " FROM UTILISATEURS WHERE EMAIL= :email ;";
-	private final String UPDATE_UTILISATEUR ="UPDATE UTILISATEURS SET pseudo = :pseudo, nom = :nom, prenom = :prenom, email = :email, telephone = :telephone, rue = :rue, code_postal = :code_postal, ville = :ville, mot_de_passe = :mot_de_passe, credit = :credit, administrateur = :administrateur WHERE no_utilisateur = no_utilisateur;";
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
@@ -97,14 +96,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		Integer count = jdbcTemplate.queryForObject(sql, namedParameters, Integer.class);
 		return count != null && count > 0;
 	}
-	@Override
-	public boolean verifByPseudo(String pseudo) {
-		var sql=VERIF_BY_PSEUDO;
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("pseudo", pseudo);
-		Integer count = jdbcTemplate.queryForObject(sql, namedParameters, Integer.class);
-		return count != null && count > 0;
-	}
+	
+	
 
 	@Override
 	public List<Utilisateur> readAll() {
@@ -138,9 +131,8 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public void update(Utilisateur utilisateur) {
-		String UPDATE_USER = UPDATE_UTILISATEUR;
+		String UPDATE_USER = "UPDATE Utilisateurs SET pseudo = :pseudo,prenom = :prenom,nom= :nom,email=:email,telephone=:telephone,rue=:rue,code_postal=:code_postal,ville=:ville,mot_de_passe=:mot_de_passe,credit=:credit,administrateur=:administrateur WHERE no_utilisateur = :noUtilisateur";
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("noUtilisateur", utilisateur.getNoUtilisateur());
 		namedParameters.addValue("pseudo", utilisateur.getPseudo());
 		namedParameters.addValue("nom", utilisateur.getNom());
 		namedParameters.addValue("prenom", utilisateur.getPrenom());
@@ -152,19 +144,23 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 		namedParameters.addValue("mot_de_passe", utilisateur.getMotDePasse());
 		namedParameters.addValue("credit", utilisateur.getCredit());
 		namedParameters.addValue("administrateur", utilisateur.getAdministrateur());
+		namedParameters.addValue("noUtilisateur", utilisateur.getNoUtilisateur());
 		jdbcTemplate.update(UPDATE_USER, namedParameters);
-		
 	}
 
 	@Override
 	public void updateCredit(Utilisateur utilisateur) {
 		String UPDATE_CREDIT = "UPDATE Utilisateurs SET credit=:credit WHERE no_utilisateur = :noUtilisateur";
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("noUtilisateur", utilisateur.getNoUtilisateur());
 		namedParameters.addValue("credit", utilisateur.getCredit());
+		namedParameters.addValue("noUtilisateur", utilisateur.getNoUtilisateur());
 		jdbcTemplate.update(UPDATE_CREDIT, namedParameters);
-		
 	}
-	
+
+	@Override
+	public boolean verifByPseudo(String pseudo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

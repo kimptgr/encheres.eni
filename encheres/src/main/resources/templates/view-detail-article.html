@@ -22,48 +22,49 @@
             <h3 data-th-text="${articleVendu.nomArticle}">Nom de l'article</h3>
         </div>
         <div class="form-group">
-            <p>Description :</p>
+            <p>Description&nbsp;:</p>
             <p data-th-text="${articleVendu.description}"></p>
         </div>
         <div class="form-group">
-            <p>Catégorie :</p>
-            <p data-th-text="${articleVendu.categorie.libelle}">Catégorie :</p>
+            <p>Catégorie&nbsp;:</p>
+            <p data-th-text="${articleVendu.categorie.libelle}">Catégorie&nbsp;:</p>
         </div>
         <div class="form-group">
-            <p>Meilleure offre :</p>
+            <p>Meilleure offre&nbsp;:</p>
             <p data-th-text="${articleVendu.prixVente}">
-              <span data-th-if="${articleVendu.acheteur.pseudo != null}">
-                <span data-th-text="' par '+${articleVendu.acheteur.pseudo}">
-                </span>
+              <div class="acheteur" data-th-if="${articleVendu.acheteur.pseudo != null}"> <span data-th-text="' par ' + ${articleVendu.acheteur.pseudo}"></p>
               </span>
-            </p>
+            </div>
         </div>
         <div class="form-group">
             <p>Mise à prix :</p>
-            <p data-th-text="${articleVendu.miseAPrix}">Mise à prix :</p>
+            <p data-th-text="${articleVendu.miseAPrix}">Mise à prix&nbsp;:</p>
         </div>
         <div class="form-group">
-            <p>Fin de l'enchère :</p>
-            <p data-th-text="${#temporals.format(articleVendu.dateFinEncheres, 'dd/MM/yyyy HH:mm')}">Fin de l'enchère :</p>
+            <p>Fin de l'enchère&nbsp;:</p>
+            <p data-th-text="${#temporals.format(articleVendu.dateFinEncheres, 'dd/MM/yyyy HH:mm')}">Fin de l'enchère&nbsp;:</p>
         </div>
         <div class="form-group">
-            <p>Retrait :</p>
+            <p>Retrait&nbsp;:</p>
             <p><span data-th-text="${articleVendu.retrait.rue}"></span><br><span data-th-text="${articleVendu.retrait.codePostal} +' ' + ${articleVendu.retrait.ville}"></p>
         </div>
         <div class="form-group">
-            <p>Vendeur :</p>
-            <p data-th-text="${articleVendu.vendeur.pseudo}">Vendeur :</p>
+            <p>Vendeur&nbsp;:</p>
+            <p data-th-text="${articleVendu.vendeur.pseudo}">Vendeur&nbsp;:</p>
         </div>
         <sec:authorize access="isAuthenticated()">
         <div class="form-group">
             <form data-th-action="@{/detailArticle?noArticle=}+${articleVendu.noArticle}" method="post">
-                <label for="proposition">Ma proposition :</label>
+                <label for="proposition">Ma proposition&nbsp;:</label>
                 <input hidden type="number" name="noArticle" value="${articleVendu.noArticle}">
                 <input type="number" name="proposition" id="proposition">
                 <input type="submit" value="Enchérir" />
               </form>
         </div>
     </sec:authorize>
+    <div data-th-if="${errorMessage}" id="alert-danger">
+      <p data-th-text="${errorMessage}"></p>
+  </div>
       </div></div><!--
             	<dl>
             		<dd data-th-text=" 'Article : ' + ${articleVendu.nomArticle}"></dd>

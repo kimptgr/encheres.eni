@@ -125,6 +125,7 @@ input[type="text"], select {
     transition: background-color 0.3s ease;
     text-shadow: none;
     font-weight: 400;
+    border: 2px solid #004D40;
 }
 
 #boutonVert:hover {
