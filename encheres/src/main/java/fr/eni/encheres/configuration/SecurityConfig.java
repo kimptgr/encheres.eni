@@ -24,8 +24,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 /**
  * Classe en charge de
  * 
- * /** Classe en charge de
- * 76890adb5ad38784cdf5798f20f52aa0126b1b64
+ * /** Classe en charge de 76890adb5ad38784cdf5798f20f52aa0126b1b64
  * 
  * @projet : encheres - V1.0
  * @author : aferry2024
@@ -53,26 +52,25 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain getFilterChain(HttpSecurity security) throws Exception {
- 
+
 		security.authorizeHttpRequests((requests) ->
-		//=========TO DO POUR TESTER
+		// =========TO DO POUR TESTER
 //		requests.anyRequest().permitAll());
 //		security.csrf().disable().
-		//=========FIN POUR TESTER
-		requests.requestMatchers("/", "/inscription", "/css/**", "/js/**")
-				.permitAll().anyRequest().authenticated())
+		// =========FIN POUR TESTER
+		requests.requestMatchers("/", "/inscription", "/css/**", "/js/**").permitAll().anyRequest().authenticated())
+
 				.formLogin((form) -> form.usernameParameter("pseudo").passwordParameter("motDePasse")
 						.loginPage("/connexion").defaultSuccessUrl("/").permitAll())
+
 				.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());
 
 		return security.build();
 	}
-	//Controle session
-	@Bean
-	public HttpSessionEventPublisher httpSessionEventPublisher() {
-	    return new HttpSessionEventPublisher();
-	}
-
-
+	// Controle session
+//	@Bean
+//	public HttpSessionEventPublisher httpSessionEventPublisher() {
+//	    return new HttpSessionEventPublisher();
+//	}
 
 }
