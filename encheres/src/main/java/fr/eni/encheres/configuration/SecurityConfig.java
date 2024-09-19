@@ -46,8 +46,8 @@ public class SecurityConfig {
 	UserDetailsManager getUsers(DataSource source) {
 
 		var manager = new JdbcUserDetailsManager(source);
-		manager.setUsersByUsernameQuery("select u.email,u.mot_de_passe,1 from Utilisateurs u where email=?");
-		manager.setAuthoritiesByUsernameQuery("select u.email,u.administrateur from Utilisateurs u where email=?");
+		manager.setUsersByUsernameQuery("select u.pseudo,u.mot_de_passe,1 from Utilisateurs u where pseudo=?");
+		manager.setAuthoritiesByUsernameQuery("select u.pseudo,u.administrateur from Utilisateurs u where pseudo=?");
 		return manager;
 	}
 
@@ -61,7 +61,7 @@ public class SecurityConfig {
 		//=========FIN POUR TESTER
 		requests.requestMatchers("/", "/inscription", "/css/**", "/js/**")
 				.permitAll().anyRequest().authenticated())
-				.formLogin((form) -> form.usernameParameter("email").passwordParameter("motDePasse")
+				.formLogin((form) -> form.usernameParameter("pseudo").passwordParameter("motDePasse")
 						.loginPage("/connexion").defaultSuccessUrl("/").permitAll())
 				.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll());
 

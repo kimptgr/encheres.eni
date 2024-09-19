@@ -53,13 +53,24 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	}
 
 	@Override
+	public Utilisateur findById(Integer noUtilisateur) {
+		return utilisateurDAO.readById(noUtilisateur);
+	}
+
+	@Override
+	public boolean verifByPseudo(String pseudo) {
+		return utilisateurDAO.verifByPseudo(pseudo);
+	}
+
+	@Override
 	public Utilisateur findByPseudo(String pseudo) {
 		return utilisateurDAO.readByPseudo(pseudo);
 	}
 
 	@Override
-	public Utilisateur findById(Integer noUtilisateur) {
-		return utilisateurDAO.readById(noUtilisateur);
+	public void updateUser(Utilisateur utilisateur) {
+		utilisateurDAO.update(utilisateur);
+		
 	}
 
 }

@@ -47,7 +47,7 @@ public class ContexteServiceImpl implements ContexteService {
 		 if (authentication != null && authentication.isAuthenticated() && 
 			        !(authentication.getPrincipal() instanceof String && authentication.getPrincipal().equals("anonymousUser"))) {
 		String currentUsernameInSession = authentication.getName();
-		Utilisateur userInSession = chargeEmail(currentUsernameInSession);
+		Utilisateur userInSession = chargePseudo(currentUsernameInSession);
 		return userInSession; }
 		 else return null;
 	}

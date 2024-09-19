@@ -7,9 +7,8 @@
 </head>
 <body>
 <h1>Modifier Profil</h1>
-	<form data-th-action="@{/modifierProfil}" data-th-object="${utilisateur}"
-		method="get">
-		<input type="hidden" name="pseudo" th:value="${utilisateur.pseudo}" />
+	<form data-th-action="@{/detailsProfil/modifierProfil}" data-th-object="${utilisateur}"
+		method="post">
 
 		<ul class="formulaireCreat">
 			<li><label for="pseudo">Pseudo:</label><input type="text"
