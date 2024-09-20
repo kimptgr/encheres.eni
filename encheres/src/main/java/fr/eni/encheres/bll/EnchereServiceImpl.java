@@ -61,7 +61,6 @@ public class EnchereServiceImpl implements EnchereService {
 			utilisateurDAO.updateCredit(previousBidder);
 		};
 		}
-		System.err.println("noA"+e.getArticleVendu().getNoArticle()+" montant"+ e.getMontantEnchere());
 
 		boolean isUTPB = encheres.stream().anyMatch(a -> a.getUtilisateur().getNoUtilisateur() == e.getUtilisateur().getNoUtilisateur());
 		//verify if bidder must be update or create
