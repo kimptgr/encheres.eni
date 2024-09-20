@@ -43,8 +43,8 @@
 			</div>
 				
 					  <!-- Filtre Ventes -->
- 			   		<div id="ListeFiltres">
-					   <div class="checkbox-group" sec:authorize="isAuthenticated()" data-th-if="${userInSession != null}">
+ 			   		<div id="ListeFiltres" sec:authorize="isAuthenticated()" data-th-if="${userInSession != null}">
+					   <div class="checkbox-group"  >
  			   			<h4>Ventes :</h4>
 						<label><input type="checkbox" name="ouvertes" value="true">Enchères ouvertes</label><br>
 						<label><input type="checkbox" name="enCours" value="true">Mes enchères en cours</label><br>
