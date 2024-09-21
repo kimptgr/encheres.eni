@@ -119,7 +119,7 @@ public class EnchereServiceImpl implements EnchereService {
 		var proposition = e.getMontantEnchere();
 		var prixArticle = articleVenduDAO.readById(e.getArticleVendu().getNoArticle()).getMiseAPrix();
 		
-		if (prixArticle > proposition) {
+		if (prixArticle >= proposition) {
 			throw new EnchereException("Votre enchère n'est pas assez haute !");
 		}
 		return prixArticle < proposition;
