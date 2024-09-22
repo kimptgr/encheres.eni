@@ -1,99 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{layouts/layout :: layoutEncheres(
-                    navBar=~{::nav},
+      th:replace="~{layouts/layout :: layoutEncheres(
+                    navBar=~{},
                     titrePage=~{::h1},
                     contenuPage=~{::form},
-                    linkcss=~{::#css})}">
+                    linkcss=~{::.css})}">
 
 <head>
     <meta charset="UTF-8">
     <title>Modifier profil</title>
-    <link id="css" rel="stylesheet" href="/encheres/css/general.css">
-    <link id="css" rel="stylesheet" href="/encheres/css/modifierProfil.css">
+    <link class="css" rel="stylesheet" href="/encheres/css/general.css">
+    <link class="css" rel="stylesheet" href=/encheres/css/create-article.css>
 </head>
 <body>
-<h1>Modifier Profil</h1>
-	<form data-th-action="@{/detailsProfil/modifierProfil}" data-th-object="${utilisateur}"
-		method="post">
+<h2>Modifier Profil</h2>
+<form data-th-action="@{/detailsProfil/modifierProfil}" data-th-object="${userInSession}"
+      method="post">
 
-		<ul class="formulaireCreat">
-			<li><label for="pseudo">Pseudo:</label><input type="text"
-				id="pseudo"  data-th-field="*{pseudo}" required /><span
-				data-th-if="${#fields.hasErrors('pseudo')}"
-				data-th-errorclass="error" data-th-errors="*{pseudo}" ></span></li>
+    <div class="form-group">
+        <label for="pseudo">Pseudo&nbsp;:</label>
+        <input id="pseudo" type="text" data-th-field="*{pseudo}">
+        <span
+                data-th-if="${#fields.hasErrors('pseudo')}"
+                data-th-errorclass="error" data-th-errors="*{pseudo}"></span>
+    </div>
 
-			<li><label for="nom">Nom:</label><input type="text" id="nom"
-				data-th-field="*{nom}" required /><span
-				data-th-if="${#fields.hasErrors('nom')}" data-th-errorclass="error"
-				data-th-errors="*{nom}"></span></li>
+    <div class="form-group">
+        <label for="nom">Nom&nbsp;:</label>
+        <input id="nom" type="text" data-th-field="*{nom}">
+    </div>
 
+    <div class="form-group">
+        <label for="prenom">Prénom&nbsp;:</label>
+        <input id="prenom" type="text" data-th-field="*{prenom}">
+    </div>
 
-			<li><label for="prenom">Prénom:</label><input type="text"
-				id="prenom" data-th-field="*{prenom}" required  /><span
-				data-th-if="${#fields.hasErrors('prenom')}"
-				data-th-errorclass="error" data-th-errors="*{prenom}"></span></li>
+    <div class="form-group">
+        <label for="email">E-mail&nbsp;:</label>
+        <input id="email" type="text" data-th-field="*{email}">
+    </div>
 
+    <div class="form-group">
+        <label for="telephone">Téléphone&nbsp;:</label>
+        <input id="telephone" type="text" data-th-field="*{telephone}">
+    </div>
 
-			<li><label for="email">Email:</label><input type="text"
-				id="email" data-th-field="*{email}" required  /><span
-				data-th-if="${#fields.hasErrors('email')}"
-				data-th-errorclass="error" data-th-errors="*{email}"></span></li>
-
-
-			<li><label for="telephone">Téléphone:</label><input type="text"
-				 id="telephone" data-th-field="*{telephone}" required  /><span 
-				data-th-if="${#fields.hasErrors('telephone')}"
-				data-th-errorclass="error" data-th-errors="*{telephone}"></span></li>
-
-
-			<li><label for="rue">Rue:</label><input type="text" id="rue"
-				data-th-field="*{rue}" required  /><span 
-				data-th-if="${#fields.hasErrors('rue')}" data-th-errorclass="error"
-				data-th-errors="*{rue}"></span></li>
-
-
-			<li><label for="codePostal">Code postal:</label><input
-				type="text" id="codePostal" data-th-field="*{codePostal}" required /><span
-				data-th-if="${#fields.hasErrors('codePostal')}"
-				data-th-errorclass="error" data-th-errors="*{codePostal}"></span></li>
-
-
-			<li><label for="ville">Ville:</label><input type="text"
-				id="ville" data-th-field="*{ville}" required  /><span 
-				data-th-if="${#fields.hasErrors('ville')}"
-				data-th-errorclass="error" data-th-errors="*{ville}"></span></li>
+    <div class="form-group">
+        <label for="rue">Rue&nbsp;:</label>
+        <input id="rue" type="text" data-th-field="*{rue}">
+    </div>
+    <div class="form-group">
+        <label for="codePostal">Code Postal&nbsp;:</label>
+        <input id="codePostal" type="text" data-th-field="*{codePostal}">
+    </div>
+    <div class="form-group">
+        <label for="ville">Ville&nbsp;:</label>
+        <input id="ville" type="text" data-th-field="*{ville}">
+    </div>
 
 
-			<li><label for="mdp">Mot de passe actuel:</label><input type="password"
-				id="mdp" data-th-field="*{motDePasse}" placeholder="********" required /><span
-				data-th-if="${#fields.hasErrors('motDePasse')}"
-				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
-			</ul>
+    <fieldset>
+        <legend>Changement de mot de passe</legend>
+        <div class="form-group">
+            <label for="newPassword">Nouveau mot de passe&nbsp;:</label>
+            <input name="newpassword" id="newPassword" type="password">
+        </div>
+        <div class="form-group">
+            <label for="newpasswordconfirm">Confirmation&nbsp;:</label>
+            <input name="newpasswordconfirm" id="newpasswordconfirm" type="password">
+        </div>
 
-		<ul class="newPassword">
-			<li><label for="mdpConfirm">Nouveau mot de passe:</label><input
-				type="password" id="mdpConfirm" name="mdpConfirm"
-				placeholder="********" required /><span
-				data-th-if="${#fields.hasErrors('motDePasse')}"
-				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
-
-			<li><label for="mdpConfirm">Confirmation:</label><input
-				type="password" id="mdpConfirm" name="mdpConfirm"
-				placeholder="********" required /><span
-				data-th-if="${#fields.hasErrors('motDePasse')}"
-				data-th-errorclass="error" data-th-errors="*{motDePasse}"></span></li>
-
-		</ul>
-		<ul class="credit">
-				<li><label for="credit">Crédit:</label><input type="text" data-th-field="*{credit}" readonly></li>
-				</ul>
-
-		<ul class="subNewPassword">
-			<li><input type="submit" value="Créer" /></li>
-			<li><input id="btnSup" type="submit" value="Supprimer mon compte" /></li>
-		</ul>
-
-	</form>
+    </fieldset>
+    <div class="form-group">
+        <label for="motDePasse">Mot de passe actuel pour valider les changements&nbsp;:</label>
+        <input name="motDePasse" id="motDePasse" type="password">
+    </div>
+    <div class="errors form-group" data-th-if="${errorMessage}" id="alert-danger">
+        <p th:utext="${errorMessage.replaceAll('\n', '<br/>')}"></p>
+    </div>
+    <div class="button-group">
+        <input type="submit" value="Envoyer les modifications">
+    </div>
+</form>
 </body>
 </html>
